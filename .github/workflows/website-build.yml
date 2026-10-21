@@ -1,4 +1,4 @@
-# Baut die Unterseiten der Website neu, wenn sich ihre Quellen ändern (website/src, website/tools).
+# Baut die Unterseiten der Website neu, wenn sich ihre Quellen ändern (website/src, website/tools, coin.json, site.json).
 # Neue Versionen der Erweiterung baut pump-paper-release.yml.
 name: Website bauen
 
@@ -7,6 +7,8 @@ on:
     paths:
       - "website/src/**"
       - "website/tools/**"
+      - "website/coin.json"
+      - "website/site.json"
   workflow_dispatch:
 
 permissions:

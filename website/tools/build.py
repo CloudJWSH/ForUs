@@ -12,10 +12,11 @@ Ergebnis:
   website/changelog.html                        Änderungsprotokoll
   website/index.html, website/en/index.html     Navigation, Version und Neuerungen zwischen den Markern
 
-Platzhalter im Inhalt: {{version}}, {{download}}.
+Platzhalter im Inhalt: {{version}}, {{download}}, {{date}}.
 
 Coin: website/coin.json steuert den Abschnitt über den Pump-Paper-Coin auf pump.fun (Marker <!-- coin --> und
-<!-- coin-badge --> auf der Startseite). Solange "live" false ist, bleibt er leer. --coin-preview zeigt ihn zum
+<!-- coin-badge --> auf der Startseite), die eigene Seite coin.html (Teilen-Bild assets/og-coin.png aus tools/og-coin.html)
+und den $PAPER-Link im Menü. Solange "live" false ist, bleibt alles leer und coin.html wird gelöscht. --coin-preview zeigt ihn zum
 Ansehen trotzdem, mit Platzhaltern; danach normal bauen, damit nichts davon eingecheckt wird.
 
 Aufruf: python3 website/tools/build.py [--coin-preview] (läuft auch in den Workflows).
@@ -41,6 +42,7 @@ PAGES = [
     {"de": "konto", "en": "account"},
     {"de": "datenschutz", "en": "privacy"},
     {"de": "changelog", "en": "changelog"},
+    {"de": "coin", "en": "coin"},
     {"de": "404", "en": "404"},
 ]
 
@@ -89,17 +91,18 @@ def site_config():
 
 
 CONFIG = site_config()
+COIN = {}  # coin.json, wird in main() gesetzt
 
 
 def page_url(lang, name):
     return ("" if lang == "de" else "en/") + name + ".html"
 
 
-def head_meta(lang, name, title, description, og_description=None):
+def head_meta(lang, name, title, description, og_description=None, image="og.png"):
     """Gemeinsamer Kopf aller Seiten: Beschreibung, Teilen-Vorschau, Icons, Farben, Sprachversion."""
     L, up, base = LANGS[lang], LANGS[lang]["up"], CONFIG["base_url"]
     og_d = og_description or description
-    img = (base + "assets/og.png") if base else up + "assets/og.png"
+    img = (base if base else up) + "assets/" + image
     e = html.escape
     lines = [
         f'<meta name="description" content="{e(description)}">',
@@ -158,6 +161,9 @@ def nav(lang, current, home=False):
             href = href[len("index.html"):]
         cur = ' aria-current="page"' if key == current and not anchor else ""
         links.append(f'<a href="{href}"{cur}>{label}</a>')
+    if COIN.get("live"):
+        cur = ' aria-current="page"' if current == "coin" else ""
+        links.append(f'<a class="nav-coin" href="coin.html"{cur}>${html.escape(COIN.get("symbol", "PAPER"))}</a>')
     links.append(f'<a class="lang" href="{counterpart(lang, current)}" hreflang="{L["other"]}" '
                  f'lang="{L["other"]}" aria-label="{L["switch_label"]}">{L["switch"]}</a>')
     get = L["install"] if home else "index.html" + L["install"]
@@ -192,7 +198,7 @@ def footer(lang):
 MAIN_ID = re.compile(r"<main(?![^>]*\bid=)")
 
 
-def page(lang, name, title, description, body):
+def page(lang, name, title, description, body, image="og.png"):
     up = LANGS[lang]["up"]
     return f"""<!doctype html>
 <html lang="{lang}">
@@ -200,7 +206,7 @@ def page(lang, name, title, description, body):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{html.escape(title)}</title>
-{head_meta(lang, name, title, description)}
+{head_meta(lang, name, title, description, image=image)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -234,6 +240,17 @@ COIN_TEXT = {
         "notH": "Was der Coin nicht ist",
         "risk": "<b>Risiko.</b> Ein Memecoin ohne Wertversprechen. Der Kurs kann jederzeit fallen, ein Totalverlust ist möglich. Das hier ist keine Anlageberatung und keine Aufforderung zum Kauf.",
         "preview": "Vorschau: Der Abschnitt ist ausgeschaltet, bis der Coin live ist. Adressen sind Platzhalter.",
+        "curve": "Bonding-Kurve", "curveNote": "geschätzt aus dem Bestand der Kurve", "supply": "Umlauf", "age": "Seit Launch",
+        "fakeH": "Nur diese Mint ist echt.",
+        "fake": "Auf pump.fun kann jeder einen Coin mit gleichem Namen und Bild starten. Echt ist nur die Mint-Adresse oben, die auch im Quellcode dieser Seite auf GitHub steht. Adressen aus Kommentaren, Chats oder Direktnachrichten sind Fälschungen. Wir schreiben niemanden zuerst an und fragen nie nach Wallet oder Seed.",
+        "checkH": "Prüfen statt glauben",
+        "check": ["Mint-Adresse kopieren und auf pump.fun oder Solscan einfügen, nicht nach dem Namen suchen.",
+                  "Auf Solscan die Dev-Wallet öffnen: Bestand und jeder Verkauf sind öffentlich.",
+                  "Die größten Konten ansehen. Eines davon ist die Bonding-Kurve oder der Pool, das ist normal.",
+                  "Die Zahlen auf dieser Seite kommen direkt von der Blockchain und DexScreener, nicht von uns."],
+        "legalH": "Rechtliches", "more": "Alles zum Coin auf einer Seite",
+        "title": "${sym} auf pump.fun · Pump Paper",
+        "desc": "Der Pump-Paper-Coin ${sym} auf pump.fun: Mint-Adresse, Dev-Wallet, Creator-Gebühr und Zahlen live zum Nachprüfen. Kein Anteil, keine Rendite.",
     },
     "en": {
         "badge": "${sym} is live on pump.fun", "eyebrow": "The coin", "h2": "${sym} on pump.fun.",
@@ -244,6 +261,17 @@ COIN_TEXT = {
         "notH": "What the coin is not",
         "risk": "<b>Risk.</b> A memecoin with no promise of value. The price can drop at any time, a total loss is possible. This is not financial advice and not an invitation to buy.",
         "preview": "Preview: this section stays off until the coin is live. Addresses are placeholders.",
+        "curve": "Bonding curve", "curveNote": "estimated from the curve's balance", "supply": "Supply", "age": "Since launch",
+        "fakeH": "Only this mint is real.",
+        "fake": "Anyone can launch a coin with the same name and picture on pump.fun. Only the mint address above is real, and it is also in this page's source on GitHub. Addresses from comments, chats or direct messages are fakes. We never message anyone first and never ask for a wallet or seed phrase.",
+        "checkH": "Check, don't trust",
+        "check": ["Copy the mint address and paste it into pump.fun or Solscan instead of searching by name.",
+                  "Open the dev wallet on Solscan: its balance and every sale are public.",
+                  "Look at the largest accounts. One of them is the bonding curve or the pool, that is normal.",
+                  "The numbers on this page come straight from the blockchain and DexScreener, not from us."],
+        "legalH": "Legal", "more": "Everything about the coin on one page",
+        "title": "${sym} on pump.fun · Pump Paper",
+        "desc": "The Pump Paper coin ${sym} on pump.fun: mint address, dev wallet, creator fee and live numbers to check. No share, no returns.",
     },
 }
 PLACEHOLDER = "PAPERxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxpump"
@@ -262,8 +290,8 @@ def coin_config(preview):
     return cfg
 
 
-def coin_html(lang, cfg):
-    """Abschnitt und Hinweis oben im Hero, leer solange der Coin nicht live ist."""
+def coin_html(lang, cfg, standalone=False):
+    """Abschnitt und Hinweis oben im Hero, leer solange der Coin nicht live ist. standalone: für coin.html."""
     if not cfg.get("live"):
         return "", ""
     T = COIN_TEXT[lang]
@@ -278,17 +306,27 @@ def coin_html(lang, cfg):
              f'<a class="btn small" href="https://solscan.io/token/{mint}" rel="noopener">Solscan</a>'
              f'<a class="btn small" href="https://dexscreener.com/solana/{mint}" rel="noopener">DexScreener</a>')
     note = f'\n    <p class="coin-preview">{T["preview"]}</p>' if cfg.get("preview") else ""
+    launched = html.escape(cfg.get("launched", ""))
+    legal = html.escape(cfg.get("legal", {}).get(lang, ""))
+    steps = "".join(f"<li>{html.escape(x)}</li>" for x in T["check"])
+    extra = f"""
+    <div class="coin-trust">
+      <div class="coin-fake"><h3>{T["fakeH"]}</h3><p>{T["fake"]}</p></div>
+      <div class="coin-check"><h3>{T["checkH"]}</h3><ol>{steps}</ol></div>
+    </div>""" + (f'\n    <div class="coin-legal"><h3>{T["legalH"]}</h3><p>{legal}</p></div>' if legal else "")
+    more = "" if standalone else f'\n    <p class="coin-more"><a href="coin.html">{T["more"]} →</a></p>'
+    tag, close = ("h1", "h1") if standalone else ("h2", "h2")
     stat = lambda key, label, sub="": (f'<div><span class="k">{label}</span><b data-{key}>{T["loading"]}</b>'
                                        + (f"<small>{sub}</small>" if sub else "") + "</div>")
     section = f"""  <section class="block coin-sec" id="{anchor}">{note}
     <div class="head">
       <p class="eyebrow">{T["eyebrow"]}</p>
-      <h2>{T["h2"].replace("${sym}", "$" + sym)}</h2>
+      <{tag}>{T["h2"].replace("${sym}", "$" + sym)}</{close}>
       <p class="lede">{T["lede"]}</p>
     </div>
-    <div class="coin-grid" id="coin-live" data-mint="{mint}" data-dev="{dev}" data-symbol="{sym}">
+    <div class="coin-grid" id="coin-live" data-mint="{mint}" data-dev="{dev}" data-symbol="{sym}" data-launched="{launched}">
       <div class="coin-card">
-        <div class="coin-id"><img src="{up}icons/128.png" width="56" height="56" alt=""><div><b>{html.escape(cfg.get("name", "Pump Paper"))}</b><span>${sym}</span></div></div>
+        <div class="coin-id"><img src="{up}icons/128.png" width="56" height="56" alt="Logo"><div><b>{html.escape(cfg.get("name", "Pump Paper"))}</b><span>${sym}</span></div></div>
         <div class="addr"><span class="k">{T["mint"]}</span><code>{mint}</code><button type="button" class="k-link" data-copy="{mint}" data-done="{T["copied"]}">{T["copy"]}</button></div>
         <div class="addr"><span class="k">{T["dev"]}</span><code><a href="https://solscan.io/account/{dev}" rel="noopener">{dev}</a></code></div>
         <div class="addr"><span class="k">{T["fee"]}</span><p>{fee}</p></div>
@@ -300,15 +338,32 @@ def coin_html(lang, cfg):
           {stat("where", T["where"])}
           {stat("dev-share", T["devShare"])}
           {stat("top", T["top"], T["topNote"])}
+          {stat("curve", T["curve"], T["curveNote"])}
+          {stat("supply", T["supply"])}
+          {stat("age", T["age"]) if launched else ""}
         </div>
         <div class="coin-not"><h3>{T["notH"]}</h3><ul>{facts}</ul></div>
         <p class="coin-risk">{T["risk"]}</p>
       </div>
-    </div>
+    </div>{extra}{more}
   </section>
   <script src="{up}assets/coin.js"></script>
   """
     return section, badge
+
+
+def coin_page(lang, cfg):
+    """Eigene Seite coin.html, nur solange der Coin live ist; sonst wird sie gelöscht."""
+    path = LANGS[lang]["dir"] / "coin.html"
+    if not cfg.get("live"):
+        if path.exists():
+            path.unlink()
+        return
+    T, sym = COIN_TEXT[lang], "$" + cfg.get("symbol", "PAPER")
+    section, _ = coin_html(lang, cfg, standalone=True)
+    body = f'  <main class="sub coin-page">\n{section}\n  </main>'
+    path.write_text(page(lang, "coin", T["title"].replace("${sym}", sym), T["desc"].replace("${sym}", sym), body,
+                         image="og-coin.png"), encoding="utf-8")
 
 
 def structured(lang, index, version):
@@ -431,6 +486,7 @@ def build_sources(lang, version, date=""):
 
 def main():
     coin = coin_config("--coin-preview" in sys.argv)
+    COIN.update(coin)
     version = json.loads((EXT / "manifest.json").read_text(encoding="utf-8"))["version"]
     versions = changelog()
 
@@ -493,6 +549,7 @@ def main():
         index = replace_marker(index, "coin", ("\n" + section) if section else "", required=False)
         index = replace_marker(index, "coin-badge", badge, required=False)
         path.write_text(index, encoding="utf-8")
+        coin_page(lang, coin)
     finish(version)
     print(f"Website gebaut: Version {version}, {len(versions)} Versionen im Änderungsprotokoll")
 

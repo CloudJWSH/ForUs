@@ -511,3 +511,18 @@ summary:focus-visible, input:focus-visible, select:focus-visible, [tabindex]:foc
 .k-table tr[hidden] { display: none !important; }
 main:has(.toc.sticky) :is(h2, h3)[id], main:has(.toc.sticky) [id] { scroll-margin-top: 140px; }
 .az a, .az span { width: 24px; }
+
+/* Coin: Fälschungen, Nachprüfen, Rechtliches, eigene Seite */
+.coin-trust { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; align-items: start; }
+.coin-fake, .coin-check, .coin-legal { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px; }
+.coin-fake { border-color: var(--gold); background: var(--gold-soft); }
+.coin-fake h3, .coin-check h3, .coin-legal h3 { font-size: 17px; margin: 0 0 8px; }
+.coin-fake p, .coin-legal p { margin: 0; color: var(--muted); font-size: 15px; }
+.coin-check ol { margin: 0; padding-left: 20px; display: grid; gap: 6px; color: var(--muted); font-size: 15px; }
+.coin-legal { margin-top: 20px; }
+.coin-more { margin: 18px 0 0; }
+.coin-more a { color: var(--gold-ink); font-weight: 600; }
+.nav-coin { font-family: var(--mono); color: var(--gold-ink) !important; }
+main.sub.coin-page { max-width: 1040px; }
+.coin-page .coin-sec { padding-top: 8px; border-top: 0; }
+@media (max-width: 860px) { .coin-trust { grid-template-columns: 1fr; } }
