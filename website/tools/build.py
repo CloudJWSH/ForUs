@@ -50,7 +50,7 @@ LANGS = {
         "nav": [("index.html#rechnung", "So rechnet es", "index"), ("anleitung.html", "Anleitung", "anleitung"),
                 ("lexikon.html", "Lexikon", "lexikon"), ("konto.html", "Konto", "konto"),
                 ("index.html#fragen", "Fragen", "index")],
-        "get": "Holen", "install": "#installieren", "nav_label": "Seite", "foot_label": "Weitere Seiten",
+        "get": "Holen", "menu": "Menü", "install": "#installieren", "nav_label": "Seite", "foot_label": "Weitere Seiten",
         "foot": [("anleitung.html", "Anleitung"), ("lexikon.html", "Lexikon"), ("ueben.html", "Üben"), ("konto.html", "Konto"),
                  ("changelog.html", "Änderungen"), ("datenschutz.html", "Datenschutz"), (SOURCE, "Quellcode")],
         "note": "Papertrading mit Spielgeld. Kein echtes Geld, keine Anlageberatung. Pump Paper ist ein unabhängiges Projekt und gehört nicht zu pump.fun.",
@@ -60,7 +60,7 @@ LANGS = {
         "nav": [("index.html#math", "How it works", "index"), ("guide.html", "Guide", "guide"),
                 ("glossary.html", "Glossary", "glossary"), ("account.html", "Account", "account"),
                 ("index.html#faq", "FAQ", "index")],
-        "get": "Get it", "install": "#install", "nav_label": "Site", "foot_label": "More pages",
+        "get": "Get it", "menu": "Menu", "install": "#install", "nav_label": "Site", "foot_label": "More pages",
         "foot": [("guide.html", "Guide"), ("glossary.html", "Glossary"), ("practice.html", "Practice"), ("account.html", "Account"),
                  ("changelog.html", "Changes"), ("privacy.html", "Privacy"), (SOURCE, "Source code")],
         "note": "Paper trading with play money. No real money, no financial advice. Pump Paper is an independent project and not affiliated with pump.fun.",
@@ -93,8 +93,13 @@ def nav(lang, current, home=False):
     links.append(f'<a class="lang" href="{counterpart(lang, current)}" hreflang="{L["other"]}" '
                  f'lang="{L["other"]}" aria-label="{L["switch_label"]}">{L["switch"]}</a>')
     get = L["install"] if home else "index.html" + L["install"]
+    # Auf dem Handy sind die Links ausgeblendet, dort öffnet das Menü dieselben Links (ohne JavaScript).
+    menu = "".join(l for l in links if 'class="lang"' not in l)
     return (f'<nav aria-label="{L["nav_label"]}">\n      ' + "\n      ".join(links) + "\n    </nav>\n"
-            f'    <a class="btn gold small" href="{get}">{L["get"]}</a>')
+            f'    <a class="btn gold small" href="{get}">{L["get"]}</a>\n'
+            f'    <details class="menu"><summary aria-label="{L["menu"]}"><svg viewBox="0 0 20 20" aria-hidden="true">'
+            f'<path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></summary>'
+            f'<div class="menu-panel">{menu}</div></details>')
 
 
 def footer(lang):

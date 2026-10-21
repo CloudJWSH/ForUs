@@ -381,3 +381,30 @@ main.sub:has(.konto) { max-width: 1040px; }
 @media (max-width: 860px) { .coin-grid { grid-template-columns: 1fr; } }
 .addr code { display: block; white-space: normal; word-break: break-all; background: none; padding: 0; border: 0; }
 .coin-stats > div { align-content: start; }
+
+/* Kopfzeile: klebt oben, Menü fürs Handy */
+.top { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); margin-inline: -16px; padding-inline: 16px; }
+.menu { display: none; position: relative; }
+.menu summary { list-style: none; cursor: pointer; width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 9px; color: var(--ink); }
+.menu summary::-webkit-details-marker { display: none; }
+.menu summary svg { width: 20px; height: 20px; }
+.menu[open] summary { border-color: var(--muted); }
+.menu-panel { position: absolute; right: 0; top: calc(100% + 8px); min-width: 210px; display: grid; padding: 6px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 20px 50px -20px rgba(0,0,0,.6); }
+.menu-panel a { padding: 10px 12px; border-radius: 8px; color: var(--ink); text-decoration: none; font-size: 15px; }
+.menu-panel a:hover, .menu-panel a[aria-current="page"] { background: var(--raise); }
+@media (max-width: 720px) { .menu { display: block; } .top { gap: 10px; } }
+html { scroll-padding-top: 84px; }
+
+/* Hero: Schein hinter der Bühne, Kurs zeichnet sich beim Laden */
+.hero { position: relative; isolation: isolate; }
+.hero::before { content: ""; position: absolute; z-index: -1; inset: 0 0 0 45%; pointer-events: none;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--gold) 13%, transparent), transparent); }
+@media (max-width: 900px) { .hero::before { inset: 40% 0 0 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  .stage .price { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.8s .2s cubic-bezier(.3,.7,.2,1) forwards; }
+  .stage .chart svg > g:nth-of-type(n+2) { opacity: 0; animation: fade .4s .8s forwards; }
+  .stage .chart svg > g:nth-of-type(3) { animation-delay: 1.6s; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes fade { to { opacity: 1; } }
+}
+.menu summary::after { content: none !important; display: none !important; }
