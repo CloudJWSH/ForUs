@@ -416,7 +416,7 @@ def replace_marker(text, name, value, required=True):
     return pattern.sub(lambda m: m.group(1) + value + m.group(3), text)
 
 
-def build_sources(lang, version):
+def build_sources(lang, version, date=""):
     src_dir = SITE / "src" / ("" if lang == "de" else lang)
     out = LANGS[lang]["dir"]
     for src in sorted(src_dir.glob("*.html")):
@@ -424,7 +424,7 @@ def build_sources(lang, version):
         title = re.search(r"<!-- title: (.*?) -->", raw).group(1)
         desc = re.search(r"<!-- description: (.*?) -->", raw).group(1)
         body = re.sub(r"<!-- (title|description): .*? -->\n?", "", raw)
-        body = body.replace("{{version}}", version).replace("{{download}}", DOWNLOAD)
+        body = body.replace("{{version}}", version).replace("{{download}}", DOWNLOAD).replace("{{date}}", nice_date(date, lang))
         out.mkdir(exist_ok=True)
         (out / src.name).write_text(page(lang, src.stem, title, desc, body), encoding="utf-8")
 
@@ -435,7 +435,7 @@ def main():
     versions = changelog()
 
     for lang in LANGS:
-        build_sources(lang, version)
+        build_sources(lang, version, versions[0][1] if versions else "")
 
     texts = {
         "de": ("CHANGELOG.md", "Neu", "Änderungen", "Was sich in Pump Paper geändert hat.",
@@ -446,6 +446,8 @@ def main():
                "Download zip {v}", "Pump Paper Changes", "Every version of Pump Paper, currently {v}."),
     }
     for lang, (file, new, eyebrow, h1, lede, btn, title, desc) in texts.items():
+        link_label = "Link zu Version" if lang == "de" else "Link to version"
+        feed = ("Neue Versionen abonnieren (Feed)" if lang == "de" else "Subscribe to new versions (feed)")
         if not (EXT / file).exists():
             continue
         entries = []
@@ -453,7 +455,7 @@ def main():
             tag = f'<span class="st">{new}</span>' if i == 0 else ""
             when = f'<span class="when">{html.escape(date)}</span>' if date else ""
             entries.append(f"""    <article class="release" id="v{html.escape(ver)}">
-      <div class="release-head"><h2>{html.escape(ver)}</h2>{tag}{when}</div>
+      <div class="release-head"><h2>{html.escape(ver)}</h2>{tag}{when}<a class="anchor" href="#v{html.escape(ver)}" data-copy-link aria-label="{link_label} {html.escape(ver)}">#</a></div>
       <ul>
 {items_html(items, 8)}
       </ul>
@@ -464,7 +466,7 @@ def main():
       <p class="eyebrow">{eyebrow}</p>
       <h1>{h1}</h1>
       <p class="lede">{lede.format(v=v)}</p>
-      <div class="cta"><a class="btn gold" href="{DOWNLOAD}">{btn.format(v=v)}</a></div>
+      <div class="cta"><a class="btn gold" href="{DOWNLOAD}">{btn.format(v=v)}</a><a class="btn" href="{SOURCE}/releases.atom">{feed}</a></div>
     </div>
 {chr(10).join(entries)}
   </main>"""

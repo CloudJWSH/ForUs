@@ -54,8 +54,9 @@
       <p class="eyebrow">Lexikon</p>
       <h1>Die Wörter rund um pump.fun.</h1>
       <p class="lede">Was im Panel steht und wie pump.fun rechnet, kurz erklärt. Die Zahlen sind die Startwerte einer neuen pump.fun-Kurve.</p>
+      <label class="search" for="lex-q"><span class="sr">Begriff suchen</span><input type="search" id="lex-q" placeholder="Begriff suchen …" autocomplete="off"></label>
       <nav class="toc" aria-label="Begriffe">
-        <a href="#kurve">Bonding-Kurve</a><a href="#fortschritt">Fortschritt</a><a href="#migration">Migration</a><a href="#pool">PumpSwap-Pool</a><a href="#mc">Marktwert</a><a href="#quote">SOL- und USDC-Coins</a><a href="#gebuehr">Gebühr</a><a href="#priority">Priority Fee</a><a href="#slippage">Slippage</a><a href="#verzoegerung">Verzögerung</a><a href="#miete">Konto-Miete</a><a href="#rpc">Solana-Zugang</a><a href="#regeln">Ziel, Stop, Zeit</a><a href="#papier">Papertrading</a>
+        <a href="#kurve">Bonding-Kurve</a><a href="#fortschritt">Fortschritt</a><a href="#migration">Migration</a><a href="#pool">PumpSwap-Pool</a><a href="#mc">Marktwert</a><a href="#quote">SOL- und USDC-Coins</a><a href="#gebuehr">Gebühr</a><a href="#priority">Priority Fee</a><a href="#slippage">Slippage</a><a href="#verzoegerung">Verzögerung</a><a href="#miete">Konto-Miete</a><a href="#rpc">Solana-Zugang</a><a href="#regeln">Ziel, Stop, Zeit</a><a href="#papier">Papertrading</a><a href="#treffer">Trefferquote</a><a href="#profitfaktor">Profit-Faktor</a><a href="#drawdown">Drawdown</a><a href="#erwartung">Erwartungswert</a><a href="#rug">Rug Pull</a><a href="#bundle">Bundle</a><a href="#sniper">Sniper</a><a href="#dev">Dev-Wallet</a><a href="#creator">Creator-Gebühr</a><a href="#fdv">FDV</a>
       </nav>
     </div>
     <dl class="glossary">
@@ -73,8 +74,20 @@
       <div id="rpc"><dt>Solana-Zugang (RPC)</dt><dd>Der Server, über den Pump Paper Kurse und Gebühren von der Blockchain liest. Der öffentliche Zugang reicht für den Anfang. Ein eigener, etwa von Helius, ist schneller. Antwortet einer nicht, nimmt Pump Paper einen zweiten.</dd></div>
       <div id="regeln"><dt>Ziel, Stop, Zeit</dt><dd>Regeln für den automatischen Verkauf: bei einem Gewinn, bei einem Verlust oder nach einer Zeit. Ein Stop verkauft ohne Slippage-Grenze und landet im Absturz unter der Marke. Wie weit, zeigt der <a href="anleitung.html#stop-rechner">Stop-Rechner</a>.</dd></div>
       <div id="papier"><dt>Papertrading</dt><dd>Traden mit Spielgeld unter echten Bedingungen. Taugt nur etwas, wenn es so rechnet wie echt. Sonst übt man mit Gewinnen, die es nie gegeben hätte.</dd></div>
+      <div id="treffer"><dt>Trefferquote</dt><dd>Anteil der Verkäufe mit Gewinn. Allein sagt sie wenig: <span class="num">30 %</span> Treffer können reichen, wenn die Gewinner viel größer sind als die Verlierer.</dd></div>
+      <div id="profitfaktor"><dt>Profit-Faktor</dt><dd>Summe aller Gewinne geteilt durch die Summe aller Verluste. Über <span class="num">1</span> verdienst du unterm Strich, darunter verlierst du.</dd></div>
+      <div id="drawdown"><dt>Drawdown</dt><dd>Der größte Rückgang des Kontos von einem Höchststand bis zum nächsten Tief. Er zeigt, wie viel du zwischendurch aushalten musst.</dd></div>
+      <div id="erwartung"><dt>Erwartungswert</dt><dd>Was ein Trade im Schnitt bringt: Trefferquote mal Ø Gewinn minus Verlustquote mal Ø Verlust. Ist er negativ, helfen auch mehr Trades nicht.</dd></div>
+      <div id="rug"><dt>Rug Pull</dt><dd>Entwickler oder große Halter verkaufen auf einen Schlag, und der Kurs bricht ein. Auf der Kurve kann niemand die Liquidität abziehen, aber ein großer Verkauf drückt den Preis trotzdem stark.</dd></div>
+      <div id="bundle"><dt>Bundle</dt><dd>Mehrere Käufe aus verschiedenen Wallets im selben Block, in dem der Coin angelegt wird, oft von denselben Leuten. So sieht der Anteil der Entwickler kleiner aus, als er ist.</dd></div>
+      <div id="sniper"><dt>Sniper</dt><dd>Bots, die in den ersten Sekunden nach dem Start kaufen und oft schnell wieder verkaufen. Ihr Verkauf kann einen Einstieg kurz danach teuer machen.</dd></div>
+      <div id="dev"><dt>Dev-Wallet</dt><dd>Das Wallet, das den Coin angelegt hat. Wie viel es hält und ob es verkauft, sieht jeder auf Solscan. Ein großer Anteil ist ein Risiko für alle anderen Halter.</dd></div>
+      <div id="creator"><dt>Creator-Gebühr</dt><dd>Der Teil der Gebühr jedes Trades, der an den Ersteller des Coins geht. Auf der Kurve sind das <span class="num">0,30 %</span> der <span class="num">1,25 %</span>.</dd></div>
+      <div id="fdv"><dt>FDV</dt><dd>Fully Diluted Valuation: Preis mal gesamte Menge. Bei pump.fun-Coins ist die Menge fest bei einer Milliarde, deshalb sind FDV und Marktwert gleich.</dd></div>
     </dl>
+    <p class="k-empty" id="lex-none" hidden>Kein Begriff gefunden.</p>
   </main>
+  <script src="assets/lexikon.js?v=1.4.0"></script>
   <footer>
     <a class="brand" href="index.html">
       <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#f2b33d"/><path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>

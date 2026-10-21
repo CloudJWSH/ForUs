@@ -78,3 +78,28 @@
     }
   });
 })();
+
+// Änderungen: # neben der Version kopiert den Link dorthin.
+document.addEventListener("click", e => {
+  const a = e.target.closest("[data-copy-link]");
+  if (!a || !navigator.clipboard) return;
+  e.preventDefault();
+  const url = location.href.split("#")[0] + a.getAttribute("href");
+  history.replaceState(null, "", a.getAttribute("href"));
+  navigator.clipboard.writeText(url).then(() => { a.textContent = "✓"; setTimeout(() => (a.textContent = "#"), 1500); });
+});
+
+// Anleitung: im mitlaufenden Inhaltsverzeichnis den aktuellen Abschnitt markieren.
+(function () {
+  const toc = document.querySelector(".toc.sticky");
+  if (!toc || !("IntersectionObserver" in window)) return;
+  const links = [...toc.querySelectorAll('a[href^="#"]')];
+  const map = new Map(links.map(a => [a.getAttribute("href").slice(1), a]));
+  const io = new IntersectionObserver(es => es.forEach(en => {
+    if (!en.isIntersecting) return;
+    links.forEach(a => a.classList.remove("on"));
+    const a = map.get(en.target.id);
+    if (a) { a.classList.add("on"); a.scrollIntoView({block: "nearest", inline: "nearest"}); }
+  }), {rootMargin: "0px 0px -70% 0px"});
+  map.forEach((a, id) => { const el = document.getElementById(id); if (el) io.observe(el); });
+})();

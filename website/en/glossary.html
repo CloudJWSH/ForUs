@@ -54,8 +54,9 @@
       <p class="eyebrow">Glossary</p>
       <h1>The words around pump.fun.</h1>
       <p class="lede">What the panel shows and how pump.fun prices trades, in short. The numbers are the starting values of a new pump.fun curve.</p>
+      <label class="search" for="lex-q"><span class="sr">Search terms</span><input type="search" id="lex-q" placeholder="Search terms …" autocomplete="off"></label>
       <nav class="toc" aria-label="Terms">
-        <a href="#curve">Bonding curve</a><a href="#progress">Progress</a><a href="#migration">Migration</a><a href="#pool">PumpSwap pool</a><a href="#mc">Market cap</a><a href="#quote">SOL and USDC coins</a><a href="#fee">Fee</a><a href="#priority">Priority fee</a><a href="#slippage">Slippage</a><a href="#delay">Delay</a><a href="#rent">Account rent</a><a href="#rpc">Solana endpoint</a><a href="#rules">Target, stop, time</a><a href="#paper">Paper trading</a>
+        <a href="#curve">Bonding curve</a><a href="#progress">Progress</a><a href="#migration">Migration</a><a href="#pool">PumpSwap pool</a><a href="#mc">Market cap</a><a href="#quote">SOL and USDC coins</a><a href="#fee">Fee</a><a href="#priority">Priority fee</a><a href="#slippage">Slippage</a><a href="#delay">Delay</a><a href="#rent">Account rent</a><a href="#rpc">Solana endpoint</a><a href="#rules">Target, stop, time</a><a href="#paper">Paper trading</a><a href="#hit-rate">Hit rate</a><a href="#profit-factor">Profit factor</a><a href="#drawdown">Drawdown</a><a href="#expectancy">Expectancy</a><a href="#rug-pull">Rug pull</a><a href="#bundle">Bundle</a><a href="#sniper">Sniper</a><a href="#dev-wallet">Dev wallet</a><a href="#creator-fee">Creator fee</a><a href="#fdv">FDV</a>
       </nav>
     </div>
     <dl class="glossary">
@@ -73,8 +74,20 @@
       <div id="rpc"><dt>Solana endpoint (RPC)</dt><dd>The server Pump Paper reads prices and fees from. The public endpoint is fine to start. Your own, for example from Helius, is faster. If one doesn't answer, Pump Paper takes a second one.</dd></div>
       <div id="rules"><dt>Target, stop, time</dt><dd>Rules for selling automatically: at a profit, at a loss or after a time. A stop sells without a slippage limit and lands below the mark in a crash. How far is shown by the <a href="guide.html#stop-rechner">stop calculator</a>.</dd></div>
       <div id="paper"><dt>Paper trading</dt><dd>Trading with play money under real conditions. It is only worth something if it prices like the real thing. Otherwise you practice with profits that would never have existed.</dd></div>
+      <div id="hit-rate"><dt>Hit rate</dt><dd>Share of sells that made a profit. On its own it says little: a <span class="num">30 %</span> hit rate can be enough if the winners are much bigger than the losers.</dd></div>
+      <div id="profit-factor"><dt>Profit factor</dt><dd>All profits divided by all losses. Above <span class="num">1</span> you make money overall, below it you lose.</dd></div>
+      <div id="drawdown"><dt>Drawdown</dt><dd>The largest drop of the account from a high to the next low. It shows how much you have to sit through along the way.</dd></div>
+      <div id="expectancy"><dt>Expectancy</dt><dd>What a trade makes on average: hit rate times average win minus loss rate times average loss. If it is negative, more trades won't help.</dd></div>
+      <div id="rug-pull"><dt>Rug pull</dt><dd>Developers or large holders sell all at once and the price collapses. On the curve nobody can pull the liquidity, but a large sell still pushes the price down hard.</dd></div>
+      <div id="bundle"><dt>Bundle</dt><dd>Several buys from different wallets in the same block the coin is created in, often by the same people. It makes the developers' share look smaller than it is.</dd></div>
+      <div id="sniper"><dt>Sniper</dt><dd>Bots that buy in the first seconds after launch and often sell again quickly. Their selling can make an entry shortly after expensive.</dd></div>
+      <div id="dev-wallet"><dt>Dev wallet</dt><dd>The wallet that created the coin. Anyone can see on Solscan how much it holds and whether it sells. A large share is a risk for every other holder.</dd></div>
+      <div id="creator-fee"><dt>Creator fee</dt><dd>The part of every trade's fee that goes to the coin's creator. On the curve it is <span class="num">0.30 %</span> of the <span class="num">1.25 %</span>.</dd></div>
+      <div id="fdv"><dt>FDV</dt><dd>Fully diluted valuation: price times total supply. pump.fun coins have a fixed supply of one billion, so FDV and market cap are the same.</dd></div>
     </dl>
+    <p class="k-empty" id="lex-none" hidden>No term found.</p>
   </main>
+  <script src="../assets/lexikon.js?v=1.4.0"></script>
   <footer>
     <a class="brand" href="index.html">
       <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#f2b33d"/><path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>

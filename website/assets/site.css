@@ -479,3 +479,35 @@ summary:focus-visible, input:focus-visible, select:focus-visible, [tabindex]:foc
 .lightbox { border: 0; padding: 0; background: none; max-width: 94vw; max-height: 94vh; cursor: zoom-out; }
 .lightbox::backdrop { background: rgba(0,0,0,.8); }
 .lightbox img { display: block; max-width: 94vw; max-height: 94vh; width: auto; height: auto; border-radius: 12px; }
+
+/* Lexikon: Suche und A–Z */
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.search input { width: 100%; max-width: 420px; font: 16px var(--body); color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 11px 14px; }
+.search input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+.az { display: flex; flex-wrap: wrap; gap: 2px; font: 500 13px var(--mono); }
+.az a, .az span { width: 26px; height: 28px; display: grid; place-items: center; border-radius: 6px; }
+.az a { color: var(--gold-ink); text-decoration: none; }
+.az a:hover { background: var(--raise); }
+.az span { color: var(--line); }
+.glossary > div[hidden], .toc a[hidden] { display: none; }
+.release-head .anchor { margin-left: auto; font: 500 15px var(--mono); color: var(--muted); text-decoration: none; padding: 2px 8px; border-radius: 6px; }
+.release-head .anchor:hover { color: var(--gold-ink); background: var(--raise); }
+.practice-progress { margin: 0; font: 500 14px var(--mono); color: var(--gold-ink); }
+.steps.practice .habit { display: inline-flex; gap: 6px; align-items: center; margin-top: 8px; font-size: 14px; color: var(--muted); cursor: pointer; }
+.steps.practice .habit input { accent-color: var(--gold); width: 16px; height: 16px; }
+.steps.practice li.checked h3 { color: var(--gain); }
+.toc.sticky { position: sticky; top: 70px; z-index: 5; flex-wrap: nowrap; overflow-x: auto; padding: 8px 0; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); scrollbar-width: none; margin-block: -24px; }
+.toc.sticky::-webkit-scrollbar { display: none; }
+.toc.sticky a { white-space: nowrap; }
+.toc.sticky a.on { color: var(--on-gold); background: var(--gold); border-color: var(--gold); }
+.k-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.k-periods { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.k-periods button { font: 500 14px var(--body); padding: 8px 14px; background: none; border: 0; color: var(--muted); cursor: pointer; }
+.k-periods button + button { border-left: 1px solid var(--line); }
+.k-periods button[aria-pressed="true"] { background: var(--raise); color: var(--ink); }
+.k-csv { cursor: pointer; }
+.k-csv-hint { color: var(--muted); font-size: 13px; flex: 1 1 220px; }
+.k-search { width: 100%; max-width: 360px; font: 15px var(--body); color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px; }
+.k-table tr[hidden] { display: none !important; }
+main:has(.toc.sticky) :is(h2, h3)[id], main:has(.toc.sticky) [id] { scroll-margin-top: 140px; }
+.az a, .az span { width: 24px; }
