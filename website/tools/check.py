@@ -4,6 +4,7 @@ denn es ist öffentlich.
 
 Aufruf: python3 website/tools/check.py  (Exit-Code 1 bei Fehlern)
 """
+import html
 import json
 import re
 import sys
@@ -208,6 +209,24 @@ def weight(pages):
     return out
 
 
+PROMISE = re.compile(r"rendite|(high|huge|big|easy|guaranteed) returns|garantiert|garantie|guarantee|passive[sn]? einkommen|passive income|to the moon|\b\d+x\b|risikofrei|risk-free", re.I)
+NEGATION = re.compile(r"\b(kein\w*|nicht|nie|ohne|no|not|never|nothing|without)\b", re.I)
+
+
+def promises(pages):
+    """Keine Rendite- oder Gewinnversprechen: solche Wörter nur verneint (\u201ekeine Rendite\u201c) oder als CSV-Spalte."""
+    out = []
+    for p in pages:
+        text = p.read_text(encoding="utf-8")
+        text = re.sub(r'<script.*?</script>|<form class="quiz".*?</form>|<code>.*?</code>|<td>[a-z_, ]+</td>', " ", text, flags=re.S)
+        text = html.unescape(re.sub(r"<[^>]+>", " ", text))
+        for m in PROMISE.finditer(text):
+            before = text[max(0, m.start() - 60):m.start()]
+            if not NEGATION.search(before):
+                out.append(f"{p.relative_to(SITE)}: Versprechen? „…{' '.join((before + m.group(0)).split())[-70:]}“")
+    return out
+
+
 def globals_():
     """Skripte der Website laufen in einer eigenen Funktion, nur kurve.js und strategie.js geben je einen Namen nach außen."""
     out = []
@@ -279,7 +298,7 @@ def main():
         for d in sorted(p.dupes):
             errors.append(f"{rel}: ID doppelt: {d}")
         errors += [f"{rel}: {x}" for x in p.problems]
-    errors += images() + secrets() + strategies() + contrast() + pairs() + weight(pages) + globals_()
+    errors += images() + secrets() + strategies() + contrast() + pairs() + weight(pages) + globals_() + promises(pages)
     for e in errors:
         print(e)
     print(f"{len(pages)} Seiten geprüft, {len(errors)} Fehler")

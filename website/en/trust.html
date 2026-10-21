@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pump Paper How we work</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-lQtBUw3z89ZcOK/hiJkSuXhwdZVasE/OfuHC+VlI/CI='; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.dexscreener.com https://api.mainnet-beta.solana.com https://solana-rpc.publicnode.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="description" content="What Pump Paper does and what it never does: no wallet, no server, no buying on its own, read-only access. With every extension permission explained.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pump Paper">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Pump Paper How we work">
+<meta property="og:description" content="What Pump Paper does and what it never does: no wallet, no server, no buying on its own, read-only access. With every extension permission explained.">
+<meta property="og:image" content="../assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pump Paper How we work">
+<meta name="twitter:description" content="What Pump Paper does and what it never does: no wallet, no server, no buying on its own, read-only access. With every extension permission explained.">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0b110f" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f3f5f2" media="(prefers-color-scheme: light)">
+<link rel="alternate" hreflang="de" href="../vertrauen.html">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="icon" href="../icons/48.png" sizes="48x48">
+<link rel="apple-touch-icon" href="../icons/180.png">
+<link rel="manifest" href="../manifest.webmanifest">
+<script>try{var t=localStorage.getItem("pp-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script src="../assets/site.js?v=1.4.0" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/site.css?v=1.4.0">
+</head>
+<body>
+<a class="skip" href="#inhalt">Skip to content</a>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#f2b33d"/><path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Pump Paper
+    </a>
+    <nav aria-label="Site">
+      <a href="index.html#math">How it works</a>
+      <a href="guide.html">Guide</a>
+      <a href="glossary.html">Glossary</a>
+      <a href="account.html">Account</a>
+      <a href="strategy.html">Lab</a>
+      <a href="index.html#faq">FAQ</a>
+      <a class="lang" href="../vertrauen.html" hreflang="de" lang="de" aria-label="Deutsch">DE</a>
+    </nav>
+    <button type="button" class="theme-btn" data-theme-toggle><svg viewBox="0 0 20 20" aria-hidden="true"><g class="sun" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10" cy="10" r="3.5"/><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.3 4.3l1.4 1.4M14.3 14.3l1.4 1.4M4.3 15.7l1.4-1.4M14.3 5.7l1.4-1.4"/></g><path class="moon" d="M16 12.5A6.5 6.5 0 0 1 7.5 4a6.5 6.5 0 1 0 8.5 8.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></button>
+    <a class="btn gold small" href="index.html#install">Get it</a>
+    <details class="menu"><summary aria-label="Menu"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></summary><div class="menu-panel"><a href="index.html#math">How it works</a><a href="guide.html">Guide</a><a href="glossary.html">Glossary</a><a href="account.html">Account</a><a href="strategy.html">Lab</a><a href="index.html#faq">FAQ</a></div></details>
+  </header>
+  <main id="inhalt" class="sub">
+    <div class="head">
+      <p class="eyebrow">Trust</p>
+      <h1>How we work.</h1>
+      <p class="lede">Pump Paper is a practice tool. Here is what it may do, what it never does and how you can check that yourself. As of version 1.4.0.</p>
+    </div>
+    <nav class="toc" aria-label="Contents"><a href="#never">What never happens</a><a href="#permissions">Permissions</a><a href="#verify">Verify the download</a><a href="#coin">Coin</a><a href="#contact">Contact</a></nav>
+    <div class="prose">
+      <h2 id="never">What never happens</h2>
+      <ul>
+        <li><b>No wallet.</b> Pump Paper connects to no wallet, never asks for a seed or key and cannot send a transaction.</li>
+        <li><b>No buying on its own.</b> Every buy is your click. Only your rules for an open position run automatically: target, stop, time, all with play money.</li>
+        <li><b>No server of ours, no account with us.</b> Your data lives in your browser. Details are in the <a href="privacy.html">privacy</a> page.</li>
+        <li><b>Read-only to the website.</b> The <a href="account.html">account page</a> may read your paper account from the extension but cannot change anything.</li>
+        <li><b>No promises.</b> Paper profits are not real profits. The site names no returns, and the <a href="strategy.html">lab</a> always shows results with costs and warnings.</li>
+      </ul>
+
+      <h2 id="permissions">Extension permissions</h2>
+      <p>This list is built straight from the <code>manifest.json</code> of the current version, so it always matches the download.</p>
+      <div class="table-wrap"><table class="perm-table"><thead><tr><th scope="col">Permission</th><th scope="col">What for</th></tr></thead><tbody>
+        <tr><td><code>storage</code></td><td><b>Store in the browser</b> Account, positions, history and settings in Chrome&#x27;s local storage.</td></tr>
+        <tr><td><code>alarms</code></td><td><b>Timers</b> Checks target, stop and time of your open positions every 30 seconds in the background.</td></tr>
+        <tr><td><code>https://api.mainnet-beta.solana.com/*</code></td><td><b>Solana endpoint</b> Reads curve or pool reserves and fees. Only the coin address is sent.</td></tr>
+        <tr><td><code>https://solana-rpc.publicnode.com/*</code></td><td><b>Fallback Solana endpoint</b> Used when the first endpoint doesn&#x27;t answer.</td></tr>
+        <tr><td><code>https://api.dexscreener.com/*</code></td><td><b>DexScreener</b> SOL price in dollars and a fallback price when no Solana endpoint answers.</td></tr>
+        <tr><td><code>https://*/*</code></td><td><b>Other addresses, only on request</b> Optional: Chrome only asks when you enter your own Solana endpoint or server in the options, and only for that address.</td></tr>
+        <tr><td><code>https://pump.fun/*</code></td><td><b>pump.fun pages</b> Shows the panel and chart markers on coin pages. Pump Paper clicks nothing there and sends nothing to pump.fun.</td></tr>
+      </tbody></table></div>
+
+      <h2 id="verify">Verify the download</h2>
+      <p>The download always comes from the releases on GitHub, never from a chat or a direct message.</p>
+      <p>The SHA-256 checksum of the zip appears here with the next release.</p>
+
+      <h2 id="coin">If there is a coin</h2>
+      <p>Pump Paper needs no coin and stays free. Should there be one, the only real address is on this website. Our bot never buys it, we promise no value and no returns, and we clear the legal situation before any real money.</p>
+
+      <h2 id="contact">Contact</h2>
+      <p>Who is behind Pump Paper is in the <a href="imprint.html">imprint</a>. We never message anyone first.</p>
+    </div>
+  </main>
+  <footer>
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#f2b33d"/><path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Pump Paper
+    </a>
+    <p>Paper trading with play money. No real money, no financial advice. Pump Paper is an independent project and not affiliated with pump.fun.</p>
+    <nav class="foot-nav" aria-label="More pages"><a href="guide.html">Guide</a><a href="glossary.html">Glossary</a><a href="practice.html">Practice</a><a href="basics.html">Basics</a><a href="account.html">Account</a><a href="strategy.html">Strategy lab</a><a href="changelog.html">Changes</a><a href="privacy.html">Privacy</a><a href="trust.html">How we work</a><a href="imprint.html">Imprint</a><a href="https://github.com/CloudJWSH/ForUs">Source code</a></nav>
+  </footer>
+</div>
+</body>
+</html>

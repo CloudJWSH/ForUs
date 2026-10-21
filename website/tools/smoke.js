@@ -105,8 +105,8 @@ const ok = (cond, msg) => { if (!cond) fails.push(msg); };
     await page.close();
   }
 
-  const pages = ["index.html", "anleitung.html", "lexikon.html", "ueben.html", "grundlagen.html", "konto.html", "strategie.html", "changelog.html", "datenschutz.html", "404.html",
-                 "en/index.html", "en/guide.html", "en/glossary.html", "en/practice.html", "en/basics.html", "en/account.html", "en/strategy.html", "en/changelog.html", "en/privacy.html", "en/404.html"];
+  const pages = ["index.html", "anleitung.html", "lexikon.html", "ueben.html", "grundlagen.html", "konto.html", "strategie.html", "changelog.html", "datenschutz.html", "vertrauen.html", "impressum.html", "404.html",
+                 "en/index.html", "en/guide.html", "en/glossary.html", "en/practice.html", "en/basics.html", "en/account.html", "en/strategy.html", "en/changelog.html", "en/privacy.html", "en/trust.html", "en/imprint.html", "en/404.html"];
   for (const p of pages) {
     const {page, errs} = await open(p, 390);
     await page.waitForTimeout(150);

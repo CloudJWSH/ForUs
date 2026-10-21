@@ -1,5 +1,5 @@
 /* Layout: eine Lesespalte mit breitem Hero (Text links, nachgebauter pump.fun-Coin mit Panel rechts), danach Rechnung, Funktionen, Installation, Fahrplan, Fragen. Dunkel zuerst wie die Erweiterung selbst. */
-/* Inhalt: Kopfzeile · Knöpfe · Hero · Nachgebaute Coinseite · Abschnitte · Rechnung · Funktionen · Installation · Fahrplan · Fragen · Fuß · Rechner · Navigation und Fuß · Unterseiten · Bilder der Erweiterung · Stop-Rechner und Lexikon · Sprachumschalter · Demo · Konto-Seite · Konto-Seite: Filter, Balken, Sortieren · Coin-Abschnitt (erst sichtbar, wenn coin.json live ist) · Kopfzeile: klebt oben, Menü fürs Handy · Hero: Schein hinter der Bühne, Kurs zeichnet sich beim Laden · Vergleich und Schluss · Barrierefreiheit · Startseite, Paket 2 · Lexikon: Suche und A–Z · Coin: Fälschungen, Nachprüfen, Rechtliches, eigene Seite · Strategie-Labor · Startseite: Zahlenleiste, dritter Knopf, FAQ-Gruppen, Install-Dauer · Anleitung: Probleme, Tasten · Üben: Notizen · Grundlagen: Quiz, Lesezeit · Rechner: Auswahl, Fehler, Aktionen · Stop-Rechner: Diagramm · Demo: Regeln, Zoom, Tabelle · 404: Seitensuche */
+/* Inhalt: Kopfzeile · Knöpfe · Hero · Nachgebaute Coinseite · Abschnitte · Rechnung · Funktionen · Installation · Fahrplan · Fragen · Fuß · Rechner · Navigation und Fuß · Unterseiten · Bilder der Erweiterung · Stop-Rechner und Lexikon · Sprachumschalter · Demo · Konto-Seite · Konto-Seite: Filter, Balken, Sortieren · Coin-Abschnitt (erst sichtbar, wenn coin.json live ist) · Kopfzeile: klebt oben, Menü fürs Handy · Hero: Schein hinter der Bühne, Kurs zeichnet sich beim Laden · Vergleich und Schluss · Barrierefreiheit · Startseite, Paket 2 · Lexikon: Suche und A–Z · Coin: Fälschungen, Nachprüfen, Rechtliches, eigene Seite · Strategie-Labor · Startseite: Zahlenleiste, dritter Knopf, FAQ-Gruppen, Install-Dauer · Anleitung: Probleme, Tasten · Üben: Notizen · Grundlagen: Quiz, Lesezeit · Rechner: Auswahl, Fehler, Aktionen · Stop-Rechner: Diagramm · Demo: Regeln, Zoom, Tabelle · 404: Seitensuche · Coin: Gebühr und offizielle Links · Vertrauen: Berechtigungen, Prüfsumme, Impressum */
 :root {
   --bg: #0b110f;
   --panel: #101915;
@@ -691,3 +691,17 @@ kbd { font: 500 12.5px var(--mono); border: 1px solid var(--line); border-bottom
 .nf-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; max-width: 70ch; }
 .nf-list a { font-weight: 600; color: var(--gold-ink); }
 .nf-list small { display: block; color: var(--muted); font-size: 13.5px; }
+
+/* Coin: Gebühr und offizielle Links */
+.coin-use ul, .coin-links ul { margin: 8px 0 0; padding-left: 20px; display: grid; gap: 6px; }
+.coin-links a { color: var(--gold-ink); font-weight: 600; }
+.coin-links small { color: var(--muted); font: 12px var(--mono); overflow-wrap: anywhere; }
+
+/* Vertrauen: Berechtigungen, Prüfsumme, Impressum */
+.perm-table td:first-child { white-space: nowrap; }
+.perm-table td { vertical-align: top; }
+.sha-note { font-size: 13px; color: var(--muted); margin: 0; }
+.sha-note code.sha { overflow-wrap: anywhere; }
+.imprint-todo { border-left: 3px solid var(--gold); padding-left: 12px; }
+.table-wrap .perm-table td:last-child { white-space: normal; font-family: var(--body); font-size: 14.5px; color: var(--muted); min-width: 260px; }
+.table-wrap .perm-table td:last-child b { color: var(--ink); font-family: var(--body); }

@@ -1,5 +1,5 @@
 {
-  "_hinweis": "Coin-Abschnitt der Website und Seite coin.html. Erst beim Launch auf pump.fun live auf true setzen und mint sowie dev_wallet eintragen. Beides sind öffentliche Adressen, niemals private Schlüssel hier eintragen. launched: Startzeit als ISO, z. B. 2026-11-01T18:00:00Z. legal: Rechtshinweis (MiCA), erscheint nur wenn ausgefüllt.",
+  "_hinweis": "Coin-Abschnitt der Website und Seite coin.html. Erst beim Launch auf pump.fun live auf true setzen und mint sowie dev_wallet eintragen. Beides sind öffentliche Adressen, niemals private Schlüssel hier eintragen. launched: Startzeit als ISO, z. B. 2026-11-01T18:00:00Z. legal: Rechtshinweis (MiCA), erscheint nur wenn ausgefüllt. fee_use: Liste, wofür die Creator-Gebühr verwendet wird (erscheint nur wenn gefüllt). links: offizielle Links als [{\"label\": \"X\", \"url\": \"https://…\"}], nur https.",
   "live": false,
   "name": "Pump Paper",
   "symbol": "PAPER",
@@ -9,6 +9,10 @@
   "creator_fee": {
     "de": "Die Creator-Gebühr jedes Trades geht an die Dev-Wallet oben. Wofür sie verwendet wird, steht hier, sobald es feststeht.",
     "en": "The creator fee of every trade goes to the dev wallet above. What it is used for will be stated here once it is decided."
+  },
+  "fee_use": {
+    "de": [],
+    "en": []
   },
   "facts": {
     "de": [
@@ -25,5 +29,6 @@
   "legal": {
     "de": "",
     "en": ""
-  }
+  },
+  "links": []
 }

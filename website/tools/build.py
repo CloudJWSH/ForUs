@@ -42,6 +42,8 @@ PAGES = [
     {"de": "konto", "en": "account"},
     {"de": "strategie", "en": "strategy"},
     {"de": "grundlagen", "en": "basics"},
+    {"de": "vertrauen", "en": "trust"},
+    {"de": "impressum", "en": "imprint"},
     {"de": "datenschutz", "en": "privacy"},
     {"de": "changelog", "en": "changelog"},
     {"de": "coin", "en": "coin"},
@@ -57,7 +59,7 @@ LANGS = {
                 ("index.html#fragen", "Fragen", "index")],
         "get": "Holen", "menu": "Menü", "skip": "Zum Inhalt springen", "install": "#installieren", "nav_label": "Seite", "foot_label": "Weitere Seiten",
         "foot": [("anleitung.html", "Anleitung"), ("lexikon.html", "Lexikon"), ("ueben.html", "Üben"), ("grundlagen.html", "Grundlagen"), ("konto.html", "Konto"), ("strategie.html", "Strategie-Labor"),
-                 ("changelog.html", "Änderungen"), ("datenschutz.html", "Datenschutz"), (SOURCE, "Quellcode")],
+                 ("changelog.html", "Änderungen"), ("datenschutz.html", "Datenschutz"), ("vertrauen.html", "So arbeiten wir"), ("impressum.html", "Impressum"), (SOURCE, "Quellcode")],
         "note": "Papertrading mit Spielgeld. Kein echtes Geld, keine Anlageberatung. Pump Paper ist ein unabhängiges Projekt und gehört nicht zu pump.fun.",
     },
     "en": {
@@ -68,7 +70,7 @@ LANGS = {
                 ("index.html#faq", "FAQ", "index")],
         "get": "Get it", "menu": "Menu", "skip": "Skip to content", "install": "#install", "nav_label": "Site", "foot_label": "More pages",
         "foot": [("guide.html", "Guide"), ("glossary.html", "Glossary"), ("practice.html", "Practice"), ("basics.html", "Basics"), ("account.html", "Account"), ("strategy.html", "Strategy lab"),
-                 ("changelog.html", "Changes"), ("privacy.html", "Privacy"), (SOURCE, "Source code")],
+                 ("changelog.html", "Changes"), ("privacy.html", "Privacy"), ("trust.html", "How we work"), ("imprint.html", "Imprint"), (SOURCE, "Source code")],
         "note": "Paper trading with play money. No real money, no financial advice. Pump Paper is an independent project and not affiliated with pump.fun.",
     },
 }
@@ -279,6 +281,9 @@ COIN_TEXT = {
                   "Die größten Konten ansehen. Eines davon ist die Bonding-Kurve oder der Pool, das ist normal.",
                   "Die Zahlen auf dieser Seite kommen direkt von der Blockchain und DexScreener, nicht von uns."],
         "legalH": "Rechtliches", "more": "Alles zum Coin auf einer Seite",
+        "signal": "Der Coin ist keine Strategie und kein Signal. Pump Paper schlägt ihn nirgends zum Kauf vor, auch nicht im Labor.",
+        "useH": "Wofür die Creator-Gebühr geht", "linksH": "Offizielle Links",
+        "linksNote": "Nur diese Links sind von uns. Alles andere mit unserem Namen ist es nicht.",
         "title": "${sym} auf pump.fun · Pump Paper",
         "desc": "Der Pump-Paper-Coin ${sym} auf pump.fun: Mint-Adresse, Dev-Wallet, Creator-Gebühr und Zahlen live zum Nachprüfen. Kein Anteil, keine Rendite.",
     },
@@ -295,6 +300,9 @@ COIN_TEXT = {
         "fakeH": "Only this mint is real.",
         "fake": "Anyone can launch a coin with the same name and picture on pump.fun. Only the mint address above is real, and it is also in this page's source. Addresses from comments, chats or direct messages are fakes. We never message anyone first and never ask for a wallet or seed phrase.",
         "checkH": "Check, don't trust",
+        "signal": "The coin is not a strategy and not a signal. Pump Paper never suggests it as a buy anywhere, not in the lab either.",
+        "useH": "Where the creator fee goes", "linksH": "Official links",
+        "linksNote": "Only these links are ours. Anything else using our name is not.",
         "check": ["Copy the mint address and paste it into pump.fun or Solscan instead of searching by name.",
                   "Open the dev wallet on Solscan: its balance and every sale are public.",
                   "Look at the largest accounts. One of them is the bonding curve or the pool, that is normal.",
@@ -330,7 +338,14 @@ def coin_html(lang, cfg, standalone=False):
     up = LANGS[lang]["up"]
     anchor = "coin"
     badge = f'<a class="coin-badge" href="#{anchor}"><span class="dot"></span>{T["badge"].replace("${sym}", "$" + sym)}</a>'
-    facts = "".join(f"<li>{html.escape(x)}</li>" for x in cfg.get("facts", {}).get(lang, []))
+    facts = "".join(f"<li>{html.escape(x)}</li>" for x in cfg.get("facts", {}).get(lang, []) + [T["signal"]])
+    uses = "".join(f"<li>{html.escape(x)}</li>" for x in cfg.get("fee_use", {}).get(lang, []) if x.strip())
+    official = []
+    for item in cfg.get("links", []):
+        url, label = item.get("url", ""), item.get("label", "")
+        if not re.fullmatch(r"https://[\w.-]+(/[^\s\"<>]*)?", url) or not label:
+            raise SystemExit(f"coin.json: Link {item!r} braucht label und eine https-Adresse")
+        official.append(f'<li><a href="{html.escape(url)}" rel="noopener">{html.escape(label)}</a> <small>{html.escape(url)}</small></li>')
     fee = html.escape(cfg.get("creator_fee", {}).get(lang, ""))
     links = (f'<a class="btn gold small" href="https://pump.fun/coin/{mint}" rel="noopener">pump.fun</a>'
              f'<a class="btn small" href="https://solscan.io/token/{mint}" rel="noopener">Solscan</a>'
@@ -343,7 +358,9 @@ def coin_html(lang, cfg, standalone=False):
     <div class="coin-trust">
       <div class="coin-fake"><h3>{T["fakeH"]}</h3><p>{T["fake"]}</p></div>
       <div class="coin-check"><h3>{T["checkH"]}</h3><ol>{steps}</ol></div>
-    </div>""" + (f'\n    <div class="coin-legal"><h3>{T["legalH"]}</h3><p>{legal}</p></div>' if legal else "")
+    </div>""" + (f'\n    <div class="coin-use"><h3>{T["useH"]}</h3><ul>{uses}</ul></div>' if uses else "") \
+        + (f'\n    <div class="coin-links"><h3>{T["linksH"]}</h3><p class="k-note">{T["linksNote"]}</p><ul>{"".join(official)}</ul></div>' if official else "") \
+        + (f'\n    <div class="coin-legal"><h3>{T["legalH"]}</h3><p>{legal}</p></div>' if legal else "")
     more = "" if standalone else f'\n    <p class="coin-more"><a href="coin.html">{T["more"]} →</a></p>'
     tag, close = ("h1", "h1") if standalone else ("h2", "h2")
     stat = lambda key, label, sub="": (f'<div><span class="k">{label}</span><b data-{key}>{T["loading"]}</b>'
@@ -512,6 +529,65 @@ def add_read_time(body, lang):
     return re.sub(r'(<p class="lede">.*?</p>)', lambda m: m.group(1) + f'\n      <p class="read-time">{note}</p>', body, count=1, flags=re.S)
 
 
+# Erklärung je Berechtigung aus manifest.json; was hier fehlt, erscheint als „noch ohne Erklärung“.
+PERMISSIONS = {
+    "storage": ("Speichern im Browser", "Konto, Positionen, Verlauf und Einstellungen in Chromes lokalem Speicher.",
+                "Store in the browser", "Account, positions, history and settings in Chrome's local storage."),
+    "alarms": ("Zeitgeber", "Prüft im Hintergrund alle 30 Sekunden Ziel, Stop und Zeit deiner offenen Positionen.",
+               "Timers", "Checks target, stop and time of your open positions every 30 seconds in the background."),
+    "https://api.mainnet-beta.solana.com/*": ("Solana-Zugang", "Liest Reserven der Kurve oder des Pools und die Gebühren. Gesendet wird nur die Coin-Adresse.",
+                                              "Solana endpoint", "Reads curve or pool reserves and fees. Only the coin address is sent."),
+    "https://solana-rpc.publicnode.com/*": ("Ausweich-Zugang zu Solana", "Wird genutzt, wenn der erste Zugang nicht antwortet.",
+                                            "Fallback Solana endpoint", "Used when the first endpoint doesn't answer."),
+    "https://api.dexscreener.com/*": ("DexScreener", "SOL-Kurs in Dollar und Ersatz-Kurs, wenn kein Solana-Zugang antwortet.",
+                                      "DexScreener", "SOL price in dollars and a fallback price when no Solana endpoint answers."),
+    "https://*/*": ("Weitere Adressen, nur auf Nachfrage", "Optional: Chrome fragt erst, wenn du in den Optionen einen eigenen Solana-Zugang oder Server einträgst, und nur für diese Adresse.",
+                    "Other addresses, only on request", "Optional: Chrome only asks when you enter your own Solana endpoint or server in the options, and only for that address."),
+    "https://pump.fun/*": ("pump.fun-Seiten", "Zeigt das Panel und die Marker im Chart auf Coinseiten. Pump Paper klickt dort nichts und sendet nichts an pump.fun.",
+                           "pump.fun pages", "Shows the panel and chart markers on coin pages. Pump Paper clicks nothing there and sends nothing to pump.fun."),
+}
+
+
+def permissions_html(lang):
+    m = json.loads((EXT / "manifest.json").read_text(encoding="utf-8"))
+    rows, seen = [], set()
+    entries = [(p, False) for p in m.get("permissions", []) + m.get("host_permissions", [])] \
+        + [(p, True) for p in m.get("optional_host_permissions", [])] \
+        + [(x, False) for cs in m.get("content_scripts", []) for x in cs.get("matches", [])]
+    for perm, optional in entries:
+        if perm in seen:
+            continue
+        seen.add(perm)
+        de_t, de_d, en_t, en_d = PERMISSIONS.get(perm, ("Noch ohne Erklärung", "", "Not explained yet", ""))
+        if perm not in PERMISSIONS:
+            print(f"Hinweis: Berechtigung {perm} hat noch keine Erklärung in build.py (PERMISSIONS)")
+        t, d = (en_t, en_d) if lang == "en" else (de_t, de_d)
+        rows.append(f'        <tr><td><code>{html.escape(perm)}</code></td><td><b>{html.escape(t)}</b> {html.escape(d)}</td></tr>')
+    head = ("Permission", "What for") if lang == "en" else ("Berechtigung", "Wofür")
+    return ('      <div class="table-wrap"><table class="perm-table"><thead><tr><th scope="col">' + head[0] + '</th><th scope="col">' + head[1]
+            + "</th></tr></thead><tbody>\n" + "\n".join(rows) + "\n      </tbody></table></div>")
+
+
+def checksum(lang, version, short=False):
+    """Prüfsumme der Zip aus download.json (schreibt der Release-Workflow), nur wenn sie zur aktuellen Version gehört."""
+    path = SITE / "download.json"
+    data = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    sha = data.get("sha256", "")
+    if data.get("version") != version or not re.fullmatch(r"[0-9a-f]{64}", sha):
+        return "" if short else ('<p>The SHA-256 checksum of the zip appears here with the next release.</p>' if lang == "en"
+                                 else "<p>Die SHA-256-Prüfsumme der Zip steht hier ab dem nächsten Release.</p>")
+    cmd = "shasum -a 256 Pump-Paper.zip"
+    if lang == "en":
+        txt = f'SHA-256 of zip {version}: <code class="sha">{sha}</code>. Check on Mac or Linux with <code>{cmd}</code>, on Windows with <code>certutil -hashfile Pump-Paper.zip SHA256</code>.'
+    else:
+        txt = f'SHA-256 der Zip {version}: <code class="sha">{sha}</code>. Prüfen am Mac oder unter Linux mit <code>{cmd}</code>, unter Windows mit <code>certutil -hashfile Pump-Paper.zip SHA256</code>.'
+    if short:
+        return f'<p class="sha-note">{txt}</p>'
+    obf = ("The code in the zip is obfuscated so it can't simply be copied. What it may do is still set by Chrome: only the permissions above."
+           if lang == "en" else "Der Code in der Zip ist verschleiert, damit er nicht einfach kopiert werden kann. Was er tun darf, legt trotzdem Chrome fest: nur die Rechte oben.")
+    return f'<p class="sha-note">{txt}</p>\n      <p>{obf}</p>'
+
+
 def page_list(lang, src_dir):
     """Alle Seiten einer Sprache mit Titel und Beschreibung, für die Suche auf der 404-Seite."""
     items = []
@@ -534,13 +610,18 @@ def build_sources(lang, version, date=""):
         title = re.search(r"<!-- title: (.*?) -->", raw).group(1)
         desc = re.search(r"<!-- description: (.*?) -->", raw).group(1)
         body = re.sub(r"<!-- (title|description): .*? -->\n?", "", raw)
+        if "{{permissions}}" in body:
+            body = body.replace("{{permissions}}", permissions_html(lang))
+        if "{{checksum}}" in body:
+            body = body.replace("{{checksum}}", checksum(lang, version))
         if "{{pages}}" in body:
             body = body.replace("{{pages}}", page_list(lang, src_dir))
         body = body.replace("{{version}}", version).replace("{{download}}", DOWNLOAD).replace("{{date}}", nice_date(date, lang))
         if src.stem in READ_TIME:
             body = add_read_time(body, lang)
         out.mkdir(exist_ok=True)
-        (out / src.name).write_text(page(lang, src.stem, title, desc, body), encoding="utf-8")
+        image = "og-labor.png" if src.stem in ("strategie", "strategy") else "og.png"
+        (out / src.name).write_text(page(lang, src.stem, title, desc, body, image=image), encoding="utf-8")
 
 
 def main():
@@ -607,6 +688,7 @@ def main():
         section, badge = coin_html(lang, coin)
         index = replace_marker(index, "coin", ("\n" + section) if section else "", required=False)
         index = replace_marker(index, "coin-badge", badge, required=False)
+        index = replace_marker(index, "sha", checksum(lang, version, short=True), required=False)
         index = re.sub(r"https://github\.com/[\w.-]+/[\w.-]+/releases/latest/download/Pump-Paper\.zip", DOWNLOAD, index)
         link = '<span aria-hidden="true">·</span><a href="' + SOURCE + '">' + ("Open source on GitHub" if lang == "en" else "Offener Quellcode auf GitHub") + "</a>"
         index = replace_marker(index, "source", link if CONFIG["source_public"] else "", required=False)

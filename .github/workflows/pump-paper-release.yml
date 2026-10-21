@@ -103,6 +103,8 @@ jobs:
 
       - name: Website neu bauen (Version, Neuerungen, Änderungsprotokoll)
         run: |
+          # Prüfsumme der Zip für die Website (Install-Teil und „So arbeiten wir“)
+          printf '{"version": "%s", "sha256": "%s"}\n' "${{ steps.v.outputs.version }}" "$(sha256sum dist/Pump-Paper.zip | cut -d' ' -f1)" > website/download.json
           python3 -m pip install --quiet pillow
           python3 website/tools/build.py
           python3 website/tools/check.py
