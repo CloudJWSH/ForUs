@@ -1,5 +1,5 @@
 """Prüft alle Seiten der Website: lokale Links und Anker, Bilder mit alt-Text, Formularfelder mit Label,
-Titel, Beschreibung und Sprache, doppelte IDs, Bildgrößen. Dazu das ganze Repo auf Server-Adressen und Schlüssel,
+Titel, Beschreibung und Sprache, Überschriften-Reihenfolge, doppelte IDs, Bildgrößen. Dazu das ganze Repo auf Server-Adressen und Schlüssel,
 denn es ist öffentlich.
 
 Aufruf: python3 website/tools/check.py  (Exit-Code 1 bei Fehlern)
@@ -26,6 +26,7 @@ class Page(HTMLParser):
         super().__init__()
         self.ids, self.links, self.imgs, self.inputs, self.labels = set(), [], [], [], set()
         self.dupes, self.lang, self.meta, self.title, self._in_title = set(), None, {}, "", False
+        self.heads = []
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
@@ -39,6 +40,8 @@ class Page(HTMLParser):
             self.meta[a["name"]] = a.get("content", "")
         if tag == "title":
             self._in_title = True
+        if re.fullmatch(r"h[1-6]", tag):
+            self.heads.append(int(tag[1]))
         for key in ("href", "src"):
             if key in a and tag in ("a", "link", "img", "script"):
                 self.links.append(a[key])
@@ -181,6 +184,12 @@ def main():
             errors.append(f"{rel}: keine Beschreibung")
         if p.lang != ("en" if "en" in rel.parts[:-1] else "de"):
             errors.append(f"{rel}: falsche oder fehlende Sprache: {p.lang}")
+        if p.heads.count(1) != 1:
+            errors.append(f"{rel}: {p.heads.count(1)} h1 statt genau einer")
+        for a, b in zip(p.heads, p.heads[1:]):
+            if b > a + 1:
+                errors.append(f"{rel}: Überschrift springt von h{a} auf h{b}")
+                break
         for d in sorted(p.dupes):
             errors.append(f"{rel}: ID doppelt: {d}")
     errors += images() + secrets() + strategies()

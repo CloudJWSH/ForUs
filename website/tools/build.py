@@ -371,7 +371,7 @@ def coin_page(lang, cfg):
 
 def structured(lang, index, version):
     """Strukturierte Daten für Suchmaschinen: die Erweiterung und die Fragen der Startseite."""
-    strip = lambda s: re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", s))).strip()
+    strip = lambda s: re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", re.sub(r'<a class="faq-link".*?</a>', "", s)))).strip()
     faq = [{"@type": "Question", "name": strip(q), "acceptedAnswer": {"@type": "Answer", "text": strip(a)}}
            for q, a in re.findall(r"<details[^>]*><summary>(.*?)</summary><p>(.*?)</p></details>", index, re.S)]
     app = {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Pump Paper",
@@ -535,7 +535,7 @@ def main():
     for lang in LANGS:
         file = texts[lang][0] if (EXT / texts[lang][0]).exists() else "CHANGELOG.md"
         own = changelog(file)
-        latest = own[0][2][:4] if own else []
+        latest = own[0][2][:3] if own else []
         path = LANGS[lang]["dir"] / "index.html"
         if not path.exists():
             continue

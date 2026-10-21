@@ -29,7 +29,7 @@
     return best;
   }
 
-  // Kopfzeile bekommt beim Scrollen eine Kante, ab einer Bildschirmhöhe erscheint „Nach oben“.
+  // Kopfzeile bekommt beim Scrollen eine Kante, danach erscheint „Nach oben“.
   const top = document.querySelector(".top");
   const up = document.createElement("a");
   up.href = "#";
@@ -38,9 +38,12 @@
   up.innerHTML = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 15V5M5 10l5-5 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   up.addEventListener("click", e => { e.preventDefault(); scrollTo({top: 0}); });
   document.body.appendChild(up);
+  // Auf der Startseite erst nach dem Hero, sonst nach einer Bildschirmhöhe.
+  const hero = document.querySelector(".hero");
+  const heroEnd = hero ? hero.offsetTop + hero.offsetHeight : 0;
   const onScroll = () => {
     top?.classList.toggle("scrolled", scrollY > 8);
-    up.classList.toggle("show", scrollY > innerHeight);
+    up.classList.toggle("show", scrollY > (heroEnd || innerHeight));
   };
   addEventListener("scroll", onScroll, {passive: true});
   onScroll();
@@ -102,4 +105,34 @@ document.addEventListener("click", e => {
     if (a) { a.classList.add("on"); a.scrollIntoView({block: "nearest", inline: "nearest"}); }
   }), {rootMargin: "0px 0px -70% 0px"});
   map.forEach((a, id) => { const el = document.getElementById(id); if (el) io.observe(el); });
+})();
+
+// Fragen: Suche, und ein Link auf eine Frage klappt sie auf.
+(function () {
+  const input = document.getElementById("faq-q");
+  const openHash = () => {
+    const el = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (el && el.tagName === "DETAILS") { el.open = true; el.scrollIntoView({block: "start"}); }
+  };
+  addEventListener("hashchange", openHash);
+  openHash();
+  if (!input) return;
+  const norm = s => s.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "");
+  input.addEventListener("input", () => {
+    const q = norm(input.value.trim());
+    let any = false;
+    document.querySelectorAll(".faq-group").forEach(g => {
+      let shown = 0;
+      g.querySelectorAll("details").forEach(d => {
+        const hit = !q || norm(d.textContent).includes(q);
+        d.hidden = !hit;
+        if (hit) shown++;
+        if (q && hit) d.open = true;
+      });
+      g.hidden = !shown;
+      any = any || shown > 0;
+    });
+    const none = document.querySelector("[data-faq-none]");
+    if (none) none.hidden = any;
+  });
 })();
