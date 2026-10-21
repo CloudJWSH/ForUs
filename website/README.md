@@ -19,3 +19,5 @@ Nach Änderungen: `python3 website/tools/build.py`. Auf GitHub erledigen das die
 Der Download-Knopf zeigt immer auf `releases/latest/download/Pump-Paper.zip`.
 
 Bilder der Erweiterung (`assets/shots/`) zeichnet `tools/shots/shots.js` mit dem echten Code aus `extension/` und Beispieldaten aus `tools/shots/mock.js`. Der Release-Workflow macht das bei jeder neuen Version selbst.
+
+Bilder und Texte für den Chrome Web Store liegen in `store/` (siehe `store/README.md`). Sie werden ebenfalls bei jeder neuen Version neu gezeichnet.

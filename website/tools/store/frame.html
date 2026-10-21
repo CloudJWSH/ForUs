@@ -1,0 +1,67 @@
+<!doctype html>
+<!-- Vorlage für die Bilder im Chrome Web Store. Variante und Sprache kommen aus dem Hash, z. B. #panel-de.
+     Gerendert von store.js in den Größen 1280x800 (Bildschirmfotos), 440x280 (kleine Kachel), 1400x560 (Banner). -->
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root { --bg: #0b110f; --ink: #eaf1ec; --muted: #8ea398; --gold: #f2b33d; --on-gold: #1a1304; --line: #1e2b25; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: Archivo, "Inter", sans-serif; overflow: hidden; }
+.frame { width: 100vw; height: 100vh; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 56px; padding: 0 80px; position: relative; }
+.frame::before { content: ""; position: absolute; inset: auto -10% -40% 40%; height: 80%; background: radial-gradient(closest-side, rgba(242,179,61,.16), transparent); }
+.copy { display: grid; gap: 22px; position: relative; }
+.brand { display: flex; align-items: center; gap: 12px; font: 800 26px "Bricolage Grotesque", sans-serif; letter-spacing: -.02em; }
+.brand svg { width: 40px; height: 40px; }
+h1 { margin: 0; font: 800 64px/1 "Bricolage Grotesque", sans-serif; letter-spacing: -.045em; }
+h1 span { background: var(--gold); color: var(--on-gold); padding: 0 .1em; border-radius: .1em; }
+p { margin: 0; font-size: 22px; line-height: 1.45; color: var(--muted); max-width: 30ch; }
+.chips { display: flex; gap: 10px; flex-wrap: wrap; }
+.chips span { font: 500 15px "IBM Plex Mono", monospace; color: var(--ink); border: 1px solid #2d3d35; border-radius: 999px; padding: 6px 12px; }
+.shots { display: flex; gap: 20px; align-items: flex-start; position: relative; }
+.shots img { border-radius: 14px; border: 1px solid #2d3d35; box-shadow: 0 40px 80px -30px rgba(0,0,0,.8); display: block; }
+/* kleine Kachel und Banner */
+.tile .frame { grid-template-columns: 1fr; padding: 0 32px; gap: 0; }
+.tile h1 { font-size: 40px; }
+.tile .brand { font-size: 20px; } .tile .brand svg { width: 30px; height: 30px; }
+.tile p, .tile .chips, .tile .shots { display: none; }
+.echt h1 { font-size: 54px; }
+.marquee .frame { padding: 0 90px; }
+.marquee h1 { font-size: 72px; }
+</style></head><body>
+<div class="frame">
+  <div class="copy">
+    <div class="brand"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#f2b33d"/><path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Pump Paper</div>
+    <h1 id="h"></h1>
+    <p id="p"></p>
+    <div class="chips" id="c"></div>
+  </div>
+  <div class="shots" id="s"></div>
+</div>
+<script>
+const T = {
+  de: {
+    panel: ["Trade pump.fun mit <span>Spielgeld.</span>", "Ein Papier-Konto direkt auf der Coinseite. Kaufen und verkaufen wie gewohnt, nur ohne Wallet.", ["Kein Wallet", "SOL und USDC", "Kurve und Pool"]],
+    konto: ["Dein Konto <span>auf einen Blick.</span>", "Guthaben, Gesamtwert und jede offene Position. Verkaufen mit einem Klick.", ["Gesamtwert in $", "Ergebnis live"]],
+    verlauf: ["Jeder Trade <span>mit Grund.</span>", "Ziel, Stop, Zeit oder gescheitert an der Slippage. Export als CSV.", ["Trefferquote", "Gebühren + Gas", "CSV"]],
+    echt: ["Rechnet wie <span>echt.</span>", "Kurs von der Blockchain, Gebühr je Coin, 1 s Verzögerung, Slippage-Grenze und Konto-Miete.", ["1 s Verzögerung", "10 % Slippage", "0,00204 SOL Miete"]],
+    tile: ["Trade pump.fun mit <span>Spielgeld.</span>"],
+  },
+  en: {
+    panel: ["Trade pump.fun with <span>play money.</span>", "A paper account right on the coin page. Buy and sell the way you always do, just without a wallet.", ["No wallet", "SOL and USDC", "Curve and pool"]],
+    konto: ["Your account <span>at a glance.</span>", "Balances, total value and every open position. Sell with one click.", ["Total value in $", "Live result"]],
+    verlauf: ["Every trade <span>with a reason.</span>", "Target, stop, time or failed on slippage. Export to CSV.", ["Hit rate", "Fees + gas", "CSV"]],
+    echt: ["Priced like <span>real.</span>", "Price from the blockchain, per-coin fee, 1 s delay, slippage limit and account rent.", ["1 s delay", "10 % slippage", "0.00204 SOL rent"]],
+    tile: ["Trade pump.fun with <span>play money.</span>"],
+  },
+};
+const IMG = {panel: [["panel.png", 314]], konto: [["fenster-konto.png", 380]], verlauf: [["fenster-verlauf.png", 380]],
+  echt: [["panel.png", 300], ["fenster-verlauf.png", 340]], tile: [], marquee: [["panel.png", 250], ["fenster-konto.png", 330]]};
+const [kind, lang] = location.hash.slice(1).split("-");
+const key = kind === "marquee" ? "panel" : kind;
+const t = T[lang][key];
+document.getElementById("h").innerHTML = t[0];
+document.getElementById("p").textContent = t[1] || "";
+document.getElementById("c").innerHTML = (t[2] || []).map(x => `<span>${x}</span>`).join("");
+document.getElementById("s").innerHTML = IMG[kind].map(([f, w]) => `<img src="../../assets/shots/${f}" style="width:${w}px">`).join("");
+document.body.className = kind;
+</script></body></html>
