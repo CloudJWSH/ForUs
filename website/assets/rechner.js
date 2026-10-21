@@ -44,6 +44,14 @@
     const diff = want > 0 ? 1 - got / want : 0;
     const failed = slip > 0 && got < want * (1 - slip / 100);
     const full = after.left <= 0 || got >= after.left - 1;
+    // Kurswirkung: Kurs direkt nach deinem Kauf gegenüber dem Kurs davor.
+    const mine = buy(after, amt).next;
+    const impact = (mine.vSol / mine.vTok) / (after.vSol / after.vTok) - 1;
+    // Break-even: Kurs, bei dem der Verkauf deiner Menge nach Gebühr alles zurückbringt (Einsatz, 2× Priority Fee, Miete).
+    // Auf der Kurve gilt vSol·vTok = K, gesucht ist vTok mit K·T / (vTok·(vTok+T)) = Brutto.
+    const need = (amt + 2 * PRIORITY + RENT) / (1 - FEE);
+    const vTokBe = (-got + Math.sqrt(got * got + 4 * K * got / need)) / 2;
+    const be = (K / vTokBe / vTokBe) / (mine.vSol / mine.vTok) - 1;
 
     $("o-mc").textContent = f(mcSol, 1) + " SOL · " + usdFmt(mcSol * usd);
     $("o-fee").textContent = "−" + f(amt * FEE, 5) + " SOL";
@@ -52,11 +60,19 @@
     const pill = $("o-state");
     pill.textContent = failed ? T.fail : T.ok;
     pill.className = "state-pill " + (failed ? "bad" : "good");
+    $("o-impact").textContent = failed ? "–" : "+" + f(impact * 100, 2) + " %";
+    $("o-be").textContent = failed || !(be > -1) ? "–" : "+" + f(be * 100, 1) + " % · MC " + f(K / vTokBe / vTokBe * SUPPLY, 1) + " SOL";
     $("o-total").textContent = f(failed ? PRIORITY : amt + PRIORITY + RENT, 5) + " SOL";
     $("o-note").textContent = full ? T.full : failed ? T.failed(f(diff * 100, 1), f(slip, 0)) : T.fine(f(front, 2), f(diff * 100, 1));
   }
 
   form.addEventListener("input", run);
+  form.addEventListener("click", e => {
+    const b = e.target.closest("[data-set-prog]");
+    if (!b) return;
+    $("r-prog").value = b.dataset.setProg;
+    form.dispatchEvent(new Event("input", {bubbles: true}));
+  });
   form.addEventListener("submit", e => e.preventDefault());
   run();
 })();

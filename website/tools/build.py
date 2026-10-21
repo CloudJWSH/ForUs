@@ -338,10 +338,13 @@ def webp():
 
 def pictures(text):
     """<img> der Screenshots in <picture> mit WebP verpacken, sofern die WebP-Datei da ist; alle Bilder laden asynchron."""
+    # Erst vorhandene Hüllen entfernen (auch doppelte), dann neu verpacken. So bleibt der Lauf wiederholbar.
+    unwrap = re.compile(r'<picture><source srcset="[^"]+" type="image/webp">(<img[^>]*>)</picture>')
+    while unwrap.search(text):
+        text = unwrap.sub(r"\1", text)
+
     def wrap(m):
         tag, src = m.group(0), m.group(2)
-        if text[max(0, m.start() - 19):m.start()] == 'type="image/webp">':
-            return tag
         webp_path = (SITE / re.sub(r"^(\.\./)+", "", src)).with_suffix(".webp")
         if not webp_path.exists():
             return tag
@@ -383,6 +386,20 @@ def changelog(name="CHANGELOG.md"):
         ver, _, date = head.partition("·")
         versions.append((ver.strip(), date.strip(), items))
     return versions
+
+
+def nice_date(iso, lang):
+    """2026-10-21 oder 21.10.2026 → 21.10.2026 bzw. Oct 21, 2026."""
+    m = re.match(r"(\d{4})-(\d{2})-(\d{2})", iso or "")
+    m2 = re.match(r"(\d{1,2})\.(\d{1,2})\.(\d{4})", iso or "")
+    if m:
+        y, mo, d = m.groups()
+    elif m2:
+        d, mo, y = m2.groups()
+    else:
+        return iso or "–"
+    months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    return f"{int(d)}.{int(mo)}.{y}" if lang == "de" else f"{months[int(mo) - 1]} {int(d)}, {y}"
 
 
 def items_html(items, indent):
@@ -463,6 +480,7 @@ def main():
             continue
         index = path.read_text(encoding="utf-8")
         index = replace_marker(index, "version", version)
+        index = replace_marker(index, "date", nice_date(own[0][1], lang) if own else "–", required=False)
         index = replace_marker(index, "latest", "\n" + items_html(latest, 10) + "\n          ", required=False)
         index = replace_marker(index, "nav", "\n    " + nav(lang, "index", home=True) + "\n    ")
         index = replace_marker(index, "footer", "\n  " + footer(lang) + "\n  ")

@@ -11,13 +11,13 @@
     noPos: "No position. Buy with one of the buttons.", pos: "Position", cost: "cost", value: "value now",
     target: "Target", stop: "Stop", hand: "manual", migrated: "The curve is full: the coin migrated. The demo starts a new coin.",
     slip: d => `price moved ${d} %, more than your 10 % slippage`, rent: "incl. account rent", nosol: "Not enough SOL",
-    log: "Trades",
+    log: "Trades", pause: "Pause", go: "Resume", stats: (n, h, p) => `${n} sells · ${h} hit · ${p} SOL`,
   } : {
     loc: "de-DE", mio: " Mio.", buy: "Kauf", sold: "Verkauf", failed: "Gescheitert", wait: "Ausführung in 1 s …",
     noPos: "Keine Position. Kauf mit einem der Knöpfe.", pos: "Position", cost: "Einsatz", value: "Wert jetzt",
     target: "Ziel", stop: "Stop", hand: "von Hand", migrated: "Die Kurve ist voll, der Coin ist migriert. Die Demo startet einen neuen Coin.",
     slip: d => `Kurs um ${d} % bewegt, mehr als deine Slippage von 10 %`, rent: "mit Konto-Miete", nosol: "Nicht genug SOL",
-    log: "Trades",
+    log: "Trades", pause: "Pause", go: "Weiter", stats: (n, h, p) => `${n} Verkäufe · ${h} Treffer · ${p} SOL`,
   };
   const V_SOL = 30, V_TOK = 1073e6, REAL_TOK = 793.1e6, K = V_SOL * V_TOK;
   const FEE = 0.0125, PRIORITY = 0.001, RENT = 0.00204, SLIP = 0.10, DELAY = 1000, TP = 0.6, SL = -0.2;
@@ -27,6 +27,8 @@
   const sign = (x, d) => (x > 0 ? "+" : "") + f(x, d);
 
   let curve, hist, marks, wallet, pos, pending, log, regime, regimeLeft, rented, note;
+  // Bilanz der Sitzung, bleibt beim Wechsel auf einen neuen Coin erhalten.
+  let stats = {n: 0, wins: 0, pnl: 0};
 
   function reset(keepWallet) {
     const sold = REAL_TOK * (0.12 + Math.random() * 0.1);
@@ -38,7 +40,7 @@
     rented = false;
     regime = 0.4;
     regimeLeft = 0;
-    if (!keepWallet) { wallet = 10; log = []; }
+    if (!keepWallet) { wallet = 10; log = []; stats = {n: 0, wins: 0, pnl: 0}; }
     for (let i = 0; i < KEEP; i++) step(true);
   }
 
@@ -147,6 +149,7 @@
       curve = fill.next;
       const part = t / pos.tokens, cost = pos.cost * part, pnl = fill.sol - cost;
       wallet += fill.sol - PRIORITY;
+      stats.n++; stats.pnl += pnl - PRIORITY; if (pnl > 0) stats.wins++;
       pos.tokens -= t;
       pos.cost -= cost;
       if (pos.tokens < 1) pos = null;
@@ -213,6 +216,7 @@
       $("[data-pos]").innerHTML = `<small>${T.noPos}</small>`;
     }
     $("[data-note]").textContent = note || "";
+    $("[data-stats]").textContent = stats.n ? T.stats(stats.n, f(stats.wins / stats.n * 100, 0) + " %", sign(stats.pnl, 3)) : "";
     $("[data-log]").innerHTML = log.map(l => `<li class="${l.cls}">${l.text}</li>`).join("");
     chart();
   }
@@ -223,16 +227,27 @@
     if (b.dataset.buy) buy(Number(b.dataset.buy));
     if (b.dataset.sell) sell(Number(b.dataset.sell), T.hand);
     if (b.dataset.reset !== undefined) { note = ""; reset(false); draw(); }
+    if (b.dataset.pause !== undefined) { paused = !paused; b.textContent = paused ? T.go : T.pause; b.setAttribute("aria-pressed", paused); paused ? stop() : visible && run(); }
+    if (b.dataset.speed !== undefined) { fast = !fast; b.setAttribute("aria-pressed", fast); if (timer) { stop(); run(); } }
+  });
+
+  // Tasten, solange die Demo zu sehen ist: 1–4 kaufen, Q/W/E verkaufen 25 %, 50 %, alles.
+  document.addEventListener("keydown", e => {
+    if (!visible || e.metaKey || e.ctrlKey || e.altKey || /input|textarea|select/i.test(e.target.tagName)) return;
+    const k = e.key.toLowerCase();
+    const btn = "1234".includes(k) && k ? root.querySelectorAll("[data-buy]")[Number(k) - 1]
+      : {q: 0, w: 1, e: 2}[k] !== undefined ? root.querySelectorAll("[data-sell]")[{q: 0, w: 1, e: 2}[k]] : null;
+    if (btn && !btn.disabled) { e.preventDefault(); btn.click(); }
   });
 
   reset(false);
   draw();
-  let timer = null;
-  const run = () => { if (!timer) timer = setInterval(() => { step(false); draw(); }, TICK); };
+  let timer = null, paused = false, fast = false, visible = false;
+  const run = () => { if (!timer && !paused) timer = setInterval(() => { step(false); draw(); }, fast ? TICK / 2 : TICK); };
   const stop = () => { clearInterval(timer); timer = null; };
   if ("IntersectionObserver" in window) {
-    new IntersectionObserver(es => es.forEach(en => (en.isIntersecting && !document.hidden ? run() : stop()))).observe(root);
-  } else run();
-  document.addEventListener("visibilitychange", () => (document.hidden ? stop() : run()));
+    new IntersectionObserver(es => es.forEach(en => { visible = en.isIntersecting; visible && !document.hidden ? run() : stop(); })).observe(root);
+  } else { visible = true; run(); }
+  document.addEventListener("visibilitychange", () => (document.hidden ? stop() : visible && run()));
   window.addEventListener("resize", chart);
 })();

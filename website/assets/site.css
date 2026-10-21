@@ -449,3 +449,33 @@ summary:focus-visible, input:focus-visible, select:focus-visible, [tabindex]:foc
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .theme-btn .sun { display: block; } :root:not([data-theme="light"]) .theme-btn .moon { display: none; } }
 .brand { white-space: nowrap; }
 @media (max-width: 400px) { .top { gap: 8px; } .top .brand { font-size: 16px; gap: 8px; } .top .btn.small { padding-inline: 11px; } }
+.demo-ctl { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.demo-ctl button[aria-pressed="true"] { border-color: var(--gold); color: var(--gold-ink); }
+.demo-stats { margin: 0; font: 12.5px var(--mono); color: var(--ink); min-height: 0; }
+.demo-stats:empty { display: none; }
+.demo-keys { color: var(--muted); font-size: 12px; }
+@media (hover: none) { .demo-keys { display: none; } }
+.calc-tool .presets { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; }
+.calc-tool .presets button { font: 500 12.5px var(--body); padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--raise); color: var(--ink); cursor: pointer; }
+.calc-tool .presets button:hover { border-color: var(--gold); }
+
+/* Startseite, Paket 2 */
+.hero-meta { margin: -8px 0 0; display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: 13.5px; color: var(--muted); }
+.hero-meta a { color: var(--muted); text-decoration-color: color-mix(in srgb, var(--muted) 40%, transparent); text-underline-offset: 3px; }
+.hero-meta a:hover { color: var(--ink); }
+.feat-more { justify-self: start; margin-top: 2px; font-size: 14px; font-weight: 600; color: var(--gold-ink); text-decoration: none; }
+.feat-more:hover { text-decoration: underline; }
+.who { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.who > div { padding: 22px; border-radius: 14px; background: var(--panel); border: 1px solid var(--line); display: grid; gap: 8px; align-content: start; }
+.who h3 { font-size: 19px; }
+.who p { margin: 0; color: var(--muted); font-size: 15px; }
+@media (max-width: 860px) { .who { grid-template-columns: 1fr; } }
+.honest { border: 1px dashed var(--line); border-radius: 14px; padding: 18px 22px; display: grid; gap: 8px; }
+.honest h3 { font-size: 17px; }
+.honest ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; color: var(--muted); font-size: 15px; }
+.steps small.os { display: block; margin-top: 6px; color: var(--muted); font-size: 13px; }
+.faq-all { justify-self: end; margin-top: -24px; font-size: 14px; }
+.shot img { cursor: zoom-in; }
+.lightbox { border: 0; padding: 0; background: none; max-width: 94vw; max-height: 94vh; cursor: zoom-out; }
+.lightbox::backdrop { background: rgba(0,0,0,.8); }
+.lightbox img { display: block; max-width: 94vw; max-height: 94vh; width: auto; height: auto; border-radius: 12px; }

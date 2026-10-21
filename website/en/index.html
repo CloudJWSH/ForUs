@@ -25,7 +25,7 @@
 <script>try{var t=localStorage.getItem("pp-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <script src="../assets/site.js?v=1.4.0" defer></script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Pump Paper", "applicationCategory": "FinanceApplication", "operatingSystem": "Chrome", "softwareVersion": "1.4.0", "inLanguage": "en", "description": "Pump Paper: paper trading right on pump.fun. Buy and sell with play money, priced on the real bonding curve or pool, in SOL and USDC. No wallet, no risk.", "downloadUrl": "https://github.com/CloudJWSH/ForUs/releases/latest/download/Pump-Paper.zip", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Do I need a wallet?", "acceptedAnswer": {"@type": "Answer", "text": "No. Pump Paper connects to no wallet and cannot send real transactions. It only reads prices from the blockchain."}}, {"@type": "Question", "name": "What does it cost?", "acceptedAnswer": {"@type": "Answer", "text": "Nothing. You trade with play money and set your starting capital in the options (default 10 SOL and 1,000 USDC)."}}, {"@type": "Question", "name": "How close is it to real trades?", "acceptedAnswer": {"@type": "Answer", "text": "Price, fee, delay, slippage, priority fee and account rent are included. Other buyers landing in the same block ahead of you are not modeled. On very hot coins real fills are often a little worse still."}}, {"@type": "Question", "name": "Where is my data?", "acceptedAnswer": {"@type": "Answer", "text": "Only in your browser. There is no account and no server. You can save your history as CSV at any time."}}, {"@type": "Question", "name": "Does it work after migration?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. As soon as a coin leaves the curve, Pump Paper keeps going with the PumpSwap pool, including open positions."}}, {"@type": "Question", "name": "Is this financial advice?", "acceptedAnswer": {"@type": "Answer", "text": "No. Pump Paper is a practice tool. Memecoins are extremely risky, and a paper profit is no guarantee of real profits."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Do I need a wallet?", "acceptedAnswer": {"@type": "Answer", "text": "No. Pump Paper connects to no wallet and cannot send real transactions. It only reads prices from the blockchain."}}, {"@type": "Question", "name": "What does it cost?", "acceptedAnswer": {"@type": "Answer", "text": "Nothing. You trade with play money and set your starting capital in the options (default 10 SOL and 1,000 USDC)."}}, {"@type": "Question", "name": "How close is it to real trades?", "acceptedAnswer": {"@type": "Answer", "text": "Price, fee, delay, slippage, priority fee and account rent are included. Other buyers landing in the same block ahead of you are not modeled. On very hot coins real fills are often a little worse still."}}, {"@type": "Question", "name": "Why is my paper profit smaller than the chart shows?", "acceptedAnswer": {"@type": "Answer", "text": "Because Pump Paper prices buy and sell on the curve. 1.25 % fee each way, the price impact of your own amount, priority fees and account rent all come off. A coin has to rise a few percent before you are in profit."}}, {"@type": "Question", "name": "Can I start over?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. In the options, “Konto zurücksetzen” (reset account) sets balance, positions and history back to your starting capital. Save your history as CSV first if you want to keep it."}}, {"@type": "Question", "name": "Does it work in Brave, Edge or Arc?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, in every Chromium-based browser via “Load unpacked”. Firefox and Safari are not supported."}}, {"@type": "Question", "name": "Where is my data?", "acceptedAnswer": {"@type": "Answer", "text": "Only in your browser. There is no account and no server. You can save your history as CSV at any time."}}, {"@type": "Question", "name": "Does it work after migration?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. As soon as a coin leaves the curve, Pump Paper keeps going with the PumpSwap pool, including open positions."}}, {"@type": "Question", "name": "Is this financial advice?", "acceptedAnswer": {"@type": "Answer", "text": "No. Pump Paper is a practice tool. Memecoins are extremely risky, and a paper profit is no guarantee of real profits."}}, {"@type": "Question", "name": "Does it run on GMGN, Axiom or Photon?", "acceptedAnswer": {"@type": "Answer", "text": "Soon. The version for GMGN, DexScreener, Axiom, Photon, BullX and Padre is built and comes with the next download. Until then Pump Paper runs on pump.fun."}}, {"@type": "Question", "name": "Is there a Pump Paper coin?", "acceptedAnswer": {"@type": "Answer", "text": "No, not yet. If there ever is one, the only real mint address will be listed here on this website. Any other coin with the name is not ours."}}]}</script>
 <!-- /meta -->
 <title>Pump Paper</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -68,6 +68,7 @@
         <a class="btn" href="#math">How it works</a>
       </div>
       <div class="facts"><span>No wallet needed</span><span>SOL and USDC</span><span>Data stays in your browser</span></div>
+      <p class="hero-meta"><a href="changelog.html">Version <!-- version -->1.4.0<!-- /version --> from <!-- date -->Oct 21, 2026<!-- /date --></a><span aria-hidden="true">·</span><a href="https://github.com/CloudJWSH/ForUs">Open source on GitHub</a></p>
     </div>
 
     <div class="stage" role="img" aria-label="Example: pump.fun coin page with the Pump Paper panel, a buy marker and a target line in the chart">
@@ -124,15 +125,15 @@
     </div>
     <div class="shots">
       <figure class="shot tall">
-        <picture><source srcset="../assets/shots/panel.webp" type="image/webp"><picture><source srcset="../assets/shots/panel.webp" type="image/webp"><picture><source srcset="../assets/shots/panel.webp" type="image/webp"><img decoding="async" src="../assets/shots/panel.png" width="314" height="618" alt="Pump Paper panel on a coin page: market cap $9,053, buy buttons in SOL, open position at +0.119 SOL, sell buttons, target, stop and time limit" loading="lazy"></picture></picture></picture>
+        <picture><source srcset="../assets/shots/panel.webp" type="image/webp"><img decoding="async" src="../assets/shots/panel.png" width="314" height="618" alt="Pump Paper panel on a coin page: market cap $9,053, buy buttons in SOL, open position at +0.119 SOL, sell buttons, target, stop and time limit" loading="lazy"></picture>
         <figcaption><b>Panel on the coin page.</b> Market cap, fee and price source at the top, then buying, your position and the rules for selling automatically.</figcaption>
       </figure>
       <figure class="shot">
-        <picture><source srcset="../assets/shots/fenster-konto.webp" type="image/webp"><picture><source srcset="../assets/shots/fenster-konto.webp" type="image/webp"><picture><source srcset="../assets/shots/fenster-konto.webp" type="image/webp"><img decoding="async" src="../assets/shots/fenster-konto.png" width="380" height="364" alt="Account window: free SOL and USDC, total value, result and two open positions" loading="lazy"></picture></picture></picture>
+        <picture><source srcset="../assets/shots/fenster-konto.webp" type="image/webp"><img decoding="async" src="../assets/shots/fenster-konto.png" width="380" height="364" alt="Account window: free SOL and USDC, total value, result and two open positions" loading="lazy"></picture>
         <figcaption><b>Account.</b> Balances, total value and every open position, with a sell button.</figcaption>
       </figure>
       <figure class="shot">
-        <picture><source srcset="../assets/shots/fenster-verlauf.webp" type="image/webp"><picture><source srcset="../assets/shots/fenster-verlauf.webp" type="image/webp"><picture><source srcset="../assets/shots/fenster-verlauf.webp" type="image/webp"><img decoding="async" src="../assets/shots/fenster-verlauf.png" width="380" height="600" alt="History window: hit rate, result, fees and a list of trades including a failed buy" loading="lazy"></picture></picture></picture>
+        <picture><source srcset="../assets/shots/fenster-verlauf.webp" type="image/webp"><img decoding="async" src="../assets/shots/fenster-verlauf.png" width="380" height="600" alt="History window: hit rate, result, fees and a list of trades including a failed buy" loading="lazy"></picture>
         <figcaption><b>History.</b> Every trade with its reason, including the buy that failed on slippage.</figcaption>
       </figure>
     </div>
@@ -158,6 +159,9 @@
         <div class="demo-sells"><button type="button" data-sell="0.25">25 %</button><button type="button" data-sell="0.5">50 %</button><button type="button" data-sell="1">All</button></div>
         <p class="demo-note" data-note aria-live="polite"></p>
         <ul class="demo-log" data-log></ul>
+        <p class="demo-stats" data-stats aria-live="polite"></p>
+        <div class="demo-ctl"><button type="button" data-pause aria-pressed="false">Pause</button><button type="button" data-speed aria-pressed="false">2×</button></div>
+        <small class="demo-keys">Keys: 1–4 buy, Q W E sell</small>
         <button type="button" class="demo-reset" data-reset>Start over</button>
       </div>
     </div>
@@ -185,6 +189,7 @@
           <label for="r-slip">Slippage (%)<input id="r-slip" type="number" min="0" max="100" step="1" value="10" inputmode="numeric"></label>
           <label for="r-usd">SOL price ($, assumed)<input id="r-usd" type="number" min="1" step="1" value="180" inputmode="numeric"></label>
           <label for="r-prog" class="wide-in">Curve progress <output id="r-prog-out" for="r-prog">20 %</output><input id="r-prog" type="range" min="0" max="95" step="1" value="20"></label>
+          <div class="presets" role="group" aria-label="Progress presets"><button type="button" data-set-prog="3">Early</button><button type="button" data-set-prog="50">Halfway</button><button type="button" data-set-prog="90">Near migration</button></div>
         </div>
         <div class="ln"><span>Market cap at click</span><span id="o-mc">–</span></div>
         <div class="ln"><span>Fee 1.25 % (0.95 + 0.30)</span><span id="o-fee">–</span></div>
@@ -192,6 +197,8 @@
         <div class="ln"><span>Account rent (first buy)</span><span>0.00204 SOL</span></div>
         <div class="ln"><span>Expected at click</span><span id="o-want">–</span></div>
         <div class="ln"><span>Actually after 1 s</span><span id="o-got">–</span></div>
+        <div class="ln"><span>Price impact of your buy</span><span id="o-impact">–</span></div>
+        <div class="ln"><span>Break-even: price must rise</span><span id="o-be">–</span></div>
         <div class="ln sum"><span>Result</span><span id="o-state" class="state-pill">–</span></div>
         <div class="ln sum"><span>Taken from account</span><span id="o-total">–</span></div>
         <p class="note" id="o-note">In the second before execution, others buy ahead of you. If your amount then falls short of the expected one by more than your slippage, the buy fails like on pump.fun and only costs the priority fee.</p>
@@ -209,32 +216,50 @@
         <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 14h18"/></svg></span>
         <h3>Panel on the coin page</h3>
         <p>Sits below pump.fun's trade box. Buy buttons in SOL or USDC, sell 25 %, 50 % or everything.</p>
+        <a class="feat-more" href="guide.html#panel">More <span aria-hidden="true">→</span></a>
       </div>
       <div class="feat">
         <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 18l5-5 4 4 7-8"/></svg></span>
         <h3>Markers in the chart</h3>
         <p>Your buys and sells show up as markers in the pump.fun chart, target and stop as lines.</p>
+        <a class="feat-more" href="guide.html#chart">More <span aria-hidden="true">→</span></a>
       </div>
       <div class="feat">
         <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span>
         <h3>Target, stop and time</h3>
         <p>A profit target, a stop and a time limit per position. Pump Paper sells automatically, even in the background.</p>
+        <a class="feat-more" href="guide.html#rules">More <span aria-hidden="true">→</span></a>
       </div>
       <div class="feat">
         <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M5 8h10a3 3 0 010 6H8"/></svg></span>
         <h3>SOL and USDC</h3>
         <p>Coins traded against USDC are paid from your USDC balance. You set your starting capital yourself.</p>
+        <a class="feat-more" href="guide.html#buy">More <span aria-hidden="true">→</span></a>
       </div>
       <div class="feat">
         <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg></span>
         <h3>History and CSV</h3>
         <p>Every trade with fee, result and market cap. Failed trades are included. Export to CSV for your own analysis.</p>
+        <a class="feat-more" href="guide.html#csv">More <span aria-hidden="true">→</span></a>
       </div>
       <div class="feat">
         <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></span>
         <h3>Stays with you</h3>
         <p>No account, no wallet, no server. Everything lives in your browser's storage. If one Solana endpoint fails, Pump Paper switches to a second one.</p>
+        <a class="feat-more" href="privacy.html">More <span aria-hidden="true">→</span></a>
       </div>
+    </div>
+  </section>
+
+  <section class="block" id="who">
+    <div class="head">
+      <p class="eyebrow">Who it's for</p>
+      <h2>For anyone who wants to practice before it costs.</h2>
+    </div>
+    <div class="who">
+      <div><h3>New to pump.fun</h3><p>See what the bonding curve, fees and slippage do to your money before you put real SOL in.</p></div>
+      <div><h3>With your own strategy</h3><p>Test fixed rules for target, stop and time over many trades. The history shows which exit reason makes you money and which costs it.</p></div>
+      <div><h3>With signals or a bot</h3><p>Check calls from groups or your own bot on paper, with the same costs as real, instead of aping in right away.</p></div>
     </div>
   </section>
 
@@ -257,6 +282,14 @@
         </tbody>
       </table>
     </div>
+    <div class="honest">
+      <h3>To be honest: what paper doesn't capture</h3>
+      <ul>
+        <li>Other buyers landing in the same block ahead of you, and bots that exploit your buy.</li>
+        <li>Congested networks where real transactions only land after several tries.</li>
+        <li>What it feels like to watch real money drop. Losses are easier to sit through on paper.</li>
+      </ul>
+    </div>
   </section>
 
   <section class="block" id="install">
@@ -267,13 +300,13 @@
     </div>
     <div class="install">
       <ol class="steps">
-        <li><h3>Download and unzip</h3><p>Download the zip on the right and unzip it. Put the folder somewhere permanent, for example in Documents. Chrome loads the extension from that folder.</p></li>
-        <li><h3>Open extensions</h3><p>Type <code>chrome://extensions</code> into the address bar and turn on Developer mode at the top right.</p></li>
+        <li><h3>Download and unzip</h3><p>Download the zip on the right and unzip it. Put the folder somewhere permanent, for example in Documents. Chrome loads the extension from that folder.<small class="os">Mac: double-click the zip in Downloads. Windows: right-click the zip, then “Extract All”.</small></p></li>
+        <li><h3>Open extensions</h3><p>Type <code>chrome://extensions</code> <button type="button" class="k-link" data-copy-text="chrome://extensions" data-done="Copied">Copy</button> into the address bar and turn on Developer mode at the top right.</p></li>
         <li><h3>Load unpacked</h3><p>Click “Load unpacked” and pick the Pump Paper folder. Pin it from the puzzle icon so your account is one click away.</p></li>
         <li><h3>Open pump.fun</h3><p>Open any coin. The panel with the yellow PAPER tag appears below the trade box. Done.</p></li>
       </ol>
       <div class="dl">
-        <div class="ver"><b><!-- version -->1.4.0<!-- /version --></b><span>current version · Chrome, Brave, Edge</span></div>
+        <div class="ver"><b><!-- version -->1.4.0<!-- /version --></b><span>current version from <!-- date -->Oct 21, 2026<!-- /date --> · Chrome, Brave, Edge</span></div>
         <ul><!-- latest -->
           <li>Trades fill after an adjustable delay (default 1 s) at the price that holds then. The fixed 2 % buffer is gone.</li>
           <li>Slippage limit like pump.fun (default 10 %). If the price at execution is too far off, the trade fails and only costs the priority fee.</li>
@@ -307,16 +340,22 @@
       <p class="eyebrow">FAQ</p>
       <h2>Short answers.</h2>
     </div>
+    <button type="button" class="k-link faq-all" data-faq-toggle data-open="Expand all" data-close="Collapse all">Expand all</button>
     <div class="faq">
       <div>
         <details open><summary>Do I need a wallet?</summary><p>No. Pump Paper connects to no wallet and cannot send real transactions. It only reads prices from the blockchain.</p></details>
         <details><summary>What does it cost?</summary><p>Nothing. You trade with play money and set your starting capital in the options (default 10 SOL and 1,000 USDC).</p></details>
         <details><summary>How close is it to real trades?</summary><p>Price, fee, delay, slippage, priority fee and account rent are included. Other buyers landing in the same block ahead of you are not modeled. On very hot coins real fills are often a little worse still.</p></details>
+        <details><summary>Why is my paper profit smaller than the chart shows?</summary><p>Because Pump Paper prices buy and sell on the curve. 1.25 % fee each way, the price impact of your own amount, priority fees and account rent all come off. A coin has to rise a few percent before you are in profit.</p></details>
+        <details><summary>Can I start over?</summary><p>Yes. In the options, “Konto zurücksetzen” (reset account) sets balance, positions and history back to your starting capital. Save your history as CSV first if you want to keep it.</p></details>
+        <details><summary>Does it work in Brave, Edge or Arc?</summary><p>Yes, in every Chromium-based browser via “Load unpacked”. Firefox and Safari are not supported.</p></details>
       </div>
       <div>
         <details><summary>Where is my data?</summary><p>Only in your browser. There is no account and no server. You can save your history as CSV at any time.</p></details>
         <details><summary>Does it work after migration?</summary><p>Yes. As soon as a coin leaves the curve, Pump Paper keeps going with the PumpSwap pool, including open positions.</p></details>
         <details><summary>Is this financial advice?</summary><p>No. Pump Paper is a practice tool. Memecoins are extremely risky, and a paper profit is no guarantee of real profits.</p></details>
+        <details><summary>Does it run on GMGN, Axiom or Photon?</summary><p>Soon. The version for GMGN, DexScreener, Axiom, Photon, BullX and Padre is built and comes with the next download. Until then Pump Paper runs on pump.fun.</p></details>
+        <details><summary>Is there a Pump Paper coin?</summary><p>No, not yet. If there ever is one, the only real mint address will be listed here on this website. Any other coin with the name is not ours.</p></details>
       </div>
     </div>
   </section>

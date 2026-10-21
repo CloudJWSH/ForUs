@@ -45,3 +45,36 @@
   addEventListener("scroll", onScroll, {passive: true});
   onScroll();
 })();
+
+// Text kopieren (z. B. chrome://extensions), Fragen auf- und zuklappen, Screenshots groß ansehen.
+(function () {
+  document.addEventListener("click", e => {
+    const c = e.target.closest("[data-copy-text]");
+    if (c) {
+      navigator.clipboard?.writeText(c.dataset.copyText).then(() => {
+        const old = c.textContent;
+        c.textContent = c.dataset.done || "✓";
+        setTimeout(() => (c.textContent = old), 1500);
+      });
+    }
+    const t = e.target.closest("[data-faq-toggle]");
+    if (t) {
+      const all = [...document.querySelectorAll(".faq details")];
+      const open = !all.every(d => d.open);
+      all.forEach(d => (d.open = open));
+      t.textContent = open ? t.dataset.close : t.dataset.open;
+    }
+    const img = e.target.closest(".shot img");
+    if (img) {
+      const dlg = document.createElement("dialog");
+      dlg.className = "lightbox";
+      const big = img.cloneNode();
+      big.removeAttribute("loading");
+      dlg.append(big);
+      dlg.addEventListener("click", () => dlg.close());
+      dlg.addEventListener("close", () => dlg.remove());
+      document.body.append(dlg);
+      dlg.showModal();
+    }
+  });
+})();
