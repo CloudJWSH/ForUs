@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Pump Paper",
+  "version": "1.4.0",
+  "description": "Papertrading auf pump.fun: kaufen und verkaufen mit Spielgeld, gerechnet auf der echten Bonding-Kurve oder dem Pool, in SOL und USDC.",
+  "permissions": ["storage", "alarms"],
+  "host_permissions": [
+    "https://api.mainnet-beta.solana.com/*",
+    "https://solana-rpc.publicnode.com/*",
+    "https://api.dexscreener.com/*"
+  ],
+  "optional_host_permissions": ["https://*/*"],
+  "background": {"service_worker": "background.js"},
+  "content_scripts": [{
+    "matches": ["https://pump.fun/*"],
+    "js": ["price.js", "content.js"],
+    "run_at": "document_idle"
+  }, {
+    "matches": ["https://pump.fun/*"],
+    "js": ["chart.js"],
+    "world": "MAIN",
+    "run_at": "document_idle"
+  }],
+  "action": {"default_popup": "popup.html", "default_title": "Pump Paper"},
+  "icons": {"16": "icons/16.png", "48": "icons/48.png", "128": "icons/128.png"}
+}

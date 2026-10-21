@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Pump Paper</title>
+<style>
+:root { color-scheme: dark; }
+body { margin: 0; width: 380px; font: 13px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; color: #eaf1ec; background: #0b110f; font-variant-numeric: tabular-nums; }
+header { display: flex; align-items: center; gap: 8px; padding: 12px 14px; border-bottom: 1px solid #1e2b25; }
+.tag { background: #f2b33d; color: #1a1304; font-weight: 700; font-size: 11px; padding: 2px 7px; border-radius: 5px; }
+h1 { font-size: 15px; margin: 0; white-space: nowrap; }
+nav { margin-left: auto; display: flex; gap: 4px; }
+nav button { padding: 4px 8px; font-size: 12px; }
+nav button[aria-current="true"] { background: #f2b33d; color: #1a1304; border-color: #f2b33d; }
+main { padding: 12px 14px 14px; }
+.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; }
+.stats div { color: #8ea398; font-size: 11.5px; }
+.stats b { display: block; font-size: 17px; color: #eaf1ec; }
+.stats b small { display: block; font-size: 11.5px; font-weight: 400; color: #8ea398; }
+h2 { font-size: 13px; margin: 14px 0 6px; color: #8ea398; font-weight: 600; }
+ul { list-style: none; margin: 0; padding: 0; }
+li { display: grid; grid-template-columns: 1fr auto; gap: 1px 10px; padding: 8px 0; border-bottom: 1px solid #1e2b25; }
+li:last-child { border-bottom: 0; }
+li a { color: #eaf1ec; font-weight: 600; text-decoration: none; }
+li a:hover { color: #f2b33d; }
+li small { color: #8ea398; font-size: 11.5px; }
+li .r { text-align: right; }
+.gain { color: #3ddc8c; } .loss { color: #ff6b6b; }
+.empty { color: #8ea398; padding: 8px 0; }
+button { font: inherit; font-weight: 600; color: #eaf1ec; background: #162119; border: 1px solid #2d3d35; border-radius: 7px; padding: 6px 10px; cursor: pointer; }
+button:hover { border-color: #8ea398; }
+button.sell { border-color: #ff6b6b; color: #ff6b6b; padding: 2px 8px; font-size: 12px; }
+label { min-width: 0; display: grid; gap: 3px; color: #8ea398; font-size: 12px; margin-bottom: 9px; }
+input { box-sizing: border-box; width: 100%; min-width: 0; font: inherit; color: #eaf1ec; background: #101915; border: 1px solid #2d3d35; border-radius: 7px; padding: 6px 8px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; }
+.note { color: #8ea398; font-size: 11.5px; margin: 0 0 10px; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+.main-btn { background: #f2b33d; color: #1a1304; border-color: #f2b33d; }
+#msg { color: #8ea398; font-size: 12px; min-height: 16px; margin-top: 8px; }
+</style>
+</head>
+<body>
+<header><span class="tag">PAPER</span><h1>Pump Paper</h1>
+  <nav><button data-tab="konto" aria-current="true">Konto</button><button data-tab="verlauf">Verlauf</button><button data-tab="einstellungen">Optionen</button></nav></header>
+<main>
+  <section id="konto">
+    <div class="stats" id="stats"></div>
+    <h2>Offene Positionen</h2>
+    <ul id="positions"></ul>
+  </section>
+  <section id="verlauf" hidden>
+    <div class="stats" id="hstats"></div>
+    <ul id="history"></ul>
+    <div class="actions"><button id="csv">Als CSV speichern</button></div>
+  </section>
+  <section id="einstellungen" hidden>
+    <p class="note">Kurse und Gebühren kommen je Coin direkt von der Blockchain: Bonding-Kurve oder PumpSwap-Pool, in der Währung, mit der der Coin gehandelt wird (SOL, USDC oder andere), mit der Gebührenstufe nach Marktwert. USDC-Coins zahlst du aus deinem USDC-Guthaben, alle anderen aus SOL. Ein Trade wird wie ein echter erst nach der Verzögerung ausgeführt, zum Kurs, der dann gilt. Weicht der zu weit ab (Slippage), scheitert er und kostet nur die Priority Fee. Ziel-, Stop- und Zeitverkäufe laufen ohne Slippage-Grenze, im Absturz also schlechter als die Marke. Beim ersten Kauf eines Coins kommt die Konto-Miete dazu.</p>
+    <div class="two">
+      <label>Startkapital SOL<input id="s-startSol" type="number" step="0.1"></label>
+      <label>Startkapital USDC<input id="s-startUsdc" type="number" step="10"></label>
+      <label>Priority Fee je Trade (SOL)<input id="s-priority" type="number" step="0.0005"></label>
+      <label>Verzögerung bis Ausführung (s)<input id="s-delay" type="number" step="0.1" min="0"></label>
+      <label>Slippage (%)<input id="s-slippage" type="number" step="1" min="0"></label>
+      <label>Konto-Miete je neuer Coin (SOL)<input id="s-rent" type="number" step="0.0001" min="0"></label>
+      <label>Zusatz-Puffer (%)<input id="s-buffer" type="number" step="0.5"></label>
+      <label>Gebühr fest (%, leer = je Coin)<input id="s-feeOverride" type="text" inputmode="decimal"></label>
+      <label>Zeitlimit neu (min, 0 = aus)<input id="s-maxMin" type="number"></label>
+      <label>Ziel neu (%)<input id="s-tp" type="number"></label>
+      <label>Stop neu (%)<input id="s-sl" type="number"></label>
+      <label>Kaufknöpfe SOL<input id="s-sizesSol" type="text"></label>
+      <label>Kaufknöpfe USDC<input id="s-sizesUsdc" type="text"></label>
+    </div>
+    <label>Solana-RPC (für Kurse und Gebühren direkt von der Blockchain)<input id="s-rpc" type="url"></label>
+    <h2>Memebot-Hinweise</h2>
+    <p class="note">Mit deinem Website-Passwort zeigt das Panel auf pump.fun den Hinweis des Memebots zum Coin und übernimmt Einsatz, Ziel und Stop auf Knopfdruck. Das Passwort bleibt nur in diesem Browser.</p>
+    <label>Adresse<input id="s-memebotUrl" type="url"></label>
+    <label>Passwort<input id="s-memebotPass" type="password" autocomplete="off"></label>
+    <div class="actions"><button class="main-btn" id="save">Speichern</button><button id="reset">Konto zurücksetzen</button></div>
+    <div id="msg"></div>
+  </section>
+</main>
+<script src="price.js"></script>
+<script src="popup.js"></script>
+</body>
+</html>

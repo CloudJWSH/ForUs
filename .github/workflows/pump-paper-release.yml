@@ -1,0 +1,56 @@
+# Baut bei jeder neuen Version von Pump Paper (extension/manifest.json) die Zip,
+# stellt sie als neuestes Release bereit und trägt die Version auf der Website ein.
+# Der Download-Link der Website zeigt immer auf releases/latest/download/Pump-Paper.zip.
+name: Pump Paper Release
+
+on:
+  push:
+    paths:
+      - "extension/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    if: github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Version lesen
+        id: v
+        run: echo "version=$(jq -r .version extension/manifest.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Zip bauen
+        run: |
+          mkdir -p dist/"Pump Paper"
+          cp -r extension/. dist/"Pump Paper"/
+          cd dist
+          zip -rq Pump-Paper.zip "Pump Paper" -x "*.DS_Store"
+          cp Pump-Paper.zip "Pump-Paper-${{ steps.v.outputs.version }}.zip"
+
+      - name: Release anlegen oder aktualisieren
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: v${{ steps.v.outputs.version }}
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/Pump-Paper.zip "dist/Pump-Paper-${{ steps.v.outputs.version }}.zip" --clobber
+            gh release edit "$TAG" --latest
+          else
+            gh release create "$TAG" dist/Pump-Paper.zip "dist/Pump-Paper-${{ steps.v.outputs.version }}.zip" \
+              --title "Pump Paper ${{ steps.v.outputs.version }}" --target "$GITHUB_SHA" --latest \
+              --notes "Pump Paper ${{ steps.v.outputs.version }}. Zip entpacken und unter chrome://extensions als entpackte Erweiterung laden."
+          fi
+
+      - name: Version auf der Website eintragen
+        run: |
+          sed -i -E "s#<!-- version -->[^<]*<!-- /version -->#<!-- version -->${{ steps.v.outputs.version }}<!-- /version -->#" website/index.html
+          if ! git diff --quiet website/index.html; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -am "Website: Pump Paper ${{ steps.v.outputs.version }}"
+            git push
+          fi

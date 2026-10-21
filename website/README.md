@@ -7,4 +7,4 @@ Produktseite für die Chrome-Erweiterung Pump Paper (Papertrading auf pump.fun).
 - Lokal ansehen: `index.html` im Browser öffnen.
 - Hosten: den Ordner `website/` auf GitHub Pages, Netlify, Vercel oder Cloudflare Pages ausliefern.
 
-Offen: Download-Link für die Zip (Knopf zeigt „Download folgt in Kürze“).
+Download: zeigt auf `releases/latest/download/Pump-Paper.zip`. Das Release baut `.github/workflows/pump-paper-release.yml` aus `extension/` bei jeder neuen Version.
