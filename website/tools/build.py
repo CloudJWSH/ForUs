@@ -41,6 +41,7 @@ PAGES = [
     {"de": "ueben", "en": "practice"},
     {"de": "konto", "en": "account"},
     {"de": "strategie", "en": "strategy"},
+    {"de": "grundlagen", "en": "basics"},
     {"de": "datenschutz", "en": "privacy"},
     {"de": "changelog", "en": "changelog"},
     {"de": "coin", "en": "coin"},
@@ -55,7 +56,7 @@ LANGS = {
                 ("strategie.html", "Labor", "strategie"),
                 ("index.html#fragen", "Fragen", "index")],
         "get": "Holen", "menu": "Menü", "skip": "Zum Inhalt springen", "install": "#installieren", "nav_label": "Seite", "foot_label": "Weitere Seiten",
-        "foot": [("anleitung.html", "Anleitung"), ("lexikon.html", "Lexikon"), ("ueben.html", "Üben"), ("konto.html", "Konto"), ("strategie.html", "Strategie-Labor"),
+        "foot": [("anleitung.html", "Anleitung"), ("lexikon.html", "Lexikon"), ("ueben.html", "Üben"), ("grundlagen.html", "Grundlagen"), ("konto.html", "Konto"), ("strategie.html", "Strategie-Labor"),
                  ("changelog.html", "Änderungen"), ("datenschutz.html", "Datenschutz"), (SOURCE, "Quellcode")],
         "note": "Papertrading mit Spielgeld. Kein echtes Geld, keine Anlageberatung. Pump Paper ist ein unabhängiges Projekt und gehört nicht zu pump.fun.",
     },
@@ -66,7 +67,7 @@ LANGS = {
                 ("strategy.html", "Lab", "strategy"),
                 ("index.html#faq", "FAQ", "index")],
         "get": "Get it", "menu": "Menu", "skip": "Skip to content", "install": "#install", "nav_label": "Site", "foot_label": "More pages",
-        "foot": [("guide.html", "Guide"), ("glossary.html", "Glossary"), ("practice.html", "Practice"), ("account.html", "Account"), ("strategy.html", "Strategy lab"),
+        "foot": [("guide.html", "Guide"), ("glossary.html", "Glossary"), ("practice.html", "Practice"), ("basics.html", "Basics"), ("account.html", "Account"), ("strategy.html", "Strategy lab"),
                  ("changelog.html", "Changes"), ("privacy.html", "Privacy"), (SOURCE, "Source code")],
         "note": "Paper trading with play money. No real money, no financial advice. Pump Paper is an independent project and not affiliated with pump.fun.",
     },
@@ -474,6 +475,17 @@ def replace_marker(text, name, value, required=True):
     return pattern.sub(lambda m: m.group(1) + value + m.group(3), text)
 
 
+READ_TIME = {"anleitung", "guide", "lexikon", "glossary", "ueben", "practice", "grundlagen", "basics"}
+
+
+def add_read_time(body, lang):
+    """Lesezeit unter den Einleitungstext: Wörter ohne Skripte und Tags, 200 pro Minute."""
+    text = re.sub(r"<script.*?</script>|<form.*?</form>|<[^>]+>", " ", body, flags=re.S)
+    minutes = max(1, round(len(text.split()) / 200))
+    note = f"About {minutes} min read" if lang == "en" else f"Etwa {minutes} Min. Lesezeit"
+    return re.sub(r'(<p class="lede">.*?</p>)', lambda m: m.group(1) + f'\n      <p class="read-time">{note}</p>', body, count=1, flags=re.S)
+
+
 def build_sources(lang, version, date=""):
     src_dir = SITE / "src" / ("" if lang == "de" else lang)
     out = LANGS[lang]["dir"]
@@ -483,6 +495,8 @@ def build_sources(lang, version, date=""):
         desc = re.search(r"<!-- description: (.*?) -->", raw).group(1)
         body = re.sub(r"<!-- (title|description): .*? -->\n?", "", raw)
         body = body.replace("{{version}}", version).replace("{{download}}", DOWNLOAD).replace("{{date}}", nice_date(date, lang))
+        if src.stem in READ_TIME:
+            body = add_read_time(body, lang)
         out.mkdir(exist_ok=True)
         (out / src.name).write_text(page(lang, src.stem, title, desc, body), encoding="utf-8")
 

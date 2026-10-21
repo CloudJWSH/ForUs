@@ -7,7 +7,7 @@
       <p class="lede">Alles, was das Panel auf pump.fun und das Fenster in der Chrome-Leiste anzeigen, und was jede Option bewirkt. Stand Version {{version}}.</p>
     </div>
     <nav class="toc sticky" aria-label="Inhalt">
-      <a href="#panel">Das Panel</a><a href="#kaufen">Kaufen</a><a href="#position">Position</a><a href="#regeln">Ziel, Stop, Zeit</a><a href="#chart">Chart</a><a href="#fenster">Konto und Verlauf</a><a href="#csv">CSV</a><a href="#optionen">Optionen</a><a href="#hinweise">Hinweise</a><a href="#strategie">Eigene Strategie</a>
+      <a href="#panel">Das Panel</a><a href="#kaufen">Kaufen</a><a href="#position">Position</a><a href="#regeln">Ziel, Stop, Zeit</a><a href="#chart">Chart</a><a href="#fenster">Konto und Verlauf</a><a href="#csv">CSV</a><a href="#optionen">Optionen</a><a href="#hinweise">Hinweise</a><a href="#strategie">Eigene Strategie</a><a href="#probleme">Probleme</a><a href="#tasten">Tasten</a><a href="#update">Update</a>
     </nav>
 
     <div class="prose">
@@ -119,5 +119,27 @@
       <h2 id="strategie">Eigene Strategie</h2>
       <p>Pump Paper kauft nie von selbst. Was du automatisch laufen lassen kannst, sind nur deine Regeln für eine offene Position: Ziel, Stop und Zeit. Wann und was du kaufst, entscheidest du.</p>
       <p>Damit diese Entscheidung nicht aus dem Bauch kommt, gibt es das <a href="strategie.html">Strategie-Labor</a>. Dort schreibst du deine Regeln auf (Marktwert, Fortschritt der Kurve und Alter beim Einstieg, Einsatz, Ziel, Stop, Zeit, Nachziehen, Teilverkauf), testest sie gegen simulierte Coins oder deine CSV und speicherst sie als Datei. Pump Paper soll diese Dateien später einlesen und dir anzeigen, wann ein Coin zu deinen Regeln passt. Kaufen tust du dann weiter selbst.</p>
+      <h2 id="probleme">Wenn etwas nicht klappt</h2>
+      <dl class="faq-list">
+        <div><dt>Das Panel erscheint nicht.</dt><dd>Das Panel zeigt sich nur auf der Seite eines Coins, also unter <code>pump.fun/coin/…</code>, nicht auf der Startseite von pump.fun. War der Tab schon offen, als du Pump Paper geladen hast, lade ihn einmal neu. Unter <code>chrome://extensions</code> muss der Schalter bei Pump Paper an sein.</dd></div>
+        <div><dt>Der Kurs bleibt stehen.</dt><dd>Meist ist der Solana-Zugang überlastet. Pump Paper weicht von selbst aus, ein eigener Zugang in den <a href="#optionen">Optionen</a> hilft dauerhaft.</dd></div>
+        <div><dt>Mein Konto ist nach einem Update leer.</dt><dd>Chrome merkt sich die Daten einer entpackten Erweiterung über ihren Ordner. Wurde die neue Version in einen anderen Ordner entpackt, ist sie für Chrome eine neue Erweiterung. Lade die alte wieder, sichere den Verlauf als CSV und folge dann dem Abschnitt <a href="#update">Update</a>.</dd></div>
+        <div><dt>Chrome meldet „Entwicklermodus-Erweiterungen deaktivieren“.</dt><dd>Das zeigt Chrome bei jeder Erweiterung, die nicht aus dem Web Store kommt. Klicke auf Schließen, Pump Paper läuft weiter.</dd></div>
+      </dl>
+
+      <h2 id="tasten">Tastenkürzel</h2>
+      <p>Pump Paper hat keine eigenen Tastenkürzel, damit nichts aus Versehen kauft. Was geht:</p>
+      <ul>
+        <li>In den Feldern Ziel, Stop und Zeit speichert <kbd>Enter</kbd> den Wert, <kbd>Tab</kbd> springt zum nächsten Feld.</li>
+        <li>Das Fenster in der Chrome-Leiste kannst du selbst auf eine Taste legen: <code>chrome://extensions/shortcuts</code> öffnen und bei Pump Paper eine Kombination eintragen.</li>
+      </ul>
+
+      <h2 id="update">Update installieren</h2>
+      <ol>
+        <li>Im Fenster unter Verlauf die CSV sichern. Das ist nur zur Sicherheit, das Konto bleibt normalerweise erhalten.</li>
+        <li>Die neue Zip laden und in <b>denselben Ordner</b> entpacken wie die alte Version, vorhandene Dateien ersetzen.</li>
+        <li><code>chrome://extensions</code> öffnen und bei Pump Paper auf den runden Pfeil klicken.</li>
+        <li>Offene pump.fun-Tabs neu laden. Die Versionsnummer steht unter <code>chrome://extensions</code> und auf der <a href="konto.html">Konto-Seite</a>.</li>
+      </ol>
     </div>
   </main>

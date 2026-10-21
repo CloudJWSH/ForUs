@@ -1,0 +1,54 @@
+<!-- title: Pump Paper Strategy Basics -->
+<!-- description: What a trading strategy is, what every trade costs and why a good test is still no guarantee. Short, no promises, with a quiz. -->
+  <main class="sub">
+    <div class="head">
+      <p class="eyebrow">Basics</p>
+      <h1>Strategy means: write it down first.</h1>
+      <p class="lede">A short introduction before you build your rules in the <a href="strategy.html">lab</a>. It promises nothing: most coins on pump.fun lose value fast, and no rule changes that.</p>
+    </div>
+    <nav class="toc" aria-label="Contents"><a href="#what">What a strategy is</a><a href="#costs">Costs first</a><a href="#numbers">Numbers that matter</a><a href="#limits">What a test can't do</a><a href="#quiz">Quiz</a></nav>
+    <div class="prose">
+      <h2 id="what">What a strategy is</h2>
+      <p>A strategy is three rules you set before you see a coin:</p>
+      <ul>
+        <li><b>Entry:</b> Which coins qualify? For example by <a href="glossary.html#mc">market cap</a>, <a href="glossary.html#progress">curve progress</a> and age.</li>
+        <li><b>Exit:</b> When do you sell? With <a href="glossary.html#rules">target, stop and time</a>, and if you like a <a href="glossary.html#trailing-stop">trailing stop</a> or <a href="glossary.html#partial-sell">partial sell</a>.</li>
+        <li><b>Size:</b> How much per trade? Fixed or a share of the account, see <a href="glossary.html#position-size">position size</a>.</li>
+      </ul>
+      <p>Deciding during the trade means following your gut. Written rules can be tested, compared and improved.</p>
+
+      <h2 id="costs">Costs first</h2>
+      <p>Every trade costs, however it ends. On the curve that's about <span class="num">1.25%</span> fee on the buy and again on the sell, plus the <a href="glossary.html#priority">priority fee</a> per trade and, on the first buy of a coin, the <a href="glossary.html#rent">account rent</a>.</p>
+      <p>An example with <span class="num">0.1 SOL</span> size and the default values: <span class="num">0.0025 SOL</span> fee, <span class="num">0.002 SOL</span> priority fee for buy and sell, <span class="num">0.00204 SOL</span> rent. Together about <span class="num">0.0065 SOL</span>, roughly <span class="num">6.5%</span>. The coin has to rise by that much before you are even at zero. Small sizes are expensive in relative terms.</p>
+
+      <h2 id="numbers">Numbers that matter</h2>
+      <p>The <a href="glossary.html#hit-rate">hit rate</a> alone says little. More important is the <a href="glossary.html#expectancy">expectancy</a>: what a trade brings on average, after costs. Add the <a href="glossary.html#drawdown">drawdown</a>, how deep it goes in between, and the <a href="glossary.html#equity-curve">equity curve</a>, which shows whether a result builds steadily or hangs on one lucky hit.</p>
+
+      <h2 id="limits">What a test can't do</h2>
+      <ul>
+        <li>A <a href="glossary.html#backtest">backtest</a> in the lab runs on made-up curves. It shows whether your rules are consistent, not what real coins do tomorrow.</li>
+        <li>Few trades are luck. Below about <span class="num">20</span> trades a <a href="glossary.html#sample-size">sample</a> is too small.</li>
+        <li>Turning the knobs until the test shines is <a href="glossary.html#overfitting">overfitting</a>. Test with several seeds.</li>
+        <li>Paper is practice. Even a good paper result is no guarantee for real money.</li>
+      </ul>
+      <div class="callout"><b>Pump Paper never buys on its own.</b> Your strategy helps your decision. You make the buy, with play money.</div>
+
+      <h2 id="quiz">Quiz</h2>
+      <p>Ten questions on the curve, fees and slippage. Nothing is stored or sent.</p>
+      <form class="quiz" id="quiz-form">
+        <fieldset class="q" data-ok="0" data-link="glossary.html#curve" data-term="Bonding curve"><legend>1. What happens to the price when you buy on the bonding curve?</legend><label><input type="radio" name="q0" value="0"> It rises.</label><label><input type="radio" name="q0" value="1"> It stays the same.</label><label><input type="radio" name="q0" value="2"> It falls.</label></fieldset>
+        <fieldset class="q" data-ok="1" data-link="glossary.html#fee" data-term="Fee"><legend>2. Which fee does Pump Paper use on the curve when pump.fun's configuration is missing?</legend><label><input type="radio" name="q1" value="0"> 0.30%</label><label><input type="radio" name="q1" value="1"> 1.25%</label><label><input type="radio" name="q1" value="2"> 5%</label></fieldset>
+        <fieldset class="q" data-ok="1" data-link="glossary.html#priority" data-term="Priority fee"><legend>3. When is the priority fee charged?</legend><label><input type="radio" name="q2" value="0"> Only when the trade goes through.</label><label><input type="radio" name="q2" value="1"> Even when the trade fails.</label><label><input type="radio" name="q2" value="2"> Only on sells.</label></fieldset>
+        <fieldset class="q" data-ok="0" data-link="glossary.html#slippage" data-term="Slippage"><legend>4. What does the slippage limit do?</legend><label><input type="radio" name="q3" value="0"> It cancels the trade if the price is too much worse.</label><label><input type="radio" name="q3" value="1"> It guarantees the price at your click.</label><label><input type="radio" name="q3" value="2"> It lowers the fee.</label></fieldset>
+        <fieldset class="q" data-ok="0" data-link="glossary.html#rules" data-term="Target, stop, time"><legend>5. Why does a stop often fill below its level in a crash?</legend><label><input type="radio" name="q4" value="0"> It sells without a slippage limit at the price that applies then.</label><label><input type="radio" name="q4" value="1"> Pump Paper rounds down.</label><label><input type="radio" name="q4" value="2"> The fee doubles.</label></fieldset>
+        <fieldset class="q" data-ok="0" data-link="glossary.html#migration" data-term="Migration"><legend>6. What is migration?</legend><label><input type="radio" name="q5" value="0"> The coin moves from the curve into a pool.</label><label><input type="radio" name="q5" value="1"> The coin gets deleted.</label><label><input type="radio" name="q5" value="2"> Your wallet is moved.</label></fieldset>
+        <fieldset class="q" data-ok="1" data-link="glossary.html#rent" data-term="Account rent"><legend>7. When is account rent charged?</legend><label><input type="radio" name="q6" value="0"> On every trade.</label><label><input type="radio" name="q6" value="1"> On the first buy of a coin.</label><label><input type="radio" name="q6" value="2"> Never.</label></fieldset>
+        <fieldset class="q" data-ok="1" data-link="glossary.html#hit-rate" data-term="Hit rate"><legend>8. What does a hit rate of 30% mean?</legend><label><input type="radio" name="q7" value="0"> A sure loss.</label><label><input type="radio" name="q7" value="1"> It can be enough if the winners are much bigger than the losers.</label><label><input type="radio" name="q7" value="2"> A sure profit.</label></fieldset>
+        <fieldset class="q" data-ok="1" data-link="glossary.html#sample-size" data-term="Sample size"><legend>9. A strategy has 8 trades in the lab, all winners. What does that tell you?</legend><label><input type="radio" name="q8" value="0"> It works.</label><label><input type="radio" name="q8" value="1"> Little, the sample is too small.</label><label><input type="radio" name="q8" value="2"> It is surely overfitted.</label></fieldset>
+        <fieldset class="q" data-ok="1" data-link="guide.html#strategy" data-term="Your own strategy"><legend>10. Does Pump Paper buy on its own according to your strategy?</legend><label><input type="radio" name="q9" value="0"> Yes, as soon as a coin matches.</label><label><input type="radio" name="q9" value="1"> No, you do the buying.</label><label><input type="radio" name="q9" value="2"> Only in the background.</label></fieldset>
+        <p class="quiz-actions"><button type="submit" class="btn gold">Check answers</button> <button type="reset" class="btn ghost">Start over</button></p>
+        <div class="quiz-result" aria-live="polite" hidden></div>
+      </form>
+    </div>
+  </main>
+  <script src="../assets/quiz.js"></script>

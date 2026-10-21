@@ -55,10 +55,11 @@
       <p class="eyebrow">Guide</p>
       <h1>Using Pump Paper.</h1>
       <p class="lede">Everything the panel on pump.fun and the toolbar window show, and what each option does. Version 1.4.0.</p>
+      <p class="read-time">About 7 min read</p>
       <p class="lang-note">The extension's interface is in German for now. German labels are quoted next to the English terms.</p>
     </div>
     <nav class="toc sticky" aria-label="Contents">
-      <a href="#panel">The panel</a><a href="#buy">Buying</a><a href="#position">Position</a><a href="#rules">Target, stop, time</a><a href="#chart">Chart</a><a href="#window">Account and history</a><a href="#csv">CSV</a><a href="#options">Options</a><a href="#notices">Notices</a><a href="#strategy">Your own strategy</a>
+      <a href="#panel">The panel</a><a href="#buy">Buying</a><a href="#position">Position</a><a href="#rules">Target, stop, time</a><a href="#chart">Chart</a><a href="#window">Account and history</a><a href="#csv">CSV</a><a href="#options">Options</a><a href="#notices">Notices</a><a href="#strategy">Your own strategy</a><a href="#trouble">Trouble</a><a href="#keys">Keys</a><a href="#update">Update</a>
     </nav>
 
     <div class="prose">
@@ -169,6 +170,28 @@
       <h2 id="strategy">Your own strategy</h2>
       <p>Pump Paper never buys on its own. The only things you can let run automatically are your rules for an open position: target, stop and time. When and what you buy is your call.</p>
       <p>So that call doesn't come from your gut, there is the <a href="strategy.html">strategy lab</a>. There you write down your rules (market cap, curve progress and age at entry, size, target, stop, time, trailing, partial sell), test them against simulated coins or your CSV and save them as a file. Pump Paper is meant to read these files later and show you when a coin matches your rules. You still do the buying.</p>
+      <h2 id="trouble">When something doesn't work</h2>
+      <dl class="faq-list">
+        <div><dt>The panel doesn't appear.</dt><dd>The panel only shows on a coin's page, that is under <code>pump.fun/coin/…</code>, not on the pump.fun home page. If the tab was already open when you loaded Pump Paper, reload it once. At <code>chrome://extensions</code> the switch for Pump Paper must be on.</dd></div>
+        <div><dt>The price stops moving.</dt><dd>Usually the Solana endpoint is overloaded. Pump Paper falls back on its own, and your own endpoint in the <a href="#options">options</a> helps for good.</dd></div>
+        <div><dt>My account is empty after an update.</dt><dd>Chrome ties an unpacked extension's data to its folder. If the new version went into a different folder, Chrome sees a new extension. Load the old one again, save the history as CSV and then follow the <a href="#update">update</a> steps.</dd></div>
+        <div><dt>Chrome says “Disable developer mode extensions”.</dt><dd>Chrome shows this for every extension that doesn't come from the Web Store. Click close, Pump Paper keeps running.</dd></div>
+      </dl>
+
+      <h2 id="keys">Keyboard shortcuts</h2>
+      <p>Pump Paper has no shortcuts of its own, so nothing buys by accident. What works:</p>
+      <ul>
+        <li>In the <span lang="de">Ziel</span>, <span lang="de">Stop</span> and <span lang="de">Zeit</span> fields, <kbd>Enter</kbd> saves the value and <kbd>Tab</kbd> moves to the next field.</li>
+        <li>You can put the window in the Chrome toolbar on a key yourself: open <code>chrome://extensions/shortcuts</code> and set a combination for Pump Paper.</li>
+      </ul>
+
+      <h2 id="update">Installing an update</h2>
+      <ol>
+        <li>In the window under <span lang="de">Verlauf</span>, save the CSV. That's just to be safe, the account normally stays.</li>
+        <li>Download the new zip and unpack it into <b>the same folder</b> as the old version, replacing the files.</li>
+        <li>Open <code>chrome://extensions</code> and click the round arrow on Pump Paper.</li>
+        <li>Reload open pump.fun tabs. The version number shows at <code>chrome://extensions</code> and on the <a href="account.html">account page</a>.</li>
+      </ol>
     </div>
   </main>
   <footer>
@@ -177,7 +200,7 @@
       Pump Paper
     </a>
     <p>Paper trading with play money. No real money, no financial advice. Pump Paper is an independent project and not affiliated with pump.fun.</p>
-    <nav class="foot-nav" aria-label="More pages"><a href="guide.html">Guide</a><a href="glossary.html">Glossary</a><a href="practice.html">Practice</a><a href="account.html">Account</a><a href="strategy.html">Strategy lab</a><a href="changelog.html">Changes</a><a href="privacy.html">Privacy</a><a href="https://github.com/CloudJWSH/ForUs">Source code</a></nav>
+    <nav class="foot-nav" aria-label="More pages"><a href="guide.html">Guide</a><a href="glossary.html">Glossary</a><a href="practice.html">Practice</a><a href="basics.html">Basics</a><a href="account.html">Account</a><a href="strategy.html">Strategy lab</a><a href="changelog.html">Changes</a><a href="privacy.html">Privacy</a><a href="https://github.com/CloudJWSH/ForUs">Source code</a></nav>
   </footer>
 </div>
 </body>

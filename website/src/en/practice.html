@@ -1,14 +1,14 @@
 <!-- title: Pump Paper Practice -->
-<!-- description: How to get something out of paper trading: real amounts, your own fixed rules, testing a strategy first, a weekly review with the CSV file. -->
+<!-- description: How to get something out of paper trading: real amounts, your own fixed rules, testing a strategy first, a weekly review with the CSV file, plus a week plan with seven exercises. -->
   <main class="sub">
     <div class="head">
       <p class="eyebrow">Practice</p>
       <h1>Paper only pays off if you take it seriously.</h1>
       <p class="lede">Pump Paper prices trades as close to real as it can. A few habits help you actually learn from it. This is not financial advice, just a suggestion for how to practice.</p>
     </div>
-    <p class="practice-progress" data-progress aria-live="polite"></p>
+    <p class="practice-progress" data-progress-habits aria-live="polite"></p>
     <h2 class="sr">Habits</h2>
-    <ol class="steps practice">
+    <ol class="steps practice" data-key="pp-practice">
       <li><h3>Practice with the amounts you would really use</h3><p>Set starting capital and buy buttons in the options to match your real account. With 10 SOL of play money and 1 SOL buys you learn nothing about an account with 1 SOL.</p></li>
       <li><h3>Use your real settings</h3><p>Set priority fee and slippage the way you use them on pump.fun. Only then do the same buys fail on paper as for real.</p></li>
       <li><h3>Set rules before you buy</h3><p>Set target, stop and time limit for new positions in the options before you open the first coin. Changing rules mid-trade trains the wrong habit.</p></li>
@@ -18,6 +18,19 @@
       <li><h3>Play in rounds</h3><p>After a week, keep the CSV and reset the account. That way you can compare rounds and see whether you get better.</p></li>
       <li><h3>Write it down first, then test</h3><p>Write your strategy down in the <a href="strategy.html">strategy lab</a> before you practice it on pump.fun. Test it there with several seeds, then compare with your CSV whether you stuck to the rules.</p></li>
     </ol>
+    <h2 id="week">Week plan</h2>
+    <p class="lede">Seven exercises, one a day. You can write a note for each, it stays only in this browser.</p>
+    <p class="practice-progress" data-progress-week aria-live="polite"></p>
+    <ol class="steps practice week" data-key="pp-week" data-notes="pp-week-notes">
+      <li><h3>Monday: just watch</h3><p>Open ten fresh coins and buy nothing. For each, write down at which market cap you would have bought and why. In the evening, check what became of them.</p></li>
+      <li><h3>Tuesday: set the stop first</h3><p>Before every buy, write the stop in percent and set it in the panel, then don't change it. In the evening, count how often you stuck to it.</p></li>
+      <li><h3>Wednesday: halve the size</h3><p>Every buy at half your usual size. Then compare slippage and failed buys with the day before, and how calm you stayed on losses.</p></li>
+      <li><h3>Thursday: buy only by the rules</h3><p>Take a strategy from the <a href="strategy.html">lab</a> and only buy coins that match it. Skip and note every buy that doesn't.</p></li>
+      <li><h3>Friday: five trades at most</h3><p>No more buys than that today. It forces you to take only the coins that really match your rules.</p></li>
+      <li><h3>Saturday: review</h3><p>Save the history as CSV and load it on the <a href="account.html">account page</a>. Read the tips, look at the result by reason and hold time.</p></li>
+      <li><h3>Sunday: sharpen the rules</h3><p>Bring your trades into the lab with “Use as strategy”, change one thing and retest with two other seeds. Keep only what holds in both.</p></li>
+    </ol>
+    <p><button type="button" class="btn small ghost" data-practice-reset>Reset checks and notes</button></p>
     <div class="callout"><b>Limits of paper.</b> Pump Paper models other buyers landing in the same block ahead of you only through the delay. On very hot coins real fills are often a little worse still. A paper profit is no guarantee of real profits.</div>
   </main>
   <script src="../assets/ueben.js"></script>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pump Paper Strategie-Grundlagen</title>
+<meta name="description" content="Was eine Trading-Strategie ist, welche Kosten jeder Trade hat und warum ein guter Test noch keine Garantie ist. Kurz, ohne Versprechen, mit Quiz.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pump Paper">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="Pump Paper Strategie-Grundlagen">
+<meta property="og:description" content="Was eine Trading-Strategie ist, welche Kosten jeder Trade hat und warum ein guter Test noch keine Garantie ist. Kurz, ohne Versprechen, mit Quiz.">
+<meta property="og:image" content="assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pump Paper Strategie-Grundlagen">
+<meta name="twitter:description" content="Was eine Trading-Strategie ist, welche Kosten jeder Trade hat und warum ein guter Test noch keine Garantie ist. Kurz, ohne Versprechen, mit Quiz.">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0b110f" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f3f5f2" media="(prefers-color-scheme: light)">
+<link rel="alternate" hreflang="en" href="en/basics.html">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/48.png" sizes="48x48">
+<link rel="apple-touch-icon" href="icons/180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<script>try{var t=localStorage.getItem("pp-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script src="assets/site.js?v=1.4.0" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css?v=1.4.0">
+</head>
+<body>
+<a class="skip" href="#inhalt">Zum Inhalt springen</a>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#f2b33d"/><path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Pump Paper
+    </a>
+    <nav aria-label="Seite">
+      <a href="index.html#rechnung">So rechnet es</a>
+      <a href="anleitung.html">Anleitung</a>
+      <a href="lexikon.html">Lexikon</a>
+      <a href="konto.html">Konto</a>
+      <a href="strategie.html">Labor</a>
+      <a href="index.html#fragen">Fragen</a>
+      <a class="lang" href="en/basics.html" hreflang="en" lang="en" aria-label="English">EN</a>
+    </nav>
+    <button type="button" class="theme-btn" data-theme-toggle><svg viewBox="0 0 20 20" aria-hidden="true"><g class="sun" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10" cy="10" r="3.5"/><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.3 4.3l1.4 1.4M14.3 14.3l1.4 1.4M4.3 15.7l1.4-1.4M14.3 5.7l1.4-1.4"/></g><path class="moon" d="M16 12.5A6.5 6.5 0 0 1 7.5 4a6.5 6.5 0 1 0 8.5 8.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></button>
+    <a class="btn gold small" href="index.html#installieren">Holen</a>
+    <details class="menu"><summary aria-label="Menü"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></summary><div class="menu-panel"><a href="index.html#rechnung">So rechnet es</a><a href="anleitung.html">Anleitung</a><a href="lexikon.html">Lexikon</a><a href="konto.html">Konto</a><a href="strategie.html">Labor</a><a href="index.html#fragen">Fragen</a></div></details>
+  </header>
+  <main id="inhalt" class="sub">
+    <div class="head">
+      <p class="eyebrow">Grundlagen</p>
+      <h1>Strategie heißt: vorher aufschreiben.</h1>
+      <p class="lede">Eine kurze Einführung, bevor du im <a href="strategie.html">Labor</a> deine Regeln baust. Sie verspricht nichts: Die meisten Coins auf pump.fun verlieren schnell an Wert, und keine Regel ändert das.</p>
+      <p class="read-time">Etwa 2 Min. Lesezeit</p>
+    </div>
+    <nav class="toc" aria-label="Inhalt"><a href="#was">Was eine Strategie ist</a><a href="#kosten">Kosten zuerst</a><a href="#zahlen">Welche Zahlen zählen</a><a href="#grenzen">Was ein Test nicht kann</a><a href="#quiz">Quiz</a></nav>
+    <div class="prose">
+      <h2 id="was">Was eine Strategie ist</h2>
+      <p>Eine Strategie sind drei Regeln, die du festlegst, bevor du einen Coin siehst:</p>
+      <ul>
+        <li><b>Einstieg:</b> Welche Coins kommen in Frage? Zum Beispiel nach <a href="lexikon.html#mc">Marktwert</a>, <a href="lexikon.html#fortschritt">Fortschritt der Kurve</a> und Alter.</li>
+        <li><b>Ausstieg:</b> Wann verkaufst du? Mit <a href="lexikon.html#regeln">Ziel, Stop und Zeit</a>, wenn du willst mit <a href="lexikon.html#trailing">Trailing Stop</a> oder <a href="lexikon.html#teilverkauf">Teilverkauf</a>.</li>
+        <li><b>Einsatz:</b> Wie viel setzt du je Trade? Fest oder als Anteil vom Konto, siehe <a href="lexikon.html#groesse">Positionsgröße</a>.</li>
+      </ul>
+      <p>Wer erst während des Trades entscheidet, folgt dem Bauch. Aufgeschriebene Regeln kannst du testen, vergleichen und verbessern.</p>
+
+      <h2 id="kosten">Kosten zuerst</h2>
+      <p>Jeder Trade kostet, egal wie er ausgeht. Auf der Kurve sind es rund <span class="num">1,25 %</span> Gebühr beim Kauf und noch einmal beim Verkauf, dazu die <a href="lexikon.html#priority">Priority Fee</a> je Trade und beim ersten Kauf eines Coins die <a href="lexikon.html#miete">Konto-Miete</a>.</p>
+      <p>Ein Beispiel mit <span class="num">0,1 SOL</span> Einsatz und den Standardwerten: <span class="num">0,0025 SOL</span> Gebühr, <span class="num">0,002 SOL</span> Priority Fee für Kauf und Verkauf, <span class="num">0,00204 SOL</span> Miete. Zusammen rund <span class="num">0,0065 SOL</span>, also etwa <span class="num">6,5 %</span>. Der Coin muss also erst um diesen Betrag steigen, bevor du überhaupt bei null bist. Kleine Einsätze sind anteilig teuer.</p>
+
+      <h2 id="zahlen">Welche Zahlen zählen</h2>
+      <p>Die <a href="lexikon.html#treffer">Trefferquote</a> allein sagt wenig. Wichtiger ist der <a href="lexikon.html#erwartung">Erwartungswert</a>: was ein Trade im Schnitt bringt, nach Kosten. Dazu der <a href="lexikon.html#drawdown">Drawdown</a>, also wie tief es zwischendurch runtergeht, und die <a href="lexikon.html#equity">Equity-Kurve</a>, die zeigt, ob ein Ergebnis gleichmäßig entsteht oder an einem einzigen Glückstreffer hängt.</p>
+
+      <h2 id="grenzen">Was ein Test nicht kann</h2>
+      <ul>
+        <li>Ein <a href="lexikon.html#backtest">Backtest</a> im Labor läuft auf erfundenen Kurven. Er zeigt, ob deine Regeln in sich stimmig sind, nicht, was echte Coins morgen tun.</li>
+        <li>Wenige Trades sind Zufall. Unter etwa <span class="num">20</span> Trades ist eine <a href="lexikon.html#stichprobe">Stichprobe</a> zu klein.</li>
+        <li>Wer Regeln so lange dreht, bis der Test glänzt, betreibt <a href="lexikon.html#ueberanpassung">Überanpassung</a>. Teste mit mehreren Startwerten.</li>
+        <li>Papier ist eine Übung. Auch ein gutes Papier-Ergebnis ist keine Garantie für echtes Geld.</li>
+      </ul>
+      <div class="callout"><b>Pump Paper kauft nie von selbst.</b> Deine Strategie ist eine Hilfe für deine Entscheidung. Den Kauf machst du, mit Spielgeld.</div>
+
+      <h2 id="quiz">Quiz</h2>
+      <p>Zehn Fragen zu Kurve, Gebühr und Slippage. Nichts wird gespeichert oder gesendet.</p>
+      <form class="quiz" id="quiz-form">
+        <fieldset class="q" data-ok="0" data-link="lexikon.html#kurve" data-term="Bonding-Kurve"><legend>1. Was passiert mit dem Preis, wenn du auf der Bonding-Kurve kaufst?</legend><label><input type="radio" name="q0" value="0"> Er steigt.</label><label><input type="radio" name="q0" value="1"> Er bleibt gleich.</label><label><input type="radio" name="q0" value="2"> Er fällt.</label></fieldset>
+        <fieldset class="q" data-ok="1" data-link="lexikon.html#gebuehr" data-term="Gebühr"><legend>2. Welche Gebühr rechnet Pump Paper auf der Kurve, wenn die Konfiguration von pump.fun fehlt?</legend><label><input type="radio" name="q1" value="0"> 0,30 %</label><label><input type="radio" name="q1" value="1"> 1,25 %</label><label><input type="radio" name="q1" value="2"> 5 %</label></fieldset>
+        <fieldset class="q" data-ok="1" data-link="lexikon.html#priority" data-term="Priority Fee"><legend>3. Wann wird die Priority Fee fällig?</legend><label><input type="radio" name="q2" value="0"> Nur wenn der Trade klappt.</label><label><input type="radio" name="q2" value="1"> Auch wenn der Trade scheitert.</label><label><input type="radio" name="q2" value="2"> Nur beim Verkauf.</label></fieldset>
+        <fieldset class="q" data-ok="0" data-link="lexikon.html#slippage" data-term="Slippage"><legend>4. Was macht die Slippage-Grenze?</legend><label><input type="radio" name="q3" value="0"> Sie bricht den Trade ab, wenn der Preis zu weit schlechter ist.</label><label><input type="radio" name="q3" value="1"> Sie garantiert dir den Preis beim Klick.</label><label><input type="radio" name="q3" value="2"> Sie senkt die Gebühr.</label></fieldset>
+        <fieldset class="q" data-ok="0" data-link="lexikon.html#regeln" data-term="Ziel, Stop, Zeit"><legend>5. Warum landet ein Stop im Absturz oft unter der Marke?</legend><label><input type="radio" name="q4" value="0"> Er verkauft ohne Slippage-Grenze zum Kurs, der dann gilt.</label><label><input type="radio" name="q4" value="1"> Pump Paper rundet ab.</label><label><input type="radio" name="q4" value="2"> Die Gebühr verdoppelt sich.</label></fieldset>
+        <fieldset class="q" data-ok="0" data-link="lexikon.html#migration" data-term="Migration"><legend>6. Was ist die Migration?</legend><label><input type="radio" name="q5" value="0"> Der Coin wechselt von der Kurve in einen Pool.</label><label><input type="radio" name="q5" value="1"> Der Coin wird gelöscht.</label><label><input type="radio" name="q5" value="2"> Dein Wallet wird umgezogen.</label></fieldset>
+        <fieldset class="q" data-ok="1" data-link="lexikon.html#miete" data-term="Konto-Miete"><legend>7. Wann fällt die Konto-Miete an?</legend><label><input type="radio" name="q6" value="0"> Bei jedem Trade.</label><label><input type="radio" name="q6" value="1"> Beim ersten Kauf eines Coins.</label><label><input type="radio" name="q6" value="2"> Nie.</label></fieldset>
+        <fieldset class="q" data-ok="1" data-link="lexikon.html#treffer" data-term="Trefferquote"><legend>8. Was heißt eine Trefferquote von 30 %?</legend><label><input type="radio" name="q7" value="0"> Sicher Verlust.</label><label><input type="radio" name="q7" value="1"> Kann reichen, wenn die Gewinner viel größer sind als die Verlierer.</label><label><input type="radio" name="q7" value="2"> Sicher Gewinn.</label></fieldset>
+        <fieldset class="q" data-ok="1" data-link="lexikon.html#stichprobe" data-term="Stichprobe"><legend>9. Eine Strategie hat im Labor 8 Trades, alle mit Gewinn. Was sagt das?</legend><label><input type="radio" name="q8" value="0"> Sie funktioniert.</label><label><input type="radio" name="q8" value="1"> Wenig, die Stichprobe ist zu klein.</label><label><input type="radio" name="q8" value="2"> Sie ist sicher überangepasst.</label></fieldset>
+        <fieldset class="q" data-ok="1" data-link="anleitung.html#strategie" data-term="Eigene Strategie"><legend>10. Kauft Pump Paper nach deiner Strategie von selbst?</legend><label><input type="radio" name="q9" value="0"> Ja, sobald ein Coin passt.</label><label><input type="radio" name="q9" value="1"> Nein, kaufen tust du selbst.</label><label><input type="radio" name="q9" value="2"> Nur im Hintergrund.</label></fieldset>
+        <p class="quiz-actions"><button type="submit" class="btn gold">Auswerten</button> <button type="reset" class="btn ghost">Neu anfangen</button></p>
+        <div class="quiz-result" aria-live="polite" hidden></div>
+      </form>
+    </div>
+  </main>
+  <script src="assets/quiz.js?v=1.4.0"></script>
+  <footer>
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#f2b33d"/><path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Pump Paper
+    </a>
+    <p>Papertrading mit Spielgeld. Kein echtes Geld, keine Anlageberatung. Pump Paper ist ein unabhängiges Projekt und gehört nicht zu pump.fun.</p>
+    <nav class="foot-nav" aria-label="Weitere Seiten"><a href="anleitung.html">Anleitung</a><a href="lexikon.html">Lexikon</a><a href="ueben.html">Üben</a><a href="grundlagen.html">Grundlagen</a><a href="konto.html">Konto</a><a href="strategie.html">Strategie-Labor</a><a href="changelog.html">Änderungen</a><a href="datenschutz.html">Datenschutz</a><a href="https://github.com/CloudJWSH/ForUs">Quellcode</a></nav>
+  </footer>
+</div>
+</body>
+</html>

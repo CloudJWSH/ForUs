@@ -1,14 +1,14 @@
 <!-- title: Pump Paper Üben -->
-<!-- description: So holst du aus dem Papertrading etwas heraus: echte Beträge, eigene feste Regeln, Strategie vorher testen, Auswertung mit der CSV-Datei. -->
+<!-- description: So holst du aus dem Papertrading etwas heraus: echte Beträge, eigene feste Regeln, Strategie vorher testen, Auswertung mit der CSV-Datei, dazu ein Wochenplan mit sieben Übungen. -->
   <main class="sub">
     <div class="head">
       <p class="eyebrow">Üben</p>
       <h1>Papier lohnt sich nur, wenn du es ernst nimmst.</h1>
       <p class="lede">Pump Paper rechnet so nah an echt wie möglich. Damit du dabei etwas lernst, helfen ein paar Gewohnheiten. Das ist keine Anlageberatung, nur ein Vorschlag, wie man übt.</p>
     </div>
-    <p class="practice-progress" data-progress aria-live="polite"></p>
+    <p class="practice-progress" data-progress-habits aria-live="polite"></p>
     <h2 class="sr">Gewohnheiten</h2>
-    <ol class="steps practice">
+    <ol class="steps practice" data-key="pp-practice">
       <li><h3>Mit den Beträgen üben, die du echt einsetzen würdest</h3><p>Stell Startkapital und Kaufknöpfe in den Optionen so ein wie dein echtes Konto. Mit 10 SOL Spielgeld und 1-SOL-Käufen lernst du nichts über ein Konto mit 1 SOL.</p></li>
       <li><h3>Echte Einstellungen übernehmen</h3><p>Priority Fee und Slippage so einstellen, wie du sie auf pump.fun nutzt. Nur dann scheitern auf Papier dieselben Käufe wie echt.</p></li>
       <li><h3>Regeln vor dem Kauf festlegen</h3><p>Ziel, Stop und Zeitlimit für neue Positionen in den Optionen setzen, bevor du den ersten Coin öffnest. Wer die Regeln erst während des Trades ändert, übt das Falsche.</p></li>
@@ -18,6 +18,19 @@
       <li><h3>In Runden spielen</h3><p>Nach einer Woche die CSV sichern und das Konto zurücksetzen. So kannst du Runden vergleichen und siehst, ob du besser wirst.</p></li>
       <li><h3>Erst aufschreiben, dann testen</h3><p>Schreib deine Strategie im <a href="strategie.html">Strategie-Labor</a> auf, bevor du sie auf pump.fun übst. Teste sie dort mit mehreren Startwerten und vergleiche danach mit deiner CSV, ob du dich an die Regeln gehalten hast.</p></li>
     </ol>
+    <h2 id="wochenplan">Wochenplan</h2>
+    <p class="lede">Sieben Übungen, eine pro Tag. Zu jeder kannst du eine Notiz schreiben, sie bleibt nur in diesem Browser.</p>
+    <p class="practice-progress" data-progress-week aria-live="polite"></p>
+    <ol class="steps practice week" data-key="pp-week" data-notes="pp-week-notes">
+      <li><h3>Montag: Nur zuschauen</h3><p>Zehn frische Coins öffnen und nichts kaufen. Für jeden aufschreiben, bei welchem Marktwert du gekauft hättest und warum. Am Abend nachsehen, was aus ihnen wurde.</p></li>
+      <li><h3>Dienstag: Stop vorher festlegen</h3><p>Vor jedem Kauf den Stop in Prozent aufschreiben und im Panel setzen, danach nicht mehr ändern. Abends zählen, wie oft du dich daran gehalten hast.</p></li>
+      <li><h3>Mittwoch: Einsatz halbieren</h3><p>Alle Käufe mit dem halben üblichen Einsatz. Vergleiche danach Slippage und gescheiterte Käufe mit dem Vortag und wie ruhig du bei Verlusten geblieben bist.</p></li>
+      <li><h3>Donnerstag: Nur nach Regeln kaufen</h3><p>Eine Strategie aus dem <a href="strategie.html">Labor</a> nehmen und nur Coins kaufen, die dazu passen. Jeden Kauf, der nicht passt, auslassen und notieren.</p></li>
+      <li><h3>Freitag: Höchstens fünf Trades</h3><p>Mehr Käufe gibt es heute nicht. Das zwingt dazu, nur die Coins zu nehmen, die wirklich zu deinen Regeln passen.</p></li>
+      <li><h3>Samstag: Auswerten</h3><p>Den Verlauf als CSV sichern und auf der <a href="konto.html">Konto-Seite</a> laden. Tipps lesen, Ergebnis nach Grund und Haltedauer ansehen.</p></li>
+      <li><h3>Sonntag: Regeln nachschärfen</h3><p>Mit „Als Strategie übernehmen“ deine Trades ins Labor holen, eine Sache ändern und mit zwei anderen Startwerten nachtesten. Nur behalten, was in beiden Tests hält.</p></li>
+    </ol>
+    <p><button type="button" class="btn small ghost" data-practice-reset>Abhaken und Notizen zurücksetzen</button></p>
     <div class="callout"><b>Grenzen von Papier.</b> Andere Käufer, die im selben Block vor dir landen, bildet Pump Paper nur über die Verzögerung ab. Bei sehr heißen Coins ist echt deshalb oft noch etwas schlechter. Ein Papier-Gewinn ist keine Garantie für echte Gewinne.</div>
   </main>
   <script src="assets/ueben.js"></script>
