@@ -5,16 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Pump Paper Changes</title>
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-lQtBUw3z89ZcOK/hiJkSuXhwdZVasE/OfuHC+VlI/CI='; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.dexscreener.com https://api.mainnet-beta.solana.com https://solana-rpc.publicnode.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
-<meta name="description" content="Every version of Pump Paper, currently 1.4.0.">
+<meta name="description" content="Every version of Pump Paper, currently 1.5.0.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Pump Paper">
 <meta property="og:locale" content="en_US">
 <meta property="og:title" content="Pump Paper Changes">
-<meta property="og:description" content="Every version of Pump Paper, currently 1.4.0.">
+<meta property="og:description" content="Every version of Pump Paper, currently 1.5.0.">
 <meta property="og:image" content="../assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Pump Paper Changes">
-<meta name="twitter:description" content="Every version of Pump Paper, currently 1.4.0.">
+<meta name="twitter:description" content="Every version of Pump Paper, currently 1.5.0.">
 <meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#0b110f" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f3f5f2" media="(prefers-color-scheme: light)">
@@ -24,11 +24,11 @@
 <link rel="apple-touch-icon" href="../icons/180.png">
 <link rel="manifest" href="../manifest.webmanifest">
 <script>try{var t=localStorage.getItem("pp-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
-<script src="../assets/site.js?v=1.4.0" defer></script>
+<script src="../assets/site.js?v=1.5.0" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/site.css?v=1.4.0">
+<link rel="stylesheet" href="../assets/site.css?v=1.5.0">
 </head>
 <body>
 <a class="skip" href="#inhalt">Skip to content</a>
@@ -55,11 +55,19 @@
     <div class="head">
       <p class="eyebrow">Changes</p>
       <h1>What changed in Pump Paper.</h1>
-      <p class="lede">Every new version shows up here and as a zip download automatically. Current version: 1.4.0.</p>
-      <div class="cta"><a class="btn gold" href="https://github.com/CloudJWSH/ForUs/releases/latest/download/Pump-Paper.zip">Download zip 1.4.0</a><a class="btn" href="https://github.com/CloudJWSH/ForUs/releases.atom">Subscribe to new versions (feed)</a></div>
+      <p class="lede">Every new version shows up here and as a zip download automatically. Current version: 1.5.0.</p>
+      <div class="cta"><a class="btn gold" href="https://github.com/CloudJWSH/ForUs/releases/latest/download/Pump-Paper.zip">Download zip 1.5.0</a><a class="btn" href="https://github.com/CloudJWSH/ForUs/releases.atom">Subscribe to new versions (feed)</a></div>
     </div>
+    <article class="release" id="v1.5.0">
+      <div class="release-head"><h2>1.5.0</h2><span class="st">New</span><span class="when">2026-10-21</span><a class="anchor" href="#v1.5.0" data-copy-link aria-label="Link to version 1.5.0">#</a></div>
+      <ul>
+        <li>Scout-Board link: finds from the X and pump.fun scouts show up in Pump Paper while the board is open in a Chrome tab.</li>
+        <li>On the coin page the panel shows what the scout said about the coin: status, source, market cap when found and note.</li>
+        <li>New “Scout” tab in the popup with all finds, filter by status and link to the coin page.</li>
+      </ul>
+    </article>
     <article class="release" id="v1.4.0">
-      <div class="release-head"><h2>1.4.0</h2><span class="st">New</span><span class="when">2026-10-21</span><a class="anchor" href="#v1.4.0" data-copy-link aria-label="Link to version 1.4.0">#</a></div>
+      <div class="release-head"><h2>1.4.0</h2><span class="when">2026-10-21</span><a class="anchor" href="#v1.4.0" data-copy-link aria-label="Link to version 1.4.0">#</a></div>
       <ul>
         <li>Trades fill after an adjustable delay (default 1 s) at the price that holds then. The fixed 2 % buffer is gone.</li>
         <li>Slippage limit like pump.fun (default 10 %). If the price at execution is too far off, the trade fails and only costs the priority fee.</li>

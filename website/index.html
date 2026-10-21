@@ -24,8 +24,8 @@
 <link rel="apple-touch-icon" href="icons/180.png">
 <link rel="manifest" href="manifest.webmanifest">
 <script>try{var t=localStorage.getItem("pp-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
-<script src="assets/site.js?v=1.4.0" defer></script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Pump Paper", "applicationCategory": "FinanceApplication", "operatingSystem": "Chrome", "softwareVersion": "1.4.0", "inLanguage": "de", "description": "Pump Paper: Papertrading direkt auf pump.fun. Kaufen und verkaufen mit Spielgeld, gerechnet auf der echten Bonding-Kurve oder dem Pool, in SOL und USDC. Kein Wallet, kein Risiko.", "downloadUrl": "https://github.com/CloudJWSH/ForUs/releases/latest/download/Pump-Paper.zip", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}</script>
+<script src="assets/site.js?v=1.5.0" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Pump Paper", "applicationCategory": "FinanceApplication", "operatingSystem": "Chrome", "softwareVersion": "1.5.0", "inLanguage": "de", "description": "Pump Paper: Papertrading direkt auf pump.fun. Kaufen und verkaufen mit Spielgeld, gerechnet auf der echten Bonding-Kurve oder dem Pool, in SOL und USDC. Kein Wallet, kein Risiko.", "downloadUrl": "https://github.com/CloudJWSH/ForUs/releases/latest/download/Pump-Paper.zip", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Brauche ich ein Wallet?", "acceptedAnswer": {"@type": "Answer", "text": "Nein. Pump Paper verbindet sich mit keinem Wallet und kann keine echten Transaktionen senden. Es liest nur Kurse von der Blockchain."}}, {"@type": "Question", "name": "Was kostet Pump Paper?", "acceptedAnswer": {"@type": "Answer", "text": "Nichts. Gehandelt wird mit Spielgeld, das Startkapital stellst du in den Optionen ein (Standard 10 SOL und 1.000 USDC)."}}, {"@type": "Question", "name": "Geht es in Brave, Edge oder Arc?", "acceptedAnswer": {"@type": "Answer", "text": "Ja, in allen Browsern auf Chromium-Basis über „Entpackte Erweiterung laden“. Firefox und Safari werden nicht unterstützt."}}, {"@type": "Question", "name": "Kann ich neu anfangen?", "acceptedAnswer": {"@type": "Answer", "text": "Ja. In den Optionen setzt „Konto zurücksetzen“ Guthaben, Positionen und Verlauf auf dein Startkapital zurück. Vorher kannst du den Verlauf als CSV speichern."}}, {"@type": "Question", "name": "Wie nah ist das an echten Trades?", "acceptedAnswer": {"@type": "Answer", "text": "Kurs, Gebühr, Verzögerung, Slippage, Priority Fee und Konto-Miete sind eingerechnet. Nicht abgebildet sind andere Käufer, die im selben Block vor dir landen. Bei sehr heißen Coins ist echt deshalb oft noch etwas schlechter."}}, {"@type": "Question", "name": "Warum ist mein Papier-Gewinn kleiner, als der Kurs zeigt?", "acceptedAnswer": {"@type": "Answer", "text": "Weil Pump Paper Kauf und Verkauf auf der Kurve rechnet. Jeweils 1,25 % Gebühr, die Kurswirkung deiner eigenen Menge, Priority Fees und die Konto-Miete gehen ab. Ein Coin muss deshalb erst ein paar Prozent steigen, bevor du im Plus bist."}}, {"@type": "Question", "name": "Funktioniert es auch nach der Migration?", "acceptedAnswer": {"@type": "Answer", "text": "Ja. Sobald ein Coin die Kurve verlässt, rechnet Pump Paper mit dem PumpSwap-Pool weiter, auch für offene Positionen."}}, {"@type": "Question", "name": "Läuft es auch auf GMGN, Axiom oder Photon?", "acceptedAnswer": {"@type": "Answer", "text": "Bald. Die Version für GMGN, DexScreener, Axiom, Photon, BullX und Padre ist gebaut und kommt mit dem nächsten Download. Bis dahin läuft Pump Paper auf pump.fun."}}, {"@type": "Question", "name": "Kauft Pump Paper von selbst?", "acceptedAnswer": {"@type": "Answer", "text": "Nein. Pump Paper hat keinen Bot und kauft nie von selbst, jeder Kauf ist dein Klick. Automatisch passiert nur, was du vorher als Regel für eine offene Position festlegst: Verkauf bei Ziel, Stop oder Zeit, alles mit Spielgeld."}}, {"@type": "Question", "name": "Kann ich eigene Strategien nutzen?", "acceptedAnswer": {"@type": "Answer", "text": "Ja, im Strategie-Labor: Regeln für Einstieg, Einsatz und Ausstieg festlegen, auf simulierten Coins oder deiner CSV testen und als Datei speichern. Pump Paper soll diese Dateien später einlesen."}}, {"@type": "Question", "name": "Wo liegen meine Daten?", "acceptedAnswer": {"@type": "Answer", "text": "Nur in deinem Browser. Es gibt kein Konto und keinen Server. Den Verlauf kannst du jederzeit als CSV speichern."}}, {"@type": "Question", "name": "Ist das Anlageberatung?", "acceptedAnswer": {"@type": "Answer", "text": "Nein. Pump Paper ist ein Übungswerkzeug. Memecoins sind hochriskant, ein Papier-Gewinn ist keine Garantie für echte Gewinne."}}, {"@type": "Question", "name": "Gibt es einen Pump-Paper-Coin?", "acceptedAnswer": {"@type": "Answer", "text": "Nein, noch nicht. Sollte es einmal einen geben, steht die einzige echte Mint-Adresse hier auf dieser Website. Jeder andere Coin mit dem Namen ist nicht von uns."}}]}</script>
 <!-- /meta -->
 <!-- page -->
@@ -34,7 +34,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/site.css?v=1.4.0">
+<link rel="stylesheet" href="assets/site.css?v=1.5.0">
 <!-- /head -->
 </head>
 <body>
@@ -75,7 +75,7 @@
         <a class="btn ghost" href="strategie.html">Strategie testen</a>
       </div>
       <div class="facts"><span>Kein Wallet nötig</span><span>SOL und USDC</span><span>Daten bleiben im Browser</span></div>
-      <p class="hero-meta"><a href="changelog.html">Version <!-- version -->1.4.0<!-- /version --> vom <!-- date -->21.10.2026<!-- /date --></a><!-- source --><span aria-hidden="true">·</span><a href="https://github.com/CloudJWSH/ForUs">Offener Quellcode auf GitHub</a><!-- /source --></p>
+      <p class="hero-meta"><a href="changelog.html">Version <!-- version -->1.5.0<!-- /version --> vom <!-- date -->21.10.2026<!-- /date --></a><!-- source --><span aria-hidden="true">·</span><a href="https://github.com/CloudJWSH/ForUs">Offener Quellcode auf GitHub</a><!-- /source --></p>
     </div>
 
     <div class="stage" role="img" aria-label="Beispiel: pump.fun-Coinseite mit Pump-Paper-Panel, Kaufmarker und Zielmarke im Chart">
@@ -168,7 +168,7 @@
     <div class="head">
       <p class="eyebrow">So sieht es aus</p>
       <h2>Das echte Panel, nicht nur ein Bild davon.</h2>
-      <p class="lede">Diese Bilder zeichnet der Code von Pump Paper <!-- version -->1.4.0<!-- /version --> selbst, mit Beispieldaten statt deinem Konto.</p>
+      <p class="lede">Diese Bilder zeichnet der Code von Pump Paper <!-- version -->1.5.0<!-- /version --> selbst, mit Beispieldaten statt deinem Konto.</p>
     </div>
     <div class="shots">
       <figure class="shot tall">
@@ -348,15 +348,15 @@
         <li><h3>pump.fun öffnen <span class="dur">15 s</span></h3><p>Einen Coin öffnen. Unter dem Kaufbereich erscheint das Panel mit dem gelben PAPER-Schild. Fertig.</p></li>
       </ol>
       <div class="dl">
-        <div class="ver"><b><!-- version -->1.4.0<!-- /version --></b><span>aktuelle Version vom <!-- date -->21.10.2026<!-- /date --> · Chrome, Brave, Edge</span></div>
+        <div class="ver"><b><!-- version -->1.5.0<!-- /version --></b><span>aktuelle Version vom <!-- date -->21.10.2026<!-- /date --> · Chrome, Brave, Edge</span></div>
         <ul><!-- latest -->
-          <li>Ausführung nach einer einstellbaren Verzögerung (Standard 1 s) zum Kurs, der dann gilt. Die festen 2 % Puffer fallen weg.</li>
-          <li>Slippage-Grenze wie bei pump.fun (Standard 10 %). Liegt der Kurs bei Ausführung zu weit weg, scheitert der Trade und kostet nur die Priority Fee.</li>
-          <li>Ziel-, Stop- und Zeitverkäufe laufen ohne Slippage-Grenze und landen im Absturz schlechter als die Marke.</li>
+          <li>Verbindung zum Scout-Board: Funde des X- und pump.fun-Scouts landen in Pump Paper, solange das Board in einem Chrome-Tab offen ist.</li>
+          <li>Auf der Coinseite zeigt das Panel, was der Scout zum Coin gesagt hat: Status, Quelle, Marktwert beim Fund und Notiz.</li>
+          <li>Neuer Reiter „Scout“ im Fenster mit allen Funden, Filter nach Status und Link zur Coinseite.</li>
           <!-- /latest --></ul>
         <a class="more" href="changelog.html">Alle Änderungen ansehen</a>
         <a class="btn gold" href="https://github.com/CloudJWSH/ForUs/releases/latest/download/Pump-Paper.zip">Zip herunterladen</a>
-        <!-- sha --><!-- /sha -->
+        <!-- sha --><p class="sha-note">SHA-256 der Zip 1.5.0: <code class="sha">d509e3655fa44a4c12b391551456a5fdd1a928c9b06f3d76b8b31dc5346e3ba5</code>. Prüfen am Mac oder unter Linux mit <code>shasum -a 256 Pump-Paper.zip</code>, unter Windows mit <code>certutil -hashfile Pump-Paper.zip SHA256</code>.</p><!-- /sha -->
         <p class="soon">Bei einem Update den Ordner ersetzen und unter <code>chrome://extensions</code> auf Neu laden klicken. Dein Konto bleibt erhalten.</p>
       </div>
     </div>
@@ -434,10 +434,10 @@
   </footer>
   <!-- /footer -->
 </div>
-<script src="assets/share.js?v=1.4.0"></script>
-<script src="assets/kurve.js?v=1.4.0"></script>
-<script src="assets/rechner.js?v=1.4.0"></script>
-<script src="assets/demo.js?v=1.4.0"></script>
+<script src="assets/share.js?v=1.5.0"></script>
+<script src="assets/kurve.js?v=1.5.0"></script>
+<script src="assets/rechner.js?v=1.5.0"></script>
+<script src="assets/demo.js?v=1.5.0"></script>
 <!-- /body -->
 </body>
 </html>

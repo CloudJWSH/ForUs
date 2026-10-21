@@ -24,11 +24,11 @@
 <link rel="apple-touch-icon" href="icons/180.png">
 <link rel="manifest" href="manifest.webmanifest">
 <script>try{var t=localStorage.getItem("pp-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
-<script src="assets/site.js?v=1.4.0" defer></script>
+<script src="assets/site.js?v=1.5.0" defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/site.css?v=1.4.0">
+<link rel="stylesheet" href="assets/site.css?v=1.5.0">
 </head>
 <body>
 <a class="skip" href="#inhalt">Zum Inhalt springen</a>
@@ -55,7 +55,7 @@
     <div class="head">
       <p class="eyebrow">Vertrauen</p>
       <h1>So arbeiten wir.</h1>
-      <p class="lede">Pump Paper ist ein Übungswerkzeug. Hier steht, was es darf, was es nie tut und wie du das selbst prüfst. Stand Version 1.4.0.</p>
+      <p class="lede">Pump Paper ist ein Übungswerkzeug. Hier steht, was es darf, was es nie tut und wie du das selbst prüfst. Stand Version 1.5.0.</p>
     </div>
     <nav class="toc" aria-label="Inhalt"><a href="#nie">Was nie passiert</a><a href="#rechte">Berechtigungen</a><a href="#pruefen">Download prüfen</a><a href="#coin">Coin</a><a href="#kontakt">Kontakt</a></nav>
     <div class="prose">
@@ -78,11 +78,13 @@
         <tr><td><code>https://api.dexscreener.com/*</code></td><td><b>DexScreener</b> SOL-Kurs in Dollar und Ersatz-Kurs, wenn kein Solana-Zugang antwortet.</td></tr>
         <tr><td><code>https://*/*</code></td><td><b>Weitere Adressen, nur auf Nachfrage</b> Optional: Chrome fragt erst, wenn du in den Optionen einen eigenen Solana-Zugang oder Server einträgst, und nur für diese Adresse.</td></tr>
         <tr><td><code>https://pump.fun/*</code></td><td><b>pump.fun-Seiten</b> Zeigt das Panel und die Marker im Chart auf Coinseiten. Pump Paper klickt dort nichts und sendet nichts an pump.fun.</td></tr>
+        <tr><td><code>https://*.frame.claudeusercontent.com/*</code></td><td><b>Noch ohne Erklärung</b> </td></tr>
       </tbody></table></div>
 
       <h2 id="pruefen">Download prüfen</h2>
       <p>Der Download kommt immer aus den Releases auf GitHub, nie aus einem Chat oder einer Direktnachricht.</p>
-      <p>Die SHA-256-Prüfsumme der Zip steht hier ab dem nächsten Release.</p>
+      <p class="sha-note">SHA-256 der Zip 1.5.0: <code class="sha">d509e3655fa44a4c12b391551456a5fdd1a928c9b06f3d76b8b31dc5346e3ba5</code>. Prüfen am Mac oder unter Linux mit <code>shasum -a 256 Pump-Paper.zip</code>, unter Windows mit <code>certutil -hashfile Pump-Paper.zip SHA256</code>.</p>
+      <p>Der Code in der Zip ist verschleiert, damit er nicht einfach kopiert werden kann. Was er tun darf, legt trotzdem Chrome fest: nur die Rechte oben.</p>
 
       <h2 id="coin">Wenn es einen Coin gibt</h2>
       <p>Pump Paper braucht keinen Coin und bleibt kostenlos. Sollte es einen geben, steht die einzige echte Adresse auf dieser Website. Unser Bot kauft ihn nie, wir versprechen keinen Wert und keine Rendite, und vor echtem Geld klären wir die rechtliche Lage.</p>
