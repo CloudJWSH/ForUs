@@ -298,3 +298,54 @@ main.sub h1 { font-size: clamp(36px, 5.6vw, 60px); line-height: 1; font-weight: 
 .demo-bar { flex: 1; height: 6px; border-radius: 3px; background: var(--raise); overflow: hidden; }
 .demo-bar i { display: block; height: 100%; width: 0; background: var(--gold); transition: width .25s; }
 @media (max-width: 520px) { .demo-top:first-child .muted { display: none; } }
+
+/* Konto-Seite */
+.konto { display: grid; gap: 28px; padding-bottom: 64px; }
+.k-status { margin: 0; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--line); background: var(--panel); font-size: 15px; max-width: 80ch; }
+.k-status.warn { border-color: var(--gold); background: var(--gold-soft); }
+.k-status.ok { border-color: var(--gain); }
+.k-status a { color: var(--gold-ink); font-weight: 600; }
+.k-pill { font: 500 12px var(--mono); border: 1px solid var(--gain); color: var(--gain); border-radius: 6px; padding: 1px 6px; }
+.k-link { background: none; border: 0; padding: 0; font: inherit; color: var(--muted); text-decoration: underline; cursor: pointer; }
+.k-sample { margin: 0 0 -12px; font: 500 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--gold-ink); }
+.konto.is-sample [data-body] { position: relative; }
+.k-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.k-tile { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 4px; min-width: 0; }
+.k-tile .k, .k-stats .k { font-size: 13px; color: var(--muted); }
+.k-tile b { font: 500 22px var(--mono); overflow-wrap: anywhere; }
+.k-tile small { color: var(--muted); font-size: 12.5px; }
+.konto .gain { color: var(--gain); } .konto .loss { color: var(--loss); }
+.k-sec { display: grid; gap: 12px; }
+.k-sec h2 { margin: 0; font-size: 24px; }
+.k-sec h3 { margin: 8px 0 0; font-size: 17px; }
+.k-note, .k-empty { margin: 0; color: var(--muted); font-size: 14px; }
+.k-curve { width: 100%; height: 200px; display: block; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
+.k-curve .zero { stroke: var(--line); stroke-width: 1; stroke-dasharray: 4 4; }
+.k-curve .ln { fill: none; stroke: var(--gain); stroke-width: 2; }
+.k-curve .area { fill: var(--gain); opacity: .12; }
+.k-curve.loss .ln { stroke: var(--loss); } .k-curve.loss .area { fill: var(--loss); }
+.k-curve-foot { display: flex; justify-content: space-between; gap: 10px; font: 12.5px var(--mono); color: var(--muted); }
+.k-tips { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.k-tips li { padding: 12px 14px 12px 16px; border-left: 3px solid var(--muted); background: var(--panel); border-radius: 0 10px 10px 0; max-width: 80ch; }
+.k-tips li.warn { border-left-color: var(--gold); } .k-tips li.good { border-left-color: var(--gain); }
+.k-stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.k-stats > div { background: var(--panel); padding: 12px 14px; display: grid; gap: 2px; }
+.k-stats b { font: 500 16px var(--mono); }
+.k-table td { font-family: var(--mono); font-size: 13.5px; white-space: nowrap; }
+.k-table tr.failed td { color: var(--muted); }
+.k-table a { color: var(--ink); }
+.k-trades:not(.all) tbody tr:nth-child(n+26) { display: none; }
+[data-more] { justify-self: start; }
+@media (max-width: 860px) { .k-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 420px) { .k-tile b { font-size: 18px; } }
+main.sub:has(.konto) { max-width: 1040px; }
+.table-wrap .k-table td { color: var(--ink); font-weight: 400; padding: 8px 14px; }
+.table-wrap .k-table td.gain, .table-wrap .k-table .gain { color: var(--gain); }
+.table-wrap .k-table td.loss, .table-wrap .k-table .loss { color: var(--loss); }
+@media (max-width: 600px) {
+  .table-wrap .k-table thead { display: table-header-group; }
+  .table-wrap .k-table tr { display: table-row; padding: 0; }
+  .table-wrap .k-table td, .table-wrap .k-table th { display: table-cell; padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap !important; }
+}
+.konto [data-body] { display: grid; gap: 40px; }
+.konto .k-sample { margin: 0 0 -28px; }
