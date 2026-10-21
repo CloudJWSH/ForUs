@@ -10,8 +10,8 @@
 
   const T = EN ? {
     loc: "en-US", searching: "Looking for Pump Paper in this browser …",
-    none: "Pump Paper was not found in this browser. Below you see <b>sample data</b> so you can see what the page shows.",
-    noneHint: "Install Pump Paper 1.7 or newer and reload this page, then your own paper account appears here. The site is not online yet, so this only works once it is.",
+    none: "This is what your paper account looks like, here with <b>sample data</b>.",
+    noneHint: "Your own account, with radar, PnL calendar and achievements, opens in the extension via “Konto ↗” in the toolbar window.",
     old: v => `Pump Paper ${v} is installed but can't share account data yet. That needs version 1.7. Below you see <b>sample data</b>.`,
     ok: v => `Pump Paper ${v} is installed. These are your own paper trades, read straight from the extension.`,
     upd: v => `<a href="${DOWNLOAD}">Update to ${v}</a> available.`, current: "up to date",
@@ -45,8 +45,8 @@
     },
   } : {
     loc: "de-DE", searching: "Suche Pump Paper in diesem Browser …",
-    none: "Pump Paper wurde in diesem Browser nicht gefunden. Unten siehst du <b>Beispieldaten</b>, damit du siehst, was die Seite zeigt.",
-    noneHint: "Installiere Pump Paper 1.7 oder neuer und lade diese Seite neu, dann erscheint hier dein eigenes Papier-Konto. Die Seite ist noch nicht online, das klappt also erst, wenn sie es ist.",
+    none: "So sieht dein Papier-Konto aus, hier mit <b>Beispieldaten</b>.",
+    noneHint: "Dein eigenes Konto, mit Radar, PnL-Kalender und Erfolgen, öffnest du in der Erweiterung über „Konto ↗“ im Fenster in der Symbolleiste.",
     old: v => `Pump Paper ${v} ist installiert, kann aber noch keine Kontodaten teilen. Das geht ab Version 1.7. Unten siehst du <b>Beispieldaten</b>.`,
     ok: v => `Pump Paper ${v} ist installiert. Das sind deine eigenen Papier-Trades, direkt aus der Erweiterung gelesen.`,
     upd: v => `<a href="${DOWNLOAD}">Update auf ${v}</a> verfügbar.`, current: "aktuell",
