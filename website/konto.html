@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Pump Paper Konto</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-lQtBUw3z89ZcOK/hiJkSuXhwdZVasE/OfuHC+VlI/CI='; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.dexscreener.com https://api.mainnet-beta.solana.com https://solana-rpc.publicnode.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="description" content="Dein Papier-Konto im Überblick: Trades, Ergebnis, Trade-Analyse und Tipps, gelesen aus der installierten Erweiterung.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Pump Paper">
@@ -56,6 +57,7 @@
       <h1>Dein Papier-Konto im Überblick.</h1>
       <p class="lede">Ergebnis, offene Positionen, jeder Trade und eine Auswertung mit Tipps, die aus deinen eigenen Trades entstehen. Pump Paper rechnet das in deinem Browser aus, nichts davon geht an einen Server.</p>
     </div>
+    <noscript><p class="lede">Die Konto-Seite braucht JavaScript. Sie liest dein Konto nur aus der Erweiterung in diesem Browser, nichts wird gesendet.</p></noscript>
     <div class="konto" id="konto" data-latest="1.4.0" data-download="https://github.com/CloudJWSH/ForUs/releases/latest/download/Pump-Paper.zip">
       <p class="k-status" data-status aria-live="polite">Diese Seite braucht JavaScript, um dein Konto aus Pump Paper zu lesen.</p>
       <div data-body></div>

@@ -17,25 +17,25 @@
       <p>At the top you see your free balance in SOL and USDC. Below that:</p>
       <ul>
         <li><b>Market cap</b> in dollars and in SOL.</li>
-        <li><b>Bonding curve or PumpSwap pool</b> (“Bonding-Kurve”, “PumpSwap-Pool”) and the currency the coin trades in.</li>
-        <li><b>Fee</b> (“Gebühr”) in percent and where it comes from: “Fee-Config” means straight from pump.fun's fee config, “Standard” a fallback value, “von Hand” your fixed value from the options.</li>
-        <li><b>Price source</b> (“Kurs aus”): blockchain or DexScreener, with “live vor x s” while prices stream in.</li>
-        <li><b>Execution delay</b> and <b>slippage</b> (“Ausführung nach”, “Slippage”): your current settings.</li>
+        <li><b>Bonding curve or PumpSwap pool</b> (“<span lang="de">Bonding-Kurve</span>”, “<span lang="de">PumpSwap-Pool</span>”) and the currency the coin trades in.</li>
+        <li><b>Fee</b> (“<span lang="de">Gebühr</span>”) in percent and where it comes from: “Fee-Config” means straight from pump.fun's fee config, “<span lang="de">Standard</span>” a fallback value, “von Hand” your fixed value from the options.</li>
+        <li><b>Price source</b> (“<span lang="de">Kurs aus</span>”): blockchain or DexScreener, with “live vor x s” while prices stream in.</li>
+        <li><b>Execution delay</b> and <b>slippage</b> (“<span lang="de">Ausführung nach</span>”, “Slippage”): your current settings.</li>
       </ul>
 
       <h2 id="buy">Buying</h2>
-      <p>Tap one of the four buy buttons (default 0.1 / 0.25 / 0.5 / 1 SOL) or type an amount and press <b>Kaufen</b> (buy). Coins traded against USDC are paid from your USDC balance, and the buttons switch to 10 / 25 / 50 / 100 USDC.</p>
+      <p>Tap one of the four buy buttons (default 0.1 / 0.25 / 0.5 / 1 SOL) or type an amount and press <b lang="de">Kaufen</b> (buy). Coins traded against USDC are paid from your USDC balance, and the buttons switch to 10 / 25 / 50 / 100 USDC.</p>
       <p>Like a real buy, it fills only after the delay, at the price that holds then. If the price moved more than your slippage in that time, the buy fails. A failed buy only costs the priority fee and shows up in the history with its reason. The first buy of a coin adds the account rent.</p>
 
       <h2 id="position">Your position</h2>
       <p>Once you hold a coin, the panel shows your result in large type and, next to it, how far the price moved since you entered. Below:</p>
       <ul>
-        <li><b>Eingesetzt</b> (cost): what the position cost you.</li>
+        <li><b lang="de">Eingesetzt</b> (cost): what the position cost you.</li>
         <li><b>Verkaufswert jetzt</b> (value now): what selling right now would return, after fee and price impact on the curve.</li>
         <li><b>Gas bisher</b> (gas so far): priority fees and account rent of this position.</li>
         <li><b>Einstieg bei MC</b> (entry market cap) and <b>Offen seit</b> (open for).</li>
       </ul>
-      <p>Sell with <b>25 %</b>, <b>50 %</b> or <b>Alles</b> (all).</p>
+      <p>Sell with <b>25 %</b>, <b>50 %</b> or <b lang="de">Alles</b> (all).</p>
 
       <h2 id="rules">Target, stop and time</h2>
       <p>Every new position gets the default rules from the options: target +60 %, stop −20 %, time limit 10 minutes. In the panel you change them for that one position. For the stop a positive number is enough, Pump Paper turns it into a loss. Empty or 0 turns a rule off.</p>
@@ -66,9 +66,9 @@
       <h2 id="window">Account and history</h2>
       <p>The Pump Paper icon in Chrome's toolbar opens a window with three tabs.</p>
       <ul>
-        <li><b>Konto</b> (account): free SOL and USDC, total value and result in dollars, every open position with a link to its coin page and a sell button.</li>
-        <li><b>Verlauf</b> (history): number of sells, hit rate, result and all fees including gas. Below that the last 60 trades, failed ones with their reason. <b>Als CSV speichern</b> exports everything for your own analysis.</li>
-        <li><b>Optionen</b> (options): all settings below. <b>Konto zurücksetzen</b> deletes positions and history and starts over with your starting capital.</li>
+        <li><b lang="de">Konto</b> (account): free SOL and USDC, total value and result in dollars, every open position with a link to its coin page and a sell button.</li>
+        <li><b lang="de">Verlauf</b> (history): number of sells, hit rate, result and all fees including gas. Below that the last 60 trades, failed ones with their reason. <b>Als CSV speichern</b> exports everything for your own analysis.</li>
+        <li><b lang="de">Optionen</b> (options): all settings below. <b>Konto zurücksetzen</b> deletes positions and history and starts over with your starting capital.</li>
       </ul>
 
       <h2 id="csv">The CSV file</h2>

@@ -136,3 +136,14 @@ document.addEventListener("click", e => {
     if (none) none.hidden = any;
   });
 })();
+
+// Einfache Liste filtern (404-Seite): Eingabefeld mit data-filter zeigt nur passende Einträge.
+document.querySelectorAll("input[data-filter]").forEach(input => {
+  const list = document.getElementById(input.dataset.filter);
+  if (!list) return;
+  const norm = s => s.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "");
+  input.addEventListener("input", () => {
+    const q = norm(input.value.trim());
+    list.querySelectorAll("li").forEach(li => (li.hidden = !!q && !norm(li.textContent).includes(q)));
+  });
+});

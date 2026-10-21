@@ -111,6 +111,22 @@ def page_url(lang, name):
     return ("" if lang == "de" else "en/") + name + ".html"
 
 
+THEME_JS = 'try{var t=localStorage.getItem("pp-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}'
+
+
+def csp():
+    """Content-Security-Policy: nur eigene Skripte (plus das kleine Design-Skript per Hash), Schriften von Google,
+    Abfragen nur an DexScreener und die Solana-Zugänge für den Coin-Teil. Keine Formulare nach außen, keine Plugins."""
+    import base64
+    import hashlib
+    theme = base64.b64encode(hashlib.sha256(THEME_JS.encode()).digest()).decode()
+    return ("default-src 'self'; "
+            f"script-src 'self' 'sha256-{theme}'; "
+            "style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; "
+            "connect-src 'self' https://api.dexscreener.com https://api.mainnet-beta.solana.com https://solana-rpc.publicnode.com; "
+            "manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'")
+
+
 def head_meta(lang, name, title, description, og_description=None, image="og.png"):
     """Gemeinsamer Kopf aller Seiten: Beschreibung, Teilen-Vorschau, Icons, Farben, Sprachversion."""
     L, up, base = LANGS[lang], LANGS[lang]["up"], CONFIG["base_url"]
@@ -118,6 +134,7 @@ def head_meta(lang, name, title, description, og_description=None, image="og.png
     img = (base if base else up) + "assets/" + image
     e = html.escape
     lines = [
+        f'<meta http-equiv="Content-Security-Policy" content="{csp()}">',
         f'<meta name="description" content="{e(description)}">',
         '<meta property="og:type" content="website">',
         '<meta property="og:site_name" content="Pump Paper">',
@@ -136,7 +153,7 @@ def head_meta(lang, name, title, description, og_description=None, image="og.png
         f'<link rel="icon" href="{up}icons/48.png" sizes="48x48">',
         f'<link rel="apple-touch-icon" href="{up}icons/180.png">',
         f'<link rel="manifest" href="{up}manifest.webmanifest">',
-        '<script>try{var t=localStorage.getItem("pp-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>',
+        f'<script>{THEME_JS}</script>',
         f'<script src="{up}assets/site.js" defer></script>',
     ]
     if base:
@@ -495,6 +512,20 @@ def add_read_time(body, lang):
     return re.sub(r'(<p class="lede">.*?</p>)', lambda m: m.group(1) + f'\n      <p class="read-time">{note}</p>', body, count=1, flags=re.S)
 
 
+def page_list(lang, src_dir):
+    """Alle Seiten einer Sprache mit Titel und Beschreibung, für die Suche auf der 404-Seite."""
+    items = []
+    for f in sorted(src_dir.glob("*.html")):
+        if f.stem == "404":
+            continue
+        raw = f.read_text(encoding="utf-8")
+        title = re.search(r"<!-- title: (.*?) -->", raw).group(1).replace("Pump Paper ", "")
+        desc = re.search(r"<!-- description: (.*?) -->", raw).group(1)
+        items.append(f'<li><a href="{f.name}">{html.escape(title)}</a><small>{html.escape(desc)}</small></li>')
+    items.insert(0, f'<li><a href="index.html">{"Home page" if lang == "en" else "Startseite"}</a><small>{html.escape(HOME[lang][1])}</small></li>')
+    return "\n      ".join(items)
+
+
 def build_sources(lang, version, date=""):
     src_dir = SITE / "src" / ("" if lang == "de" else lang)
     out = LANGS[lang]["dir"]
@@ -503,6 +534,8 @@ def build_sources(lang, version, date=""):
         title = re.search(r"<!-- title: (.*?) -->", raw).group(1)
         desc = re.search(r"<!-- description: (.*?) -->", raw).group(1)
         body = re.sub(r"<!-- (title|description): .*? -->\n?", "", raw)
+        if "{{pages}}" in body:
+            body = body.replace("{{pages}}", page_list(lang, src_dir))
         body = body.replace("{{version}}", version).replace("{{download}}", DOWNLOAD).replace("{{date}}", nice_date(date, lang))
         if src.stem in READ_TIME:
             body = add_read_time(body, lang)

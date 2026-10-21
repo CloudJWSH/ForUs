@@ -1,5 +1,5 @@
 """Prüft alle Seiten der Website: lokale Links und Anker, Bilder mit alt-Text, Formularfelder mit Label,
-Titel, Beschreibung und Sprache, Überschriften-Reihenfolge, doppelte IDs, Bildgrößen. Dazu das ganze Repo auf Server-Adressen und Schlüssel,
+Titel, Beschreibung und Sprache, Überschriften-Reihenfolge, doppelte IDs, Bildgrößen, Kontrast, Bildmaße, tabindex,\nfremde Skripte, Diagramme ohne Beschreibung, Sprachpaare. Dazu das ganze Repo auf Server-Adressen und Schlüssel,
 denn es ist öffentlich.
 
 Aufruf: python3 website/tools/check.py  (Exit-Code 1 bei Fehlern)
@@ -27,6 +27,7 @@ class Page(HTMLParser):
         self.ids, self.links, self.imgs, self.inputs, self.labels = set(), [], [], [], set()
         self.dupes, self.lang, self.meta, self.title, self._in_title = set(), None, {}, "", False
         self.heads = []
+        self.problems = []  # Zugänglichkeit und Sicherheit je Tag
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
@@ -51,6 +52,21 @@ class Page(HTMLParser):
             self.inputs.append(a.get("id"))
         if tag == "label" and "for" in a:
             self.labels.add(a["for"])
+        if tag == "img" and not (a.get("width") and a.get("height")):
+            self.problems.append(f"Bild ohne width/height (springt beim Laden): {a.get('src')}")
+        if a.get("target") == "_blank" and "noopener" not in (a.get("rel") or ""):
+            self.problems.append(f"Link mit target=_blank ohne rel=noopener: {a.get('href')}")
+        if (a.get("tabindex") or "0").lstrip("-").isdigit() and int(a.get("tabindex") or 0) > 0:
+            self.problems.append(f"tabindex > 0 stört die Fokus-Reihenfolge: <{tag}>")
+        if tag == "script" and re.match(r"^(https?:)?//", a.get("src", "")):
+            self.problems.append(f"Fremdes Skript: {a['src']}")
+        if tag == "link" and a.get("rel") == "stylesheet" and re.match(r"^(https?:)?//", a.get("href", "")) \
+                and not a["href"].startswith("https://fonts.googleapis.com/"):
+            self.problems.append(f"Fremdes Stylesheet: {a['href']}")
+        if tag == "canvas" and not a.get("aria-label"):
+            self.problems.append("Diagramm (canvas) ohne aria-label")
+        if tag == "svg" and a.get("aria-hidden") != "true" and not (a.get("role") == "img" and (a.get("aria-label") or a.get("aria-labelledby"))):
+            self.problems.append(f"SVG ohne aria-hidden oder role=img mit Beschreibung: {a.get('class') or a.get('id')}")
 
 
     def handle_endtag(self, tag):
@@ -147,6 +163,76 @@ def strategies():
     return found
 
 
+def contrast():
+    """Text-Farben gegen alle Hintergründe, dunkel und hell: mindestens 4,5:1 (WCAG AA)."""
+    css = (SITE / "assets" / "site.css").read_text(encoding="utf-8")
+    grab = lambda block: dict(re.findall(r"--([\w-]+):\s*(#[0-9a-fA-F]{6})", block))
+    start = css.index(":root {")
+    dark = grab(css[start:css.index("}", start)])
+    lstart = css.index(':root[data-theme="light"] {')
+    themes = {"dunkel": dark, "hell": {**dark, **grab(css[lstart:css.index("}", lstart)])}}
+
+    def lum(h):
+        c = [int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+        c = [x / 12.92 if x <= 0.03928 else ((x + 0.055) / 1.055) ** 2.4 for x in c]
+        return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+
+    def ratio(a, b):
+        hi, lo = sorted((lum(a), lum(b)), reverse=True)
+        return (hi + 0.05) / (lo + 0.05)
+
+    out = []
+    for name, v in themes.items():
+        pairs_ = [(fg, bg) for fg in ("ink", "muted", "gold-ink", "gain", "loss") for bg in ("bg", "panel", "raise", "gold-soft")] + [("on-gold", "gold")]
+        for fg, bg in pairs_:
+            r = ratio(v[fg], v[bg])
+            if r < 4.5:
+                out.append(f"site.css: Kontrast {name} --{fg} auf --{bg} nur {r:.2f}:1")
+    return out
+
+
+PAGE_MAX = 220 * 1024  # HTML, CSS und JS einer Seite zusammen, ungepackt (Bilder laden später)
+
+
+def weight(pages):
+    """Ladegewicht je Seite ohne Bilder und Schriften: hält die erste Anzeige auf langsamen Handys schnell."""
+    out = []
+    for p in pages:
+        text = p.read_text(encoding="utf-8")
+        total = len(text.encode())
+        for src in set(re.findall(r'(?:src|href)="([^"#?:]+\.(?:js|css))(?:\?[^"]*)?"', text)):
+            f = (p.parent / src).resolve()
+            total += f.stat().st_size if f.exists() else 0
+        if total > PAGE_MAX:
+            out.append(f"{p.relative_to(SITE)}: {total // 1024} KB HTML/CSS/JS, erlaubt {PAGE_MAX // 1024} KB")
+    return out
+
+
+def globals_():
+    """Skripte der Website laufen in einer eigenen Funktion, nur kurve.js und strategie.js geben je einen Namen nach außen."""
+    out = []
+    for f in sorted((SITE / "assets").glob("*.js")):
+        for m in re.finditer(r"^(?:const|let|var|function|class) +(\w+)", f.read_text(encoding="utf-8"), re.M):
+            out.append(f"assets/{f.name}: globaler Name {m.group(1)}")
+    return out
+
+
+def pairs():
+    """Jede deutsche Seite hat eine englische und umgekehrt (Liste PAGES in build.py)."""
+    sys.path.insert(0, str(SITE / "tools"))
+    import build
+    out = []
+    for row in build.PAGES:
+        if row["de"] == "coin":
+            continue
+        de, en = SITE / f"{row['de']}.html", SITE / "en" / f"{row['en']}.html"
+        if de.exists() != en.exists():
+            out.append(f"Sprachpaar unvollständig: {de.name} / en/{en.name}")
+    names = {r["de"] for r in build.PAGES}
+    out += [f"{p.name}: fehlt in PAGES (build.py)" for p in (SITE / "src").glob("*.html") if p.stem not in names]
+    return out
+
+
 def parse(path):
     p = Page()
     p.feed(path.read_text(encoding="utf-8"))
@@ -192,7 +278,8 @@ def main():
                 break
         for d in sorted(p.dupes):
             errors.append(f"{rel}: ID doppelt: {d}")
-    errors += images() + secrets() + strategies()
+        errors += [f"{rel}: {x}" for x in p.problems]
+    errors += images() + secrets() + strategies() + contrast() + pairs() + weight(pages) + globals_()
     for e in errors:
         print(e)
     print(f"{len(pages)} Seiten geprüft, {len(errors)} Fehler")

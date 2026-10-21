@@ -13,6 +13,7 @@ const ok = (cond, msg) => { if (!cond) fails.push(msg); };
     const page = await browser.newPage({viewport: {width, height: 900}});
     const errs = [];
     page.on("pageerror", e => errs.push(e.message));
+    page.on("console", m => /Content Security Policy|Refused to/i.test(m.text()) && errs.push("CSP: " + m.text().slice(0, 160)));
     await page.route(/^https?:\/\//, r => r.abort());  // offline: Schriften und APIs dürfen fehlen
     await page.goto(url(p));
     return {page, errs};

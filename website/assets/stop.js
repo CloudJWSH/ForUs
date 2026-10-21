@@ -49,6 +49,8 @@
     const sy = y(1 - v.sl / 100).toFixed(1);
     $("st-chart").innerHTML = `<line class="stop" x1="0" x2="${W}" y1="${sy}" y2="${sy}"/><line class="zero" x1="${x(0)}" x2="${x(0)}" y1="0" y2="${H}"/>`
       + `<path class="ln" d="${path}"/>${dot(OPEN + DELAY, "open")}${dot(BG + DELAY, "bg")}`;
+    const base = $("st-chart").dataset.label || ($("st-chart").dataset.label = $("st-chart").getAttribute("aria-label"));
+    $("st-chart").setAttribute("aria-label", `${base}: ${f((priceAt(v, OPEN + DELAY) - 1) * 100, 1)} % / ${f((priceAt(v, BG + DELAY) - 1) * 100, 1)} %`);
   }
 
   function run() {

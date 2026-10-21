@@ -5,12 +5,13 @@ Statische Produktseite für die Chrome-Erweiterung Pump Paper (Papertrading auf 
 | Datei | Inhalt |
 | --- | --- |
 | `index.html`, `en/index.html` | Startseite mit Demo und Rechner. Navigation, Kopf, Version, Neuerungen und Coin-Teil zwischen `<!-- … -->`-Markern trägt `tools/build.py` ein. |
-| `src/*.html`, `src/en/*.html` | Inhalt der Unterseiten (Anleitung, Lexikon, Üben, Konto, Datenschutz, 404). Daraus baut `tools/build.py` die fertigen Seiten. |
+| `src/*.html`, `src/en/*.html` | Inhalt der Unterseiten (Anleitung, Lexikon, Üben, Grundlagen mit Quiz, Konto, Strategie-Labor, Datenschutz, 404). Auf Lernseiten trägt der Bau die Lesezeit ein, auf der 404-Seite die Liste aller Seiten. Daraus baut `tools/build.py` die fertigen Seiten. |
 | `changelog.html` | Wird aus `extension/CHANGELOG.md` und `CHANGELOG.en.md` gebaut. |
 | `coin.json` | Coin-Teil (Abschnitt, Seite `coin.html`, Menü-Link). Bleibt aus, bis `live` auf `true` steht. Nur öffentliche Adressen eintragen. |
-| `site.json` | `base_url` der fertigen Website. Leer lassen, solange sie nicht veröffentlicht ist; dann gibt es auch keine Sitemap. |
+| `site.json` | `base_url` der fertigen Website (leer: keine Sitemap, keine canonical-Links). `download_repo`: öffentliches Repo, aus dem der Download-Knopf lädt. `source_public`: auf `false`, sobald das Code-Repo privat ist, dann verschwinden die Quellcode-Links. |
 | `assets/site.css`, `assets/site.js` | Aussehen, helles/dunkles Design, Menü, Sprachumschalter, Kopieren, Bildansicht. |
-| `assets/demo.js`, `rechner.js`, `stop.js`, `share.js` | Demo-Coin, Rechner auf der Startseite und in der Anleitung, Teilen-Links. |
+| `assets/demo.js`, `rechner.js`, `stop.js`, `share.js` | Demo-Coin (mit Standard- oder Labor-Regeln, Startwert, Marktlage), Rechner (Kauf/Verkauf, Kurve/Pool, SOL/USDC), Stop-Rechner, Teilen-Links. Demo und Rechner rechnen mit `kurve.js`. |
+| `assets/quiz.js`, `ueben.js`, `lexikon.js` | Quiz der Grundlagen-Seite, Abhaken und Notizen beim Üben, Suche und „Siehe auch“ im Lexikon. |
 | `assets/konto.js` | Konto-Seite: Beispieldaten, CSV-Auswertung, liest das Konto aus der Erweiterung (nur lesend). |
 | `assets/kurve.js`, `assets/strategie.js`, `assets/labor.js` | Strategie-Labor (`strategie.html`): gemeinsamer Rechenkern der Bonding-Kurve, Prüfung und Papier-Test eigener Strategien, Oberfläche. Es wird nichts gekauft. |
 | `strategien/` | Beispiel-Strategien im Format `pump-paper-strategy` und das Schema dazu. |
@@ -36,6 +37,14 @@ Auf GitHub erledigen das die Workflows:
 Der Download-Knopf zeigt immer auf `releases/latest/download/Pump-Paper.zip`.
 
 Bilder der Erweiterung (`assets/shots/`) zeichnet `tools/shots/shots.js` mit dem echten Code aus `extension/` und Beispieldaten aus `tools/shots/mock.js`. Der Release-Workflow macht das bei jeder neuen Version selbst. Bilder und Texte für den Chrome Web Store liegen in `store/` (siehe `store/README.md`).
+
+## Strategie-Format
+
+Das Labor speichert Regeln als JSON im Format `pump-paper-strategy`, Version 1. Felder: `entry` (`mcUsd`, `progress`, `ageMin`, je `min`/`max`), `size` (`mode`, `value`), `exit` (`targetPct`, `stopPct`, `timeMin`, `trailingPct`, `partial.sellPct`), `limits` (`maxOpen`, `pauseAfterLosses.count`/`.minutes`), `execution` (`delaySec`, `slippagePct`, `priorityFee`). Unbekannte Felder werden ignoriert, alle Zahlen haben Grenzen. Schema: `strategien/strategy.schema.json`, Beispiele daneben. Eine Strategie-Datei kauft nichts, Pump Paper soll sie später nur zum Anzeigen passender Coins einlesen.
+
+## Sicherheit
+
+Jede Seite hat eine Content-Security-Policy (nur eigene Skripte, Schriften von Google, Abfragen nur an DexScreener und Solana-Zugänge). `check.py` prüft außerdem Kontrast (WCAG AA, hell und dunkel), Bildmaße, fremde Skripte, `tabindex`, Diagramm-Beschreibungen, Sprachpaare, Ladegewicht je Seite und dass die Skripte keine globalen Namen anlegen.
 
 ## Begriffe
 

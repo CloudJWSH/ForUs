@@ -1,4 +1,5 @@
 /* Layout: eine Lesespalte mit breitem Hero (Text links, nachgebauter pump.fun-Coin mit Panel rechts), danach Rechnung, Funktionen, Installation, Fahrplan, Fragen. Dunkel zuerst wie die Erweiterung selbst. */
+/* Inhalt: Kopfzeile · Knöpfe · Hero · Nachgebaute Coinseite · Abschnitte · Rechnung · Funktionen · Installation · Fahrplan · Fragen · Fuß · Rechner · Navigation und Fuß · Unterseiten · Bilder der Erweiterung · Stop-Rechner und Lexikon · Sprachumschalter · Demo · Konto-Seite · Konto-Seite: Filter, Balken, Sortieren · Coin-Abschnitt (erst sichtbar, wenn coin.json live ist) · Kopfzeile: klebt oben, Menü fürs Handy · Hero: Schein hinter der Bühne, Kurs zeichnet sich beim Laden · Vergleich und Schluss · Barrierefreiheit · Startseite, Paket 2 · Lexikon: Suche und A–Z · Coin: Fälschungen, Nachprüfen, Rechtliches, eigene Seite · Strategie-Labor · Startseite: Zahlenleiste, dritter Knopf, FAQ-Gruppen, Install-Dauer · Anleitung: Probleme, Tasten · Üben: Notizen · Grundlagen: Quiz, Lesezeit · Rechner: Auswahl, Fehler, Aktionen · Stop-Rechner: Diagramm · Demo: Regeln, Zoom, Tabelle · 404: Seitensuche */
 :root {
   --bg: #0b110f;
   --panel: #101915;
@@ -20,12 +21,12 @@
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
     --bg: #f3f5f2; --panel: #ffffff; --raise: #eaf0eb; --ink: #142019; --muted: #5d6e65; --line: #d9e1db;
-    --gold-ink: #94600a; --gold-soft: #f6ead2; --gain: #11804f; --loss: #c2353d; color-scheme: light;
+    --gold-ink: #8a5908; --gold-soft: #f6ead2; --gain: #0d7243; --loss: #c2353d; color-scheme: light;
   }
 }
 :root[data-theme="light"] {
   --bg: #f3f5f2; --panel: #ffffff; --raise: #eaf0eb; --ink: #142019; --muted: #5d6e65; --line: #d9e1db;
-  --gold-ink: #94600a; --gold-soft: #f6ead2; --gain: #11804f; --loss: #c2353d; color-scheme: light;
+  --gold-ink: #8a5908; --gold-soft: #f6ead2; --gain: #0d7243; --loss: #c2353d; color-scheme: light;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -351,6 +352,8 @@ main.sub:has(.konto) { max-width: 1040px; }
 .konto .k-sample { margin: 0 0 -28px; }
 .glossary .see { margin: 8px 0 0; font-size: 13.5px; color: var(--muted); }
 .glossary .see a { color: var(--gold-ink); }
+
+/* Konto-Seite: Filter, Balken, Sortieren */
 .k-f { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); }
 .k-f input, .k-f select { font: 13px var(--body); color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; min-width: 0; }
 .k-bars { width: 100%; height: 140px; display: block; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
@@ -625,11 +628,17 @@ main.sub.lab-page > *, .lab > * { min-width: 0; }
 .faq-tools { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; justify-content: space-between; margin-top: -12px; }
 .faq-tools .faq-all { margin: 0; justify-self: auto; }
 .faq-tools .faq-search { margin: 0; flex: 1 1 260px; }
+
+/* Anleitung: Probleme, Tasten */
 .faq-list { margin: 0; display: grid; gap: 14px; }
 .faq-list dt { font-weight: 600; color: var(--ink); }
 .faq-list dd { margin: 4px 0 0; }
 kbd { font: 500 12.5px var(--mono); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; padding: 1px 6px; background: var(--panel); }
+
+/* Üben: Notizen */
 .steps.practice .note-in { display: block; width: 100%; margin-top: 8px; font: 14px var(--body); color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; resize: vertical; }
+
+/* Grundlagen: Quiz, Lesezeit */
 .quiz { display: grid; gap: 14px; }
 .quiz .q { margin: 0; border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 6px; background: var(--panel); }
 .quiz legend { font-weight: 600; padding: 0 4px; color: var(--ink); }
@@ -642,11 +651,15 @@ kbd { font: 500 12.5px var(--mono); border: 1px solid var(--line); border-bottom
 .quiz-result p, .quiz-result ul { margin: 0 0 6px; }
 .quiz-result a { color: var(--gold-ink); }
 .read-time { margin: 0; font: 500 12.5px var(--mono); color: var(--muted); }
+
+/* Rechner: Auswahl, Fehler, Aktionen */
 .calc-tool select { width: 100%; min-width: 0; font: 500 14px var(--body); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 7px; padding: 8px 10px; }
 .calc-tool input[aria-invalid="true"] { border-color: var(--loss); }
 .receipt .note.error { color: var(--loss); }
 .calc-actions { margin: 0; display: flex; flex-wrap: wrap; gap: 6px 16px; font-family: var(--body); font-size: 13px; }
 .receipt [hidden] { display: none !important; }
+
+/* Stop-Rechner: Diagramm */
 .stop-chart { width: 100%; height: 130px; display: block; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; }
 .stop-chart .ln { fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linejoin: round; }
 .stop-chart .stop { stroke: var(--loss); stroke-dasharray: 5 4; stroke-width: 1.2; }
@@ -658,6 +671,8 @@ kbd { font: 500 12.5px var(--mono); border: 1px solid var(--line); border-bottom
 .stop-legend .sw.open { background: var(--gold); } .stop-legend .sw.bg { background: var(--loss); }
 .calc-tool [hidden] { display: none !important; }
 .calc-tool .wide-in select { grid-column: 1 / -1; }
+
+/* Demo: Regeln, Zoom, Tabelle */
 .demo-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 8px; }
 .demo-opts label { display: grid; gap: 3px; font: 500 11.5px var(--body); color: var(--muted); min-width: 0; }
 .demo-opts label:first-child { grid-column: 1 / -1; }
@@ -671,3 +686,8 @@ kbd { font: 500 12.5px var(--mono); border: 1px solid var(--line); border-bottom
 .demo-table td { padding: 3px 4px; vertical-align: top; overflow-wrap: anywhere; }
 .demo-table tr.gain td { color: var(--gain); } .demo-table tr.loss td { color: var(--loss); }
 .demo-foot { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+
+/* 404: Seitensuche */
+.nf-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; max-width: 70ch; }
+.nf-list a { font-weight: 600; color: var(--gold-ink); }
+.nf-list small { display: block; color: var(--muted); font-size: 13.5px; }

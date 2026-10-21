@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Pump Paper Strategy Lab</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-lQtBUw3z89ZcOK/hiJkSuXhwdZVasE/OfuHC+VlI/CI='; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.dexscreener.com https://api.mainnet-beta.solana.com https://solana-rpc.publicnode.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="description" content="Write your own pump.fun strategy and test it on paper: entry, target, stop, time, with the real bonding curve and fees. Nothing gets bought.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Pump Paper">
@@ -75,6 +76,7 @@
         </div>
       </div>
 
+      <noscript><p class="lede">The lab calculates with JavaScript in your browser. Without JavaScript you can only read how the format works here.</p></noscript>
       <form class="lab-form" id="l-form" autocomplete="off">
         <div class="lab-name"><label for="l-name">Name</label><input id="l-name" maxlength="60" value="My strategy"></div>
         <fieldset>

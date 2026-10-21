@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Pump Paper Strategy Basics</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-lQtBUw3z89ZcOK/hiJkSuXhwdZVasE/OfuHC+VlI/CI='; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.dexscreener.com https://api.mainnet-beta.solana.com https://solana-rpc.publicnode.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="description" content="What a trading strategy is, what every trade costs and why a good test is still no guarantee. Short, no promises, with a quiz.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Pump Paper">
@@ -86,6 +87,7 @@
 
       <h2 id="quiz">Quiz</h2>
       <p>Ten questions on the curve, fees and slippage. Nothing is stored or sent.</p>
+      <noscript><p>The quiz needs JavaScript to check answers.</p></noscript>
       <form class="quiz" id="quiz-form">
         <fieldset class="q" data-ok="0" data-link="glossary.html#curve" data-term="Bonding curve"><legend>1. What happens to the price when you buy on the bonding curve?</legend><label><input type="radio" name="q0" value="0"> It rises.</label><label><input type="radio" name="q0" value="1"> It stays the same.</label><label><input type="radio" name="q0" value="2"> It falls.</label></fieldset>
         <fieldset class="q" data-ok="1" data-link="glossary.html#fee" data-term="Fee"><legend>2. Which fee does Pump Paper use on the curve when pump.fun's configuration is missing?</legend><label><input type="radio" name="q1" value="0"> 0.30%</label><label><input type="radio" name="q1" value="1"> 1.25%</label><label><input type="radio" name="q1" value="2"> 5%</label></fieldset>

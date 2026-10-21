@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Pump Paper Strategie-Grundlagen</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-lQtBUw3z89ZcOK/hiJkSuXhwdZVasE/OfuHC+VlI/CI='; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.dexscreener.com https://api.mainnet-beta.solana.com https://solana-rpc.publicnode.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="description" content="Was eine Trading-Strategie ist, welche Kosten jeder Trade hat und warum ein guter Test noch keine Garantie ist. Kurz, ohne Versprechen, mit Quiz.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Pump Paper">
@@ -86,6 +87,7 @@
 
       <h2 id="quiz">Quiz</h2>
       <p>Zehn Fragen zu Kurve, Gebühr und Slippage. Nichts wird gespeichert oder gesendet.</p>
+      <noscript><p>Das Quiz braucht JavaScript zum Auswerten.</p></noscript>
       <form class="quiz" id="quiz-form">
         <fieldset class="q" data-ok="0" data-link="lexikon.html#kurve" data-term="Bonding-Kurve"><legend>1. Was passiert mit dem Preis, wenn du auf der Bonding-Kurve kaufst?</legend><label><input type="radio" name="q0" value="0"> Er steigt.</label><label><input type="radio" name="q0" value="1"> Er bleibt gleich.</label><label><input type="radio" name="q0" value="2"> Er fällt.</label></fieldset>
         <fieldset class="q" data-ok="1" data-link="lexikon.html#gebuehr" data-term="Gebühr"><legend>2. Welche Gebühr rechnet Pump Paper auf der Kurve, wenn die Konfiguration von pump.fun fehlt?</legend><label><input type="radio" name="q1" value="0"> 0,30 %</label><label><input type="radio" name="q1" value="1"> 1,25 %</label><label><input type="radio" name="q1" value="2"> 5 %</label></fieldset>

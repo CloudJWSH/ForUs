@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Pump Paper Account</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-lQtBUw3z89ZcOK/hiJkSuXhwdZVasE/OfuHC+VlI/CI='; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.dexscreener.com https://api.mainnet-beta.solana.com https://solana-rpc.publicnode.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="description" content="Your paper account at a glance: trades, result, trade analysis and tips, read from the installed extension.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Pump Paper">
@@ -56,6 +57,7 @@
       <h1>Your paper account at a glance.</h1>
       <p class="lede">Result, open positions, every trade and an analysis with tips drawn from your own trades. Pump Paper computes it in your browser, none of it goes to a server.</p>
     </div>
+    <noscript><p class="lede">The account page needs JavaScript. It only reads your account from the extension in this browser, nothing is sent.</p></noscript>
     <div class="konto" id="konto" data-latest="1.4.0" data-download="https://github.com/CloudJWSH/ForUs/releases/latest/download/Pump-Paper.zip">
       <p class="k-status" data-status aria-live="polite">This page needs JavaScript to read your account from Pump Paper.</p>
       <div data-body></div>

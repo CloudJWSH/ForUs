@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <!-- meta -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-lQtBUw3z89ZcOK/hiJkSuXhwdZVasE/OfuHC+VlI/CI='; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.dexscreener.com https://api.mainnet-beta.solana.com https://solana-rpc.publicnode.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta name="description" content="Pump Paper: paper trading right on pump.fun. Buy and sell with play money, priced on the real bonding curve or pool, in SOL and USDC. No wallet, no risk.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Pump Paper">
@@ -235,37 +236,37 @@
     </div>
     <div class="features">
       <div class="feat">
-        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 14h18"/></svg></span>
+        <span class="ico"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 14h18"/></svg></span>
         <h3>Panel on the coin page</h3>
         <p>Sits below pump.fun's trade box. Buy buttons in SOL or USDC, sell 25 %, 50 % or everything.</p>
         <a class="feat-more" href="guide.html#panel">More <span aria-hidden="true">→</span></a>
       </div>
       <div class="feat">
-        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 18l5-5 4 4 7-8"/></svg></span>
+        <span class="ico"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 18l5-5 4 4 7-8"/></svg></span>
         <h3>Markers in the chart</h3>
         <p>Your buys and sells show up as markers in the pump.fun chart, target and stop as lines.</p>
         <a class="feat-more" href="guide.html#chart">More <span aria-hidden="true">→</span></a>
       </div>
       <div class="feat">
-        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span>
+        <span class="ico"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span>
         <h3>Target, stop and time</h3>
         <p>A profit target, a stop and a time limit per position, set by you. Pump Paper never buys on its own.</p>
         <a class="feat-more" href="guide.html#rules">More <span aria-hidden="true">→</span></a>
       </div>
       <div class="feat">
-        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M5 8h10a3 3 0 010 6H8"/></svg></span>
+        <span class="ico"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M5 8h10a3 3 0 010 6H8"/></svg></span>
         <h3>SOL and USDC</h3>
         <p>Coins traded against USDC are paid from your USDC balance. You set your starting capital yourself.</p>
         <a class="feat-more" href="guide.html#buy">More <span aria-hidden="true">→</span></a>
       </div>
       <div class="feat">
-        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg></span>
+        <span class="ico"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg></span>
         <h3>History and CSV</h3>
         <p>Every trade with fee, result and market cap. Failed trades are included. Export to CSV for your own analysis.</p>
         <a class="feat-more" href="guide.html#csv">More <span aria-hidden="true">→</span></a>
       </div>
       <div class="feat">
-        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></span>
+        <span class="ico"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></span>
         <h3>Stays with you</h3>
         <p>No account, no wallet, no server. Everything lives in your browser's storage. If one Solana endpoint fails, Pump Paper switches to a second one.</p>
         <a class="feat-more" href="privacy.html">More <span aria-hidden="true">→</span></a>
@@ -388,7 +389,7 @@
         <details id="f-do-i-need-a-wallet" open><summary>Do I need a wallet?</summary><p>No. Pump Paper connects to no wallet and cannot send real transactions. It only reads prices from the blockchain. <a class="faq-link" href="#f-do-i-need-a-wallet" data-copy-link aria-label="Link to this question">#</a></p></details>
         <details id="f-what-does-it-cost"><summary>What does it cost?</summary><p>Nothing. You trade with play money and set your starting capital in the options (default 10 SOL and 1,000 USDC). <a class="faq-link" href="#f-what-does-it-cost" data-copy-link aria-label="Link to this question">#</a></p></details>
         <details id="f-does-it-work-in-brave-edge-or-arc"><summary>Does it work in Brave, Edge or Arc?</summary><p>Yes, in every Chromium-based browser via “Load unpacked”. Firefox and Safari are not supported. <a class="faq-link" href="#f-does-it-work-in-brave-edge-or-arc" data-copy-link aria-label="Link to this question">#</a></p></details>
-        <details id="f-can-i-start-over"><summary>Can I start over?</summary><p>Yes. In the options, “Konto zurücksetzen” (reset account) sets balance, positions and history back to your starting capital. Save your history as CSV first if you want to keep it. <a class="faq-link" href="#f-can-i-start-over" data-copy-link aria-label="Link to this question">#</a></p></details>
+        <details id="f-can-i-start-over"><summary>Can I start over?</summary><p>Yes. In the options, “<span lang="de">Konto zurücksetzen</span>” (reset account) sets balance, positions and history back to your starting capital. Save your history as CSV first if you want to keep it. <a class="faq-link" href="#f-can-i-start-over" data-copy-link aria-label="Link to this question">#</a></p></details>
       </div>
       <div class="faq-group">
         <h3>The math</h3>
