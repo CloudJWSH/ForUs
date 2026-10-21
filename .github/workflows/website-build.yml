@@ -20,6 +20,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Bauen
         run: python3 website/tools/build.py
+      - name: Links und Barrierefreiheit prüfen
+        run: python3 website/tools/check.py
       - name: Ergebnis einchecken
         run: |
           if [ -n "$(git status --porcelain website)" ]; then

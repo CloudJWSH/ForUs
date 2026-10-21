@@ -74,6 +74,7 @@ jobs:
       - name: Website neu bauen (Version, Neuerungen, Änderungsprotokoll)
         run: |
           python3 website/tools/build.py
+          python3 website/tools/check.py
           if [ -n "$(git status --porcelain website)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
