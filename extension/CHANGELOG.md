@@ -2,6 +2,12 @@
 
 Neueste Version oben. Überschrift je Version: `## <Version> · <Datum>`. Jede Zeile mit `- ` wird auf der Website und im Release angezeigt.
 
+## 1.5.0 · 21.10.2026
+
+- Verbindung zum Scout-Board: Funde des X- und pump.fun-Scouts landen in Pump Paper, solange das Board in einem Chrome-Tab offen ist.
+- Auf der Coinseite zeigt das Panel, was der Scout zum Coin gesagt hat: Status, Quelle, Marktwert beim Fund und Notiz.
+- Neuer Reiter „Scout“ im Fenster mit allen Funden, Filter nach Status und Link zur Coinseite.
+
 ## 1.4.0 · 21.10.2026
 
 - Ausführung nach einer einstellbaren Verzögerung (Standard 1 s) zum Kurs, der dann gilt. Die festen 2 % Puffer fallen weg.

@@ -3,7 +3,8 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&
 const cls = x => x > 0 ? "gain" : x < 0 ? "loss" : "";
 const NUM = ["startSol", "startUsdc", "priority", "buffer", "delay", "slippage", "rent", "tp", "sl", "maxMin"];
 const TEXT = ["feeOverride", "rpc", "memebotUrl", "memebotPass"];
-let st = null;
+let st = null, scout = null, sfilter = "alle";
+const RANK = {stark: 0, frueh: 1, beobachten: 2, raus: 3};
 
 function send(m) {
   return new Promise((res, rej) => chrome.runtime.sendMessage(m, r => r && r.ok ? res(r.data) : rej(new Error(r ? r.error : "keine Antwort"))));
@@ -72,14 +73,48 @@ function drawSettings() {
   }
 }
 
+function drawScout() {
+  const coins = scout ? Object.values(scout.coins || {}) : [];
+  $("unscout").hidden = !scout;
+  $("scoutinfo").textContent = scout
+    ? `${coins.length} Coins vom Scout-Board, zuletzt ${new Date(scout.ts).toLocaleTimeString("de-DE", {hour: "2-digit", minute: "2-digit"})}. Neue Funde kommen, solange das Scout-Board in einem Tab offen ist.`
+    : "Noch kein Scout-Board verbunden. Öffne dein Scout-Board in Chrome, dann landen die Funde von X und pump.fun hier und im Panel auf der Coinseite.";
+  const list = coins.filter(c => sfilter === "alle" || c.status === sfilter)
+    .sort((a, b) => (RANK[a.status] ?? 3) - (RANK[b.status] ?? 3) || b.ts - a.ts);
+  $("scoutlist").innerHTML = list.length ? list.map(c => {
+    const open = st && st.positions[c.mint];
+    return `<li><a href="https://pump.fun/coin/${encodeURIComponent(c.mint)}" target="_blank">$${esc(c.sym)}</a>
+      <span class="r st st-${esc(c.status)}">${c.status === "frueh" ? "früh" : esc(c.status)}</span>
+      <small>${esc(c.name)} · ${esc(c.quelle)}${c.mc ? ` · MC ${fmtBig(c.mc)} $` : ""}${open ? " · <b>offen</b>" : ""}</small>
+      <small class="r">${c.ts ? new Date(c.ts).toLocaleTimeString("de-DE", {hour: "2-digit", minute: "2-digit"}) : ""}</small>
+      ${c.notiz ? `<small class="full">${esc(c.notiz)}</small>` : ""}</li>`;
+  }).join("") : scout ? `<li class="empty">Kein Coin in diesem Filter.</li>` : "";
+}
+
 function draw() {
+  drawScout();
   if (!st) return;
   drawKonto();
   drawVerlauf();
   drawSettings();
 }
 
+$("sfilter").addEventListener("click", e => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  sfilter = b.dataset.f;
+  document.querySelectorAll("#sfilter button").forEach(x => x.setAttribute("aria-current", x === b));
+  drawScout();
+});
+
+$("unscout").addEventListener("click", async () => {
+  await send({op: "unscout"});
+  scout = null;
+  drawScout();
+});
+
 async function load() {
+  scout = (await chrome.storage.local.get("scout")).scout || null;
   st = await send({op: "get"});
   draw();
   for (const m of Object.keys(st.positions)) send({op: "quote", mint: m}).catch(() => {});
@@ -154,6 +189,10 @@ $("csv").addEventListener("click", () => {
 });
 
 chrome.storage.onChanged.addListener(c => {
+  if (c.scout) {
+    scout = c.scout.newValue || null;
+    drawScout();
+  }
   if (c.pp && c.pp.newValue) {
     st = c.pp.newValue;
     st.settings = {...DEFAULTS, ...(st.settings || {})};

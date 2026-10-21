@@ -204,13 +204,22 @@ const ACTIONS = {
     await chrome.storage.local.set({pp: {settings: s, wallet: {SOL: s.startSol, USDC: s.startUsdc}, positions: {}, history: [], quotes: {}, solUsd: st.solUsd}});
     return load();
   }),
-  hint: m => memebotHint(m.mint)
+  hint: m => memebotHint(m.mint),
+  scout: async (m, sender) => {
+    const host = sender && sender.url ? new URL(sender.url).hostname : "";
+    if (!host.endsWith(".frame.claudeusercontent.com")) throw new Error("Unbekannte Quelle");
+    const {scout} = await chrome.storage.local.get("scout");
+    if (scout && scout.host && scout.host !== host) throw new Error("Anderes Scout-Board verbunden");
+    await chrome.storage.local.set({scout: {host, ts: Date.now(), coins: m.coins || {}}});
+    return true;
+  },
+  unscout: () => chrome.storage.local.remove("scout")
 };
 
 chrome.runtime.onMessage.addListener((m, sender, reply) => {
   const fn = ACTIONS[m && m.op];
   if (!fn) return false;
-  fn(m).then(data => reply({ok: true, data}), e => reply({ok: false, error: String(e.message || e)}));
+  fn(m, sender).then(data => reply({ok: true, data}), e => reply({ok: false, error: String(e.message || e)}));
   return true;
 });
 

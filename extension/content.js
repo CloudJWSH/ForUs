@@ -39,6 +39,8 @@ input { font: inherit; color: #eaf1ec; background: #0b110f; border: 1px solid #2
 .mc span { font-size: 13px; font-weight: 400; }
 .hint { border: 1px solid #f2b33d; border-radius: 9px; padding: 9px 10px; background: rgba(242,179,61,.08); display: grid; gap: 4px; }
 .hint.old { border-color: #2d3d35; background: transparent; }
+.scout { border: 1px solid #2d3d35; border-left: 3px solid var(--c); border-radius: 9px; padding: 8px 10px; display: grid; gap: 3px; }
+.scout b { color: var(--c); text-transform: uppercase; font-size: 11px; letter-spacing: .05em; }
 .msg { min-height: 16px; font-size: 12px; color: #8ea398; }
 .msg.err { color: #ff6b6b; }
 `;
@@ -48,7 +50,7 @@ input { font: inherit; color: #eaf1ec; background: #0b110f; border: 1px solid #2
   root.innerHTML = `<style>${CSS}</style><div class="box" id="box"></div>`;
   const box = root.getElementById("box");
 
-  let qerr = "", mint = null, q = null, st = null, hint = null, msg = "", err = false, busy = false, lastHint = 0;
+  let scout = {}, qerr = "", mint = null, q = null, st = null, hint = null, msg = "", err = false, busy = false, lastHint = 0;
   try { if (localStorage.getItem("pumpPaperSmall") === "1") box.classList.add("small"); } catch (e) {}
 
   function send(m) {
@@ -218,7 +220,7 @@ input { font: inherit; color: #eaf1ec; background: #0b110f; border: 1px solid #2
     const p = st && st.positions[mint];
     const usd = (q && q.solUsd) || (st && st.solUsd);
     const pay = q ? payOf(q) : p ? p.pay : "SOL";
-    const sym = (q && q.symbol) || (p && p.symbol) || mint.slice(0, 6);
+    const sym = (q && q.symbol) || (p && p.symbol) || (scout[mint] && scout[mint].sym) || mint.slice(0, 6);
     const wallet = st ? `${fmtAmt(st.wallet.SOL, "SOL")} · ${fmtAmt(st.wallet.USDC, "USDC")}` : "…";
     let html = `<div class="head" id="head"><span class="tag">PAPER</span><span class="sym">$${esc(sym)}</span>
       <span class="bal">${wallet}</span></div><div class="body">`;
@@ -232,6 +234,15 @@ input { font: inherit; color: #eaf1ec; background: #0b110f; border: 1px solid #2
         ${q.source !== "Blockchain" ? `<div class="msg err">Kein Solana-Zugang erreichbar, Kurs nur geschätzt von DexScreener.</div>` : ""}</div>`;
     } else {
       html += `<div class="mc">${qerr ? "Kein Kurs" : "Kurs lädt …"}</div>${qerr ? `<div class="msg err">${esc(qerr)}</div>` : ""}`;
+    }
+
+    const sc = scout[mint];
+    if (sc) {
+      const color = {stark: "#3ddc8c", frueh: "#7aa2ff", beobachten: "#f2b33d", raus: "#ff6b6b"}[sc.status] || "#8ea398";
+      const when = sc.ts ? new Date(sc.ts).toLocaleTimeString("de-DE", {hour: "2-digit", minute: "2-digit"}) : "";
+      html += `<div class="scout" style="--c:${color}"><div class="row"><b>Scout: ${esc(sc.status === "frueh" ? "früh" : sc.status)}</b>
+        <span class="muted">${esc(sc.quelle)}${when ? " · " + when : ""}${sc.mc ? " · MC damals " + fmtBig(sc.mc) + " $" : ""}</span></div>
+        ${sc.notiz ? `<span>${esc(sc.notiz)}</span>` : ""}</div>`;
     }
 
     if (hint && !hint.none && !hint.error && hint.mint) {
@@ -317,6 +328,10 @@ input { font: inherit; color: #eaf1ec; background: #0b110f; border: 1px solid #2
   box.addEventListener("focusout", () => setTimeout(draw, 0));
 
   chrome.storage.onChanged.addListener(c => {
+    if (c.scout) {
+      scout = (c.scout.newValue && c.scout.newValue.coins) || {};
+      draw();
+    }
     if (c.pp && c.pp.newValue) {
       st = c.pp.newValue;
       st.settings = {...DEFAULTS, ...(st.settings || {})};
@@ -343,6 +358,10 @@ input { font: inherit; color: #eaf1ec; background: #0b110f; border: 1px solid #2
     }
   }
 
+  chrome.storage.local.get("scout", r => {
+    scout = (r && r.scout && r.scout.coins) || {};
+    draw();
+  });
   loadState();
   watch();
   setInterval(watch, 1000);

@@ -5,12 +5,12 @@
 <title>Pump Paper</title>
 <style>
 :root { color-scheme: dark; }
-body { margin: 0; width: 380px; font: 13px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; color: #eaf1ec; background: #0b110f; font-variant-numeric: tabular-nums; }
-header { display: flex; align-items: center; gap: 8px; padding: 12px 14px; border-bottom: 1px solid #1e2b25; }
+body { margin: 0; width: 410px; font: 13px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; color: #eaf1ec; background: #0b110f; font-variant-numeric: tabular-nums; }
+header { display: flex; align-items: center; gap: 6px; padding: 12px 10px; border-bottom: 1px solid #1e2b25; }
 .tag { background: #f2b33d; color: #1a1304; font-weight: 700; font-size: 11px; padding: 2px 7px; border-radius: 5px; }
 h1 { font-size: 15px; margin: 0; white-space: nowrap; }
 nav { margin-left: auto; display: flex; gap: 4px; }
-nav button { padding: 4px 8px; font-size: 12px; }
+nav button { padding: 4px 6px; font-size: 12px; }
 nav button[aria-current="true"] { background: #f2b33d; color: #1a1304; border-color: #f2b33d; }
 main { padding: 12px 14px 14px; }
 .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; }
@@ -36,12 +36,18 @@ input { box-sizing: border-box; width: 100%; min-width: 0; font: inherit; color:
 .note { color: #8ea398; font-size: 11.5px; margin: 0 0 10px; }
 .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
 .main-btn { background: #f2b33d; color: #1a1304; border-color: #f2b33d; }
+.filters { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 6px; }
+.filters button { padding: 3px 8px; font-size: 12px; }
+.filters button[aria-current="true"] { border-color: #eaf1ec; }
+.st { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.st-stark { color: #3ddc8c; } .st-frueh { color: #7aa2ff; } .st-beobachten { color: #f2b33d; } .st-raus { color: #ff6b6b; }
+li .full { grid-column: 1 / -1; }
 #msg { color: #8ea398; font-size: 12px; min-height: 16px; margin-top: 8px; }
 </style>
 </head>
 <body>
 <header><span class="tag">PAPER</span><h1>Pump Paper</h1>
-  <nav><button data-tab="konto" aria-current="true">Konto</button><button data-tab="verlauf">Verlauf</button><button data-tab="einstellungen">Optionen</button></nav></header>
+  <nav><button data-tab="konto" aria-current="true">Konto</button><button data-tab="verlauf">Verlauf</button><button data-tab="scout">Scout</button><button data-tab="einstellungen">Optionen</button></nav></header>
 <main>
   <section id="konto">
     <div class="stats" id="stats"></div>
@@ -52,6 +58,12 @@ input { box-sizing: border-box; width: 100%; min-width: 0; font: inherit; color:
     <div class="stats" id="hstats"></div>
     <ul id="history"></ul>
     <div class="actions"><button id="csv">Als CSV speichern</button></div>
+  </section>
+  <section id="scout" hidden>
+    <p class="note" id="scoutinfo"></p>
+    <div class="filters" id="sfilter"><button data-f="alle" aria-current="true">Alle</button><button data-f="stark">Stark</button><button data-f="frueh">Früh</button><button data-f="beobachten">Beobachten</button><button data-f="raus">Raus</button></div>
+    <ul id="scoutlist"></ul>
+    <div class="actions"><button id="unscout" hidden>Scout-Board trennen</button></div>
   </section>
   <section id="einstellungen" hidden>
     <p class="note">Kurse und Gebühren kommen je Coin direkt von der Blockchain: Bonding-Kurve oder PumpSwap-Pool, in der Währung, mit der der Coin gehandelt wird (SOL, USDC oder andere), mit der Gebührenstufe nach Marktwert. USDC-Coins zahlst du aus deinem USDC-Guthaben, alle anderen aus SOL. Ein Trade wird wie ein echter erst nach der Verzögerung ausgeführt, zum Kurs, der dann gilt. Weicht der zu weit ab (Slippage), scheitert er und kostet nur die Priority Fee. Ziel-, Stop- und Zeitverkäufe laufen ohne Slippage-Grenze, im Absturz also schlechter als die Marke. Beim ersten Kauf eines Coins kommt die Konto-Miete dazu.</p>

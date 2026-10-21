@@ -2,6 +2,12 @@
 
 Newest version first. Same structure as CHANGELOG.md (German): `## <version> · <date>`, then lines starting with `- `.
 
+## 1.5.0 · 2026-10-21
+
+- Scout-Board link: finds from the X and pump.fun scouts show up in Pump Paper while the board is open in a Chrome tab.
+- On the coin page the panel shows what the scout said about the coin: status, source, market cap when found and note.
+- New “Scout” tab in the popup with all finds, filter by status and link to the coin page.
+
 ## 1.4.0 · 2026-10-21
 
 - Trades fill after an adjustable delay (default 1 s) at the price that holds then. The fixed 2 % buffer is gone.
