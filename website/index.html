@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Pump Paper: Papertrading direkt auf pump.fun. Kaufen und verkaufen mit Spielgeld, gerechnet auf der echten Bonding-Kurve oder dem Pool, in SOL und USDC. Kein Wallet, kein Risiko.">
+<link rel="icon" href="icons/48.png">
+<!-- page -->
+<title>Pump Paper</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: eine Lesespalte mit breitem Hero (Text links, nachgebauter pump.fun-Coin mit Panel rechts), danach Rechnung, Funktionen, Installation, Fahrplan, Fragen. Dunkel zuerst wie die Erweiterung selbst. */
+:root {
+  --bg: #0b110f;
+  --panel: #101915;
+  --raise: #162119;
+  --ink: #eaf1ec;
+  --muted: #8ea398;
+  --line: #1e2b25;
+  --gold: #f2b33d;
+  --gold-ink: #f2b33d;
+  --gold-soft: #2a2312;
+  --on-gold: #1a1304;
+  --gain: #3ddc8c;
+  --loss: #ff6b6b;
+  --display: "Bricolage Grotesque", "Archivo", system-ui, sans-serif;
+  --body: "Archivo", "Helvetica Neue", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f3f5f2; --panel: #ffffff; --raise: #eaf0eb; --ink: #142019; --muted: #5d6e65; --line: #d9e1db;
+    --gold-ink: #94600a; --gold-soft: #f6ead2; --gain: #11804f; --loss: #c2353d; color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #f3f5f2; --panel: #ffffff; --raise: #eaf0eb; --ink: #142019; --muted: #5d6e65; --line: #d9e1db;
+  --gold-ink: #94600a; --gold-soft: #f6ead2; --gain: #11804f; --loss: #c2353d; color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before { animation: none !important; transition: none !important; } }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: 1120px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--display); margin: 0; letter-spacing: -0.025em; text-wrap: balance; }
+h2 { font-size: clamp(28px, 4vw, 40px); line-height: 1.08; font-weight: 700; }
+h3 { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
+p { margin: 0; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--gold-ink); }
+.lede { color: var(--muted); font-size: 18px; max-width: 58ch; }
+
+/* Kopfzeile */
+.top { display: flex; align-items: center; gap: 18px; padding-block: 18px; }
+.brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 700; font-size: 19px; text-decoration: none; letter-spacing: -0.02em; }
+.brand svg { width: 30px; height: 30px; flex: none; }
+.top nav { margin-left: auto; display: flex; gap: 22px; font-size: 14.5px; }
+.top nav a { color: var(--muted); text-decoration: none; }
+.top nav a:hover { color: var(--ink); }
+@media (max-width: 720px) { .top nav { display: none; } }
+
+/* Knöpfe */
+.btn { display: inline-flex; align-items: center; gap: 8px; font: 600 15px/1 var(--body); padding: 13px 18px; border-radius: 9px; text-decoration: none; border: 1px solid var(--line); background: var(--raise); color: var(--ink); cursor: pointer; }
+.btn:hover { border-color: var(--muted); }
+.btn.gold { background: var(--gold); border-color: var(--gold); color: var(--on-gold); }
+.btn.gold:hover { filter: brightness(1.06); }
+.btn.small { padding: 9px 13px; font-size: 14px; }
+
+/* Hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 56px; align-items: center; padding-block: 40px 72px; }
+.hero h1 { font-size: clamp(44px, 7vw, 84px); line-height: .95; font-weight: 800; letter-spacing: -0.045em; }
+.hero h1 .mark { color: var(--on-gold); background: var(--gold); padding: 0 .12em; border-radius: .12em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.hero-copy { display: grid; gap: 24px; align-content: start; min-width: 0; }
+.cta { display: flex; flex-wrap: wrap; gap: 10px; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 14px; color: var(--muted); }
+.facts span::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--gain); margin-right: 8px; vertical-align: 2px; }
+@media (max-width: 900px) { .hero { grid-template-columns: 1fr; gap: 40px; padding-block: 24px 56px; } }
+
+/* Nachgebaute Coinseite */
+.stage { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: 0 30px 80px -40px rgba(0,0,0,.6); min-width: 0; }
+.stage-bar { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+.coin-ava { width: 28px; height: 28px; border-radius: 7px; background: conic-gradient(from 200deg, #f2b33d, #3ddc8c, #2b6cff, #f2b33d); flex: none; }
+.coin-name { color: var(--ink); font-weight: 600; font-size: 14.5px; }
+.stage-bar .mc { margin-left: auto; text-align: right; }
+.stage-bar .mc b { display: block; color: var(--ink); font: 500 14px var(--mono); }
+.chart { position: relative; padding: 8px 8px 0; }
+.chart svg { display: block; width: 100%; height: auto; }
+.curve { padding: 10px 16px 14px; display: grid; gap: 6px; font-size: 12.5px; color: var(--muted); }
+.curve-row { display: flex; justify-content: space-between; gap: 10px; }
+.bar { height: 7px; border-radius: 4px; background: var(--raise); overflow: hidden; }
+.bar i { display: block; height: 100%; width: 63%; background: linear-gradient(90deg, var(--gain), var(--gold)); border-radius: 4px; }
+.pp { margin: 0 12px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); padding: 12px 14px; display: grid; gap: 10px; }
+.pp-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font-size: 13.5px; font-weight: 600; }
+.tag { background: var(--gold); color: var(--on-gold); font: 700 10.5px/1 var(--body); padding: 4px 6px; border-radius: 4px; letter-spacing: .04em; }
+.pp-head .bal { margin-left: auto; color: var(--muted); font: 400 12.5px var(--mono); }
+.pp-buys { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.pp-buys span { text-align: center; font: 500 12.5px var(--mono); padding: 7px 0; border-radius: 7px; background: var(--raise); border: 1px solid var(--line); }
+.pp-buys span.on { background: var(--gold); border-color: var(--gold); color: var(--on-gold); }
+.pp-pos { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; font-size: 12.5px; padding-top: 10px; border-top: 1px solid var(--line); }
+.pp-pos small { color: var(--muted); font-size: 12px; }
+.pp-pos .r { text-align: right; font-family: var(--mono); }
+.gain { color: var(--gain); } .loss { color: var(--loss); }
+.pp-sells { display: flex; gap: 6px; }
+.pp-sells span { flex: 1; text-align: center; font-size: 12px; font-weight: 600; padding: 6px 0; border-radius: 7px; border: 1px solid var(--loss); color: var(--loss); }
+.toast { font-size: 12px; color: var(--muted); font-family: var(--mono); }
+.toast b { color: var(--gain); font-weight: 500; }
+
+/* Abschnitte */
+section.block { padding-block: 72px; border-top: 1px solid var(--line); display: grid; gap: 36px; }
+.head { display: grid; gap: 14px; max-width: 720px; }
+
+/* Rechnung */
+.calc { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: start; }
+.rules { display: grid; gap: 22px; }
+.rule { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 16px; align-items: baseline; }
+.rule .k { font: 500 13px var(--mono); color: var(--gold-ink); }
+.rule p { color: var(--muted); }
+.rule p b { color: var(--ink); font-weight: 600; }
+.receipt { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px 22px 18px; font-family: var(--mono); font-size: 14px; display: grid; gap: 10px; min-width: 0; }
+.receipt header { display: flex; justify-content: space-between; gap: 10px; font-family: var(--body); font-size: 13px; color: var(--muted); padding-bottom: 12px; border-bottom: 1px dashed var(--line); }
+.receipt header b { color: var(--ink); font-weight: 600; font-size: 15px; display: block; }
+.ln { display: flex; justify-content: space-between; gap: 12px; }
+.ln span:first-child { color: var(--muted); font-family: var(--body); }
+.ln.sum { border-top: 1px dashed var(--line); padding-top: 12px; font-weight: 500; }
+.ln.sum span:first-child { color: var(--ink); font-weight: 600; }
+.receipt .note { font-family: var(--body); font-size: 12.5px; color: var(--muted); padding-top: 6px; }
+@media (max-width: 860px) { .calc { grid-template-columns: 1fr; } .rule { grid-template-columns: 1fr; gap: 4px; } }
+
+/* Funktionen */
+.features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.feat { padding: 26px 24px 28px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); display: grid; gap: 10px; align-content: start; min-width: 0; }
+.feat .ico { width: 34px; height: 34px; border-radius: 8px; background: var(--gold-soft); color: var(--gold-ink); display: grid; place-items: center; }
+.feat .ico svg { width: 18px; height: 18px; }
+.feat p { color: var(--muted); font-size: 15px; }
+@media (max-width: 900px) { .features { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .features { grid-template-columns: 1fr; } }
+
+/* Installation */
+.install { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: start; }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: s; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 4px 14px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+.steps li:first-child { padding-top: 0; }
+.steps li::before { content: counter(s); grid-row: span 2; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--gold); color: var(--gold-ink); display: grid; place-items: center; font: 500 14px var(--mono); }
+.steps li p { color: var(--muted); font-size: 15px; }
+code { font-family: var(--mono); font-size: .9em; background: var(--raise); border: 1px solid var(--line); padding: 1px 6px; border-radius: 5px; color: var(--ink); white-space: nowrap; }
+.dl { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 26px; display: grid; gap: 16px; min-width: 0; }
+.dl .ver { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.dl .ver b { font: 800 44px/1 var(--display); letter-spacing: -0.03em; }
+.dl .ver span { color: var(--muted); font-size: 14px; }
+.dl ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: var(--muted); font-size: 15px; }
+.dl .soon { font-size: 13.5px; color: var(--muted); }
+@media (max-width: 860px) { .install { grid-template-columns: 1fr; } }
+
+/* Fahrplan */
+.road { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.phase { padding: 18px 16px; border-radius: 12px; border: 1px solid var(--line); display: grid; gap: 8px; align-content: start; min-width: 0; }
+.phase .st { justify-self: start; font: 600 11px/1 var(--body); letter-spacing: .06em; text-transform: uppercase; padding: 5px 7px; border-radius: 5px; background: var(--raise); color: var(--muted); }
+.phase.done .st { background: var(--gold); color: var(--on-gold); }
+.phase.now { border-color: var(--gold); }
+.phase.now .st { background: var(--gold-soft); color: var(--gold-ink); }
+.phase p { color: var(--muted); font-size: 14px; }
+@media (max-width: 960px) { .road { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .road { grid-template-columns: 1fr; } }
+
+/* Fragen */
+.faq { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; }
+details { border-bottom: 1px solid var(--line); padding: 18px 0; }
+summary { cursor: pointer; font-weight: 600; font-size: 17px; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; font-family: var(--mono); color: var(--gold-ink); }
+details[open] summary::after { content: "–"; }
+details p { color: var(--muted); padding-top: 10px; max-width: 60ch; }
+@media (max-width: 760px) { .faq { grid-template-columns: 1fr; } }
+
+/* Fuß */
+footer { border-top: 1px solid var(--line); padding-block: 32px 48px; display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: start; color: var(--muted); font-size: 13.5px; }
+footer .brand { font-size: 16px; color: var(--ink); }
+footer .brand svg { width: 24px; height: 24px; }
+footer p { max-width: 62ch; }
+
+@keyframes draw { from { stroke-dashoffset: 900; } to { stroke-dashoffset: 0; } }
+.price { stroke-dasharray: 900; animation: draw 1.6s ease-out both; }
+</style>
+<!-- /head -->
+</head>
+<body>
+<!-- body -->
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="#">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#f2b33d"/><path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Pump Paper
+    </a>
+    <nav aria-label="Seite">
+      <a href="#rechnung">So rechnet es</a>
+      <a href="#funktionen">Funktionen</a>
+      <a href="#installieren">Installieren</a>
+      <a href="#fragen">Fragen</a>
+    </nav>
+    <a class="btn gold small" href="#installieren">Holen</a>
+  </header>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Chrome-Erweiterung für pump.fun</p>
+      <h1>Trade pump.fun mit <span class="mark">Spielgeld.</span></h1>
+      <p class="lede">Pump Paper legt ein Papier-Konto direkt auf die pump.fun-Coinseite. Du kaufst und verkaufst wie gewohnt, nur ohne Wallet. Gerechnet wird auf der echten Bonding-Kurve oder dem Pool, mit echten Gebühren, Verzögerung und Slippage.</p>
+      <div class="cta">
+        <a class="btn gold" href="#installieren">Kostenlos installieren</a>
+        <a class="btn" href="#rechnung">So rechnet es</a>
+      </div>
+      <div class="facts"><span>Kein Wallet nötig</span><span>SOL und USDC</span><span>Daten bleiben im Browser</span></div>
+    </div>
+
+    <div class="stage" role="img" aria-label="Beispiel: pump.fun-Coinseite mit Pump-Paper-Panel, Kaufmarker und Zielmarke im Chart">
+      <div class="stage-bar">
+        <span class="coin-ava"></span>
+        <div><span class="coin-name">Sunny Frog</span><br>$SUNNY · Bonding-Kurve</div>
+        <div class="mc">Marktwert<b>$41.870</b></div>
+      </div>
+      <div class="chart">
+        <svg viewBox="0 0 520 210" aria-hidden="true">
+          <g stroke="var(--line)" stroke-width="1">
+            <line x1="0" y1="50" x2="520" y2="50"/><line x1="0" y1="100" x2="520" y2="100"/><line x1="0" y1="150" x2="520" y2="150"/>
+          </g>
+          <line x1="0" y1="44" x2="520" y2="44" stroke="var(--gain)" stroke-width="1.5" stroke-dasharray="5 5"/>
+          <text x="512" y="38" text-anchor="end" fill="var(--gain)" font-family="IBM Plex Mono, monospace" font-size="11">Ziel +50 %</text>
+          <line x1="0" y1="176" x2="520" y2="176" stroke="var(--loss)" stroke-width="1.5" stroke-dasharray="5 5"/>
+          <text x="512" y="194" text-anchor="end" fill="var(--loss)" font-family="IBM Plex Mono, monospace" font-size="11">Stop −25 %</text>
+          <polyline class="price" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"
+            points="0,192 30,186 55,189 80,174 105,178 130,160 150,166 172,140 195,146 214,132 236,138 258,118 280,124 300,102 322,110 344,88 366,96 386,80 408,90 430,74 452,82 476,66 500,72 520,62"/>
+          <g>
+            <circle cx="172" cy="140" r="7" fill="var(--gain)"/>
+            <text x="172" y="144" text-anchor="middle" fill="#0b110f" font-family="Archivo, sans-serif" font-size="10" font-weight="700">K</text>
+            <line x1="172" y1="148" x2="172" y2="205" stroke="var(--gain)" stroke-width="1" stroke-dasharray="2 3"/>
+          </g>
+          <g>
+            <circle cx="430" cy="74" r="7" fill="var(--loss)"/>
+            <text x="430" y="78" text-anchor="middle" fill="#0b110f" font-family="Archivo, sans-serif" font-size="10" font-weight="700">V</text>
+          </g>
+        </svg>
+      </div>
+      <div class="curve">
+        <div class="curve-row"><span>Fortschritt Bonding-Kurve</span><span class="num">63 %</span></div>
+        <div class="bar"><i></i></div>
+      </div>
+      <div class="pp">
+        <div class="pp-head"><span class="tag">PAPER</span> Pump Paper <span class="bal">9,497 SOL · 1.000 USDC</span></div>
+        <div class="pp-buys"><span>0,1</span><span>0,25</span><span class="on">0,5</span><span>1 SOL</span></div>
+        <div class="pp-pos">
+          <span>Position $SUNNY</span><span class="r gain">+34,2 %</span>
+          <small>17,37 Mio. Token · Einstand 0,503 SOL</small><small class="r">+0,172 SOL</small>
+        </div>
+        <div class="pp-sells"><span>25 %</span><span>50 %</span><span>Alles</span></div>
+        <p class="toast">Kauf ausgeführt nach 1,0 s · <b>Slippage 0,8 %</b></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="rechnung">
+    <div class="head">
+      <p class="eyebrow">So rechnet es</p>
+      <h2>Ein Papier-Gewinn soll auch echt ein Gewinn gewesen sein.</h2>
+      <p class="lede">Die meisten Papertrader rechnen mit dem Kurs, der gerade angezeigt wird. Pump Paper rechnet mit dem Kurs, den dein Trade wirklich bekommen hätte.</p>
+    </div>
+    <div class="calc">
+      <div class="rules">
+        <div class="rule"><span class="k">Kurs</span><p><b>Direkt von der Blockchain.</b> Pump Paper liest die Reserven der Bonding-Kurve oder des PumpSwap-Pools und rechnet deine Menge daraus aus. Nach der Migration wechselt es automatisch auf den Pool.</p></div>
+        <div class="rule"><span class="k">Gebühr</span><p><b>Je Coin nach Marktwert.</b> Protokoll-, Creator- und Pool-Gebühr kommen aus der Gebühren-Konfiguration von pump.fun, nicht aus einer festen Zahl.</p></div>
+        <div class="rule"><span class="k">1 s</span><p><b>Ausführung mit Verzögerung.</b> Dein Trade läuft erst nach einer Sekunde, zum Kurs, der dann gilt. Wer im Hype zu spät klickt, merkt es auch auf Papier.</p></div>
+        <div class="rule"><span class="k">10 %</span><p><b>Slippage-Grenze wie bei pump.fun.</b> Läuft der Kurs in der Zeit weiter weg, scheitert der Trade und kostet trotzdem die Priority Fee. Ziel-, Stop- und Zeitverkäufe laufen ohne Grenze und landen im Absturz unter der Marke.</p></div>
+        <div class="rule"><span class="k">0,00204</span><p><b>Konto-Miete beim ersten Kauf.</b> Wie bei einem echten Token-Konto kostet der erste Kauf eines Coins einmal Miete in SOL.</p></div>
+      </div>
+      <div class="receipt" aria-label="Beispielrechnung eines Kaufs">
+        <header><div><b>Kauf 0,5 SOL</b>frischer Coin, Kurve am Start</div><div style="text-align:right">Beispiel<br>Standardwerte</div></header>
+        <div class="ln"><span>Einsatz</span><span>0,50000 SOL</span></div>
+        <div class="ln"><span>Gebühr 1,25 % (0,95 + 0,30)</span><span>−0,00625 SOL</span></div>
+        <div class="ln"><span>Geht in die Kurve</span><span>0,49375 SOL</span></div>
+        <div class="ln"><span>Priority Fee</span><span>0,00100 SOL</span></div>
+        <div class="ln"><span>Konto-Miete (erster Kauf)</span><span>0,00204 SOL</span></div>
+        <div class="ln sum"><span>Vom Konto ab</span><span>0,50304 SOL</span></div>
+        <div class="ln sum"><span>Du bekommst</span><span>≈ 17,37 Mio. Token</span></div>
+        <p class="note">Menge aus den Startreserven der Kurve (30 SOL zu 1,073 Mrd. Token). Im echten Panel kommen Reserven und Gebühr live für genau deinen Coin.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="funktionen">
+    <div class="head">
+      <p class="eyebrow">Funktionen</p>
+      <h2>Alles auf der Seite, auf der du sowieso bist.</h2>
+    </div>
+    <div class="features">
+      <div class="feat">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 14h18"/></svg></span>
+        <h3>Panel auf der Coinseite</h3>
+        <p>Sitzt unter dem Kaufbereich von pump.fun. Kaufknöpfe in SOL oder USDC, verkaufen mit 25 %, 50 % oder alles.</p>
+      </div>
+      <div class="feat">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 18l5-5 4 4 7-8"/></svg></span>
+        <h3>Marker im Chart</h3>
+        <p>Deine Käufe und Verkäufe erscheinen als Marker im pump.fun-Chart, Ziel und Stop als Linien.</p>
+      </div>
+      <div class="feat">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span>
+        <h3>Ziel, Stop und Zeit</h3>
+        <p>Je Position ein Gewinnziel, ein Stop und ein Zeitlimit. Pump Paper verkauft automatisch, auch im Hintergrund.</p>
+      </div>
+      <div class="feat">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M5 8h10a3 3 0 010 6H8"/></svg></span>
+        <h3>SOL und USDC</h3>
+        <p>Coins, die gegen USDC gehandelt werden, zahlst du aus deinem USDC-Guthaben. Startkapital stellst du selbst ein.</p>
+      </div>
+      <div class="feat">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg></span>
+        <h3>Verlauf und CSV</h3>
+        <p>Jeder Trade mit Gebühr, Ergebnis und Marktwert. Gescheiterte Trades stehen mit drin. Export als CSV für deine Auswertung.</p>
+      </div>
+      <div class="feat">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></span>
+        <h3>Bleibt bei dir</h3>
+        <p>Kein Konto, kein Wallet, kein Server. Alles liegt im Speicher deines Browsers. Fällt ein Solana-Zugang aus, nimmt Pump Paper einen zweiten.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="installieren">
+    <div class="head">
+      <p class="eyebrow">Installieren</p>
+      <h2>In zwei Minuten in Chrome.</h2>
+      <p class="lede">Pump Paper ist noch nicht im Chrome Web Store. Bis dahin lädst du es als entpackte Erweiterung.</p>
+    </div>
+    <div class="install">
+      <ol class="steps">
+        <li><h3>Zip laden und entpacken</h3><p>Den Ordner an einen festen Platz legen, zum Beispiel unter Dokumente. Chrome lädt die Erweiterung aus diesem Ordner.</p></li>
+        <li><h3>Erweiterungen öffnen</h3><p><code>chrome://extensions</code> in die Adresszeile tippen und oben rechts den Entwicklermodus einschalten.</p></li>
+        <li><h3>Entpackte Erweiterung laden</h3><p>Auf „Entpackte Erweiterung laden“ klicken und den Ordner Pump Paper wählen. Das Puzzle-Symbol anheften, dann ist das Konto einen Klick entfernt.</p></li>
+        <li><h3>pump.fun öffnen</h3><p>Einen Coin öffnen. Unter dem Kaufbereich erscheint das Panel mit dem gelben PAPER-Schild. Fertig.</p></li>
+      </ol>
+      <div class="dl">
+        <div class="ver"><b>1.4</b><span>aktuelle Version · Chrome, Brave, Edge</span></div>
+        <ul>
+          <li>Ausführung nach Verzögerung zum dann gültigen Kurs</li>
+          <li>Slippage-Grenze, gescheiterte Trades kosten die Priority Fee</li>
+          <li>Konto-Miete beim ersten Kauf eines Coins</li>
+          <li>Zweiter Solana-Zugang als Ausweich</li>
+        </ul>
+        <a class="btn gold" href="#installieren" aria-disabled="true">Download folgt in Kürze</a>
+        <p class="soon">Bei einem Update den Ordner ersetzen und unter <code>chrome://extensions</code> auf Neu laden klicken. Dein Konto bleibt erhalten.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="fahrplan">
+    <div class="head">
+      <p class="eyebrow">Fahrplan</p>
+      <h2>Richtig rechnen geht vor neuen Knöpfen.</h2>
+    </div>
+    <div class="road">
+      <div class="phase done"><span class="st">Fertig</span><h3>Läuft fehlerfrei</h3><p>SOL-Kurve, USDC-Kurve und Pool, Ausweich-Zugang zur Blockchain.</p></div>
+      <div class="phase now"><span class="st">Jetzt</span><h3>Rechnet wie echt</h3><p>Verzögerung, Slippage, Konto-Miete. Abgleich mit echten Trades.</p></div>
+      <div class="phase"><span class="st">Nov</span><h3>Auswertung</h3><p>Kontokurve, Trefferquote, Haltedauer, Notizen und Schlagworte je Trade.</p></div>
+      <div class="phase"><span class="st">Nov</span><h3>Schneller bedienen</h3><p>Kaufen direkt von den Coin-Listen, Tastenkürzel, Beträge in Dollar.</p></div>
+      <div class="phase"><span class="st">Später</span><h3>Chrome Web Store</h3><p>Installation mit einem Klick und kurze Einführung beim ersten Start.</p></div>
+    </div>
+  </section>
+
+  <section class="block" id="fragen">
+    <div class="head">
+      <p class="eyebrow">Fragen</p>
+      <h2>Kurz beantwortet.</h2>
+    </div>
+    <div class="faq">
+      <div>
+        <details open><summary>Brauche ich ein Wallet?</summary><p>Nein. Pump Paper verbindet sich mit keinem Wallet und kann keine echten Transaktionen senden. Es liest nur Kurse von der Blockchain.</p></details>
+        <details><summary>Was kostet Pump Paper?</summary><p>Nichts. Gehandelt wird mit Spielgeld, das Startkapital stellst du in den Optionen ein (Standard 10 SOL und 1.000 USDC).</p></details>
+        <details><summary>Wie nah ist das an echten Trades?</summary><p>Kurs, Gebühr, Verzögerung, Slippage, Priority Fee und Konto-Miete sind eingerechnet. Nicht abgebildet sind andere Käufer, die im selben Block vor dir landen. Bei sehr heißen Coins ist echt deshalb oft noch etwas schlechter.</p></details>
+      </div>
+      <div>
+        <details><summary>Wo liegen meine Daten?</summary><p>Nur in deinem Browser. Es gibt kein Konto und keinen Server. Den Verlauf kannst du jederzeit als CSV speichern.</p></details>
+        <details><summary>Funktioniert es auch nach der Migration?</summary><p>Ja. Sobald ein Coin die Kurve verlässt, rechnet Pump Paper mit dem PumpSwap-Pool weiter, auch für offene Positionen.</p></details>
+        <details><summary>Ist das Anlageberatung?</summary><p>Nein. Pump Paper ist ein Übungswerkzeug. Memecoins sind hochriskant, ein Papier-Gewinn ist keine Garantie für echte Gewinne.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <a class="brand" href="#">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#f2b33d"/><path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Pump Paper
+    </a>
+    <p>Papertrading mit Spielgeld. Kein echtes Geld, keine Anlageberatung. Pump Paper ist ein unabhängiges Projekt und gehört nicht zu pump.fun.</p>
+  </footer>
+</div>
+<!-- /body -->
+</body>
+</html>
