@@ -5,11 +5,23 @@
   if (!form) return;
   const V_SOL = 30, V_TOK = 1073e6, REAL_TOK = 793.1e6, SUPPLY = 1e9;
   const K = V_SOL * V_TOK, FEE = 0.0125, PRIORITY = 0.001, RENT = 0.00204;
+  const EN = document.documentElement.lang === "en";
+  const T = EN ? {
+    loc: "en-US", mio: " M tokens", tok: " tokens", musd: "M $", ok: "filled", fail: "failed",
+    full: "This buy would fill the curve. On pump.fun the coin then migrates to the pool, and Pump Paper keeps calculating with the pool.",
+    failed: (d, s) => `You get ${d} % less than expected, more than your ${s} % slippage. The buy fails and only costs the priority fee.`,
+    fine: (fr, d) => `In the second before execution, others buy ${fr} SOL ahead of you. You get ${d} % less than shown at the click, within your slippage.`,
+  } : {
+    loc: "de-DE", mio: " Mio. Token", tok: " Token", musd: " Mio. $", ok: "ausgeführt", fail: "gescheitert",
+    full: "Die Kurve wäre mit diesem Kauf voll. Auf pump.fun geht der Coin dann in den Pool, Pump Paper rechnet danach mit dem Pool weiter.",
+    failed: (d, s) => `Deine Menge liegt ${d} % unter der erwarteten, mehr als deine Slippage von ${s} %. Der Kauf scheitert und kostet nur die Priority Fee.`,
+    fine: (fr, d) => `In der Sekunde bis zur Ausführung kaufen andere für ${fr} SOL vor dir. Du bekommst ${d} % weniger als beim Klick angezeigt, das liegt innerhalb deiner Slippage.`,
+  };
   const $ = id => document.getElementById(id);
   const num = (id, d) => { const v = Number(String($(id).value).replace(",", ".")); return isFinite(v) && v >= 0 ? v : d; };
-  const f = (x, d) => x.toLocaleString("de-DE", {minimumFractionDigits: d, maximumFractionDigits: d}).replace(/^-/, "−");
-  const tok = x => x >= 1e6 ? f(x / 1e6, 2) + " Mio. Token" : f(x, 0) + " Token";
-  const usdFmt = x => x >= 1e6 ? f(x / 1e6, 2) + " Mio. $" : f(x, 0) + " $";
+  const f = (x, d) => x.toLocaleString(T.loc, {minimumFractionDigits: d, maximumFractionDigits: d}).replace(/^-/, "−");
+  const tok = x => x >= 1e6 ? f(x / 1e6, 2) + T.mio : f(x, 0) + T.tok;
+  const usdFmt = x => x >= 1e6 ? f(x / 1e6, 2) + T.musd : f(x, 0) + " $";
 
   // Kauf auf der Kurve: Gebühr geht vom Einsatz ab, der Rest in die konstante Produktformel.
   function buy(state, sol) {
@@ -38,14 +50,10 @@
     $("o-want").textContent = "≈ " + tok(want);
     $("o-got").textContent = "≈ " + tok(got) + (diff > 0.0005 ? " (−" + f(diff * 100, 1) + " %)" : "");
     const pill = $("o-state");
-    pill.textContent = failed ? "gescheitert" : "ausgeführt";
+    pill.textContent = failed ? T.fail : T.ok;
     pill.className = "state-pill " + (failed ? "bad" : "good");
     $("o-total").textContent = f(failed ? PRIORITY : amt + PRIORITY + RENT, 5) + " SOL";
-    $("o-note").textContent = full
-      ? "Die Kurve wäre mit diesem Kauf voll. Auf pump.fun geht der Coin dann in den Pool, Pump Paper rechnet danach mit dem Pool weiter."
-      : failed
-        ? "Deine Menge liegt " + f(diff * 100, 1) + " % unter der erwarteten, mehr als deine Slippage von " + f(slip, 0) + " %. Der Kauf scheitert und kostet nur die Priority Fee."
-        : "In der Sekunde bis zur Ausführung kaufen andere für " + f(front, 2) + " SOL vor dir. Du bekommst " + f(diff * 100, 1) + " % weniger als beim Klick angezeigt, das liegt innerhalb deiner Slippage.";
+    $("o-note").textContent = full ? T.full : failed ? T.failed(f(diff * 100, 1), f(slip, 0)) : T.fine(f(front, 2), f(diff * 100, 1));
   }
 
   form.addEventListener("input", run);

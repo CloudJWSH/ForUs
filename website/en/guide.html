@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pump Paper Guide</title>
+<meta name="description" content="How to use Pump Paper: the panel on pump.fun, buying and selling, target, stop and time limit, history and every option.">
+<meta property="og:title" content="Pump Paper Guide">
+<meta property="og:description" content="How to use Pump Paper: the panel on pump.fun, buying and selling, target, stop and time limit, history and every option.">
+<meta property="og:image" content="../assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="de" href="../anleitung.html">
+<link rel="icon" href="../icons/48.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#f2b33d"/><path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Pump Paper
+    </a>
+    <nav aria-label="Site">
+      <a href="index.html#math">How it works</a>
+      <a href="guide.html" aria-current="page">Guide</a>
+      <a href="glossary.html">Glossary</a>
+      <a href="../changelog.html">Changes</a>
+      <a href="index.html#faq">FAQ</a>
+      <a class="lang" href="../anleitung.html" hreflang="de" lang="de" aria-label="Deutsch">DE</a>
+    </nav>
+    <a class="btn gold small" href="index.html#install">Get it</a>
+  </header>
+  <main class="sub">
+    <div class="head">
+      <p class="eyebrow">Guide</p>
+      <h1>Using Pump Paper.</h1>
+      <p class="lede">Everything the panel on pump.fun and the toolbar window show, and what each option does. Version 1.4.0.</p>
+      <p class="lang-note">The extension's interface is in German for now. German labels are quoted next to the English terms.</p>
+      <nav class="toc" aria-label="Contents">
+        <a href="#panel">The panel</a><a href="#buy">Buying</a><a href="#position">Position</a><a href="#rules">Target, stop, time</a><a href="#chart">Chart</a><a href="#window">Account and history</a><a href="#options">Options</a><a href="#notices">Notices</a>
+      </nav>
+    </div>
+
+    <div class="prose">
+      <h2 id="panel">The panel</h2>
+      <p>Open a coin on pump.fun. Below the trade box a box with the yellow <b>PAPER</b> tag appears. If Pump Paper can't find the trade box because pump.fun changed the page, the panel floats at the edge instead. Click its header to collapse and expand it.</p>
+      <p>At the top you see your free balance in SOL and USDC. Below that:</p>
+      <ul>
+        <li><b>Market cap</b> in dollars and in SOL.</li>
+        <li><b>Bonding curve or PumpSwap pool</b> (“Bonding-Kurve”, “PumpSwap-Pool”) and the currency the coin trades in.</li>
+        <li><b>Fee</b> (“Gebühr”) in percent and where it comes from: “Fee-Config” means straight from pump.fun's fee config, “Standard” a fallback value, “von Hand” your fixed value from the options.</li>
+        <li><b>Price source</b> (“Kurs aus”): blockchain or DexScreener, with “live vor x s” while prices stream in.</li>
+        <li><b>Execution delay</b> and <b>slippage</b> (“Ausführung nach”, “Slippage”): your current settings.</li>
+      </ul>
+
+      <h2 id="buy">Buying</h2>
+      <p>Tap one of the four buy buttons (default 0.1 / 0.25 / 0.5 / 1 SOL) or type an amount and press <b>Kaufen</b> (buy). Coins traded against USDC are paid from your USDC balance, and the buttons switch to 10 / 25 / 50 / 100 USDC.</p>
+      <p>Like a real buy, it fills only after the delay, at the price that holds then. If the price moved more than your slippage in that time, the buy fails. A failed buy only costs the priority fee and shows up in the history with its reason. The first buy of a coin adds the account rent.</p>
+
+      <h2 id="position">Your position</h2>
+      <p>Once you hold a coin, the panel shows your result in large type and, next to it, how far the price moved since you entered. Below:</p>
+      <ul>
+        <li><b>Eingesetzt</b> (cost): what the position cost you.</li>
+        <li><b>Verkaufswert jetzt</b> (value now): what selling right now would return, after fee and price impact on the curve.</li>
+        <li><b>Gas bisher</b> (gas so far): priority fees and account rent of this position.</li>
+        <li><b>Einstieg bei MC</b> (entry market cap) and <b>Offen seit</b> (open for).</li>
+      </ul>
+      <p>Sell with <b>25 %</b>, <b>50 %</b> or <b>Alles</b> (all).</p>
+
+      <h2 id="rules">Target, stop and time</h2>
+      <p>Every new position gets the default rules from the options: target +60 %, stop −20 %, time limit 10 minutes. In the panel you change them for that one position. For the stop a positive number is enough, Pump Paper turns it into a loss. Empty or 0 turns a rule off.</p>
+      <p>Below the fields you see at which market cap target and stop trigger. Pump Paper checks the rules on every live price while the coin page is open, and every 30 seconds in the background otherwise. Triggered sells have no slippage limit. In a fast crash a stop therefore lands below the mark, like a real one.</p>
+      <form class="receipt calc-tool" id="stop-rechner" aria-label="Stop calculator">
+        <header><div><b>Stop calculator: selling into a crash</b>Example of how Pump Paper prices it</div><div class="right">fee 1.25 %<br>delay 1 s</div></header>
+        <div class="inputs">
+          <label for="st-amt">Amount (SOL)<input id="st-amt" type="number" min="0.01" step="0.01" value="0.5" inputmode="decimal"></label>
+          <label for="st-sl">Stop (%)<input id="st-sl" type="number" min="1" max="95" step="1" value="20" inputmode="numeric"></label>
+          <label for="st-rate" class="wide-in">Crash per second <output id="st-rate-out" for="st-rate">3 %</output><input id="st-rate" type="range" min="0" max="15" step="0.5" value="3"></label>
+        </div>
+        <div class="stop-cols">
+          <div><span class="k">Coin page open</span><b id="st-open">–</b><small id="st-open-sol">–</small><small>Checked on every live price, at most 1 s apart</small></div>
+          <div><span class="k">In the background</span><b id="st-bg">–</b><small id="st-bg-sol">–</small><small>Checked every 30 s, 15 s wait on average</small></div>
+        </div>
+        <p class="note" id="st-note">–</p>
+      </form>
+      <script src="../assets/stop.js"></script>
+
+      <h2 id="chart">Markers in the chart</h2>
+      <p>Your buys and sells appear as markers in the pump.fun chart. Entry, target and stop of the open position are drawn as horizontal lines: grey, green and red.</p>
+
+      <h2 id="window">Account and history</h2>
+      <p>The Pump Paper icon in Chrome's toolbar opens a window with three tabs.</p>
+      <ul>
+        <li><b>Konto</b> (account): free SOL and USDC, total value and result in dollars, every open position with a link to its coin page and a sell button.</li>
+        <li><b>Verlauf</b> (history): number of sells, hit rate, result and all fees including gas. Below that the last 60 trades, failed ones with their reason. <b>Als CSV speichern</b> exports everything for your own analysis.</li>
+        <li><b>Optionen</b> (options): all settings below. <b>Konto zurücksetzen</b> deletes positions and history and starts over with your starting capital.</li>
+      </ul>
+
+      <h2 id="options">Options</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Option</th><th>Default</th><th>Effect</th></tr></thead>
+          <tbody>
+            <tr><td>Starting capital SOL</td><td>10</td><td>Balance after a reset.</td></tr>
+            <tr><td>Starting capital USDC</td><td>1,000</td><td>Balance for coins traded against USDC.</td></tr>
+            <tr><td>Priority fee per trade</td><td>0.001 SOL</td><td>Charged on every trade, failed ones included.</td></tr>
+            <tr><td>Delay</td><td>1 s</td><td>Time between click and execution.</td></tr>
+            <tr><td>Slippage</td><td>10 %</td><td>How far your amount may fall short of the expected one before the trade fails.</td></tr>
+            <tr><td>Account rent per new coin</td><td>0.00204 SOL</td><td>Once, on the first buy of a coin.</td></tr>
+            <tr><td>Extra buffer</td><td>0 %</td><td>Makes every buy and sell worse on top, if you want to be more conservative.</td></tr>
+            <tr><td>Fixed fee</td><td>empty</td><td>Empty means the per-coin fee from the blockchain. A number overrides it for all coins.</td></tr>
+            <tr><td>New time limit, target, stop</td><td>10 min, +60 %, −20 %</td><td>Rules for every new position.</td></tr>
+            <tr><td>Buy buttons SOL / USDC</td><td>0.1 0.25 0.5 1 / 10 25 50 100</td><td>Amounts of the four buy buttons.</td></tr>
+            <tr><td>Solana RPC</td><td>public endpoint</td><td>Where prices and fees come from. Your own endpoint (Helius, for example) is faster and more reliable.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="notices">Notices in the panel</h2>
+      <p>You may see two red notices:</p>
+      <p class="msg-demo" lang="de">Dein Solana-Zugang antwortet nicht, Kurse kommen gerade über solana-rpc.publicnode.com.</p>
+      <p>Your endpoint isn't answering right now. Pump Paper keeps going through a fallback endpoint, nothing to do for you.</p>
+      <p class="msg-demo" lang="de">Kein Solana-Zugang erreichbar, Kurs nur geschätzt von DexScreener.</p>
+      <p>No endpoint to the blockchain is reachable. The price then comes from DexScreener and is only an estimate. Better wait a moment before trading.</p>
+      <div class="callout"><b>Memebot hints.</b> If you run your own memebot server, enter its address and password in the options. The panel then shows the bot's hint for the coin and takes over amount, target and stop at the press of a button. Without an entry this feature stays off.</div>
+    </div>
+  </main>
+  <footer>
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#f2b33d"/><path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Pump Paper
+    </a>
+    <p>Paper trading with play money. No real money, no financial advice. Pump Paper is an independent project and not affiliated with pump.fun.</p>
+    <nav class="foot-nav" aria-label="More pages"><a href="guide.html">Guide</a><a href="glossary.html">Glossary</a><a href="../changelog.html">Changes (German)</a><a href="privacy.html">Privacy</a><a href="https://github.com/CloudJWSH/ForUs">Source code</a></nav>
+  </footer>
+</div>
+</body>
+</html>

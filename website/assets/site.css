@@ -50,7 +50,7 @@ p { margin: 0; }
 .top nav { margin-left: auto; display: flex; gap: 22px; font-size: 14.5px; }
 .top nav a { color: var(--muted); text-decoration: none; }
 .top nav a:hover { color: var(--ink); }
-@media (max-width: 720px) { .top nav { display: none; } }
+@media (max-width: 720px) { .top nav a:not(.lang) { display: none; } }
 
 /* Knöpfe */
 .btn { display: inline-flex; align-items: center; gap: 8px; font: 600 15px/1 var(--body); padding: 13px 18px; border-radius: 9px; text-decoration: none; border: 1px solid var(--line); background: var(--raise); color: var(--ink); cursor: pointer; }
@@ -260,3 +260,8 @@ main.sub h1 { font-size: clamp(36px, 5.6vw, 60px); line-height: 1; font-weight: 
 .glossary a { color: var(--gold-ink); }
 .glossary > div:target { background: var(--gold-soft); margin-inline: -12px; padding-inline: 12px; border-radius: 8px; }
 @media (max-width: 640px) { .glossary > div { grid-template-columns: 1fr; } }
+
+/* Sprachumschalter */
+.top nav a.lang { font: 500 12.5px var(--mono); letter-spacing: .04em; color: var(--ink); border: 1px solid var(--line); border-radius: 6px; padding: 3px 7px; }
+.top nav a.lang:hover { border-color: var(--muted); }
+.lang-note { font-size: 13.5px; color: var(--muted); }

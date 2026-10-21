@@ -1,0 +1,32 @@
+<!-- title: Pump Paper Privacy -->
+<!-- description: What data Pump Paper handles: no accounts, no wallet, everything stays in your browser. -->
+  <main class="sub">
+    <div class="head">
+      <p class="eyebrow">Privacy</p>
+      <h1>Your data stays in your browser.</h1>
+      <p class="lede">Pump Paper has no user account, no server of its own and no tracking. This page lists exactly what the extension stores and who it talks to. Version {{version}}.</p>
+    </div>
+    <div class="prose">
+      <h2>What is stored</h2>
+      <p>Chrome's local storage (<code>chrome.storage.local</code>) holds your paper balance, open positions, the history of your paper trades, recently loaded prices and your settings. This data never leaves your computer. Removing the extension or resetting the account deletes it.</p>
+
+      <h2>Who Pump Paper talks to</h2>
+      <ul>
+        <li><b>Solana endpoints</b> (default: api.mainnet-beta.solana.com, solana-rpc.publicnode.com as fallback, or your own): Pump Paper asks them for the reserves of the bonding curve or pool and for the fee config. It only sends the coin's address, never anything about you.</li>
+        <li><b>DexScreener</b> (api.dexscreener.com): for the SOL price in dollars and as a fallback when no Solana endpoint answers.</li>
+        <li><b>pump.fun</b>: on a coin page Pump Paper reads which coin is open and draws the panel and the chart markers. It clicks nothing on pump.fun and sends nothing to pump.fun.</li>
+        <li><b>A memebot server</b>, only if you enter an address and password yourself. Chrome asks for permission once. The password stays in this browser.</li>
+      </ul>
+
+      <h2>What Pump Paper does not do</h2>
+      <ul>
+        <li>It connects to no wallet and cannot send real transactions.</li>
+        <li>It uses no trackers, no ads and no analytics.</li>
+        <li>It reads no websites other than pump.fun.</li>
+      </ul>
+
+      <h2>This website</h2>
+      <p>The website is a static page without cookies or forms. Fonts come from Google Fonts, which sees your IP address. The zip download runs through GitHub.</p>
+      <div class="callout"><b>No financial advice.</b> Pump Paper is a practice tool with play money. Memecoins are extremely risky, and a paper profit is no guarantee of real profits.</div>
+    </div>
+  </main>

@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Pump Paper: paper trading right on pump.fun. Buy and sell with play money, priced on the real bonding curve or pool, in SOL and USDC. No wallet, no risk.">
+<meta property="og:title" content="Pump Paper">
+<meta property="og:description" content="Paper trading right on pump.fun: play money, real bonding curve, real fees.">
+<meta property="og:image" content="../assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" hreflang="de" href="../index.html">
+<link rel="icon" href="../icons/48.png">
+<title>Pump Paper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#f2b33d"/><path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Pump Paper
+    </a>
+    <!-- nav -->
+    <nav aria-label="Site">
+      <a href="#math">How it works</a>
+      <a href="guide.html">Guide</a>
+      <a href="glossary.html">Glossary</a>
+      <a href="../changelog.html">Changes</a>
+      <a href="#faq">FAQ</a>
+      <a class="lang" href="../index.html" hreflang="de" lang="de" aria-label="Deutsch">DE</a>
+    </nav>
+    <a class="btn gold small" href="#install">Get it</a>
+    <!-- /nav -->
+  </header>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Chrome extension for pump.fun</p>
+      <h1>Trade pump.fun with <span class="mark">play money.</span></h1>
+      <p class="lede">Pump Paper puts a paper account right on the pump.fun coin page. You buy and sell the way you always do, just without a wallet. Every trade is priced on the real bonding curve or pool, with real fees, delay and slippage.</p>
+      <div class="cta">
+        <a class="btn gold" href="#install">Install for free</a>
+        <a class="btn" href="#math">How it works</a>
+      </div>
+      <div class="facts"><span>No wallet needed</span><span>SOL and USDC</span><span>Data stays in your browser</span></div>
+    </div>
+
+    <div class="stage" role="img" aria-label="Example: pump.fun coin page with the Pump Paper panel, a buy marker and a target line in the chart">
+      <div class="stage-bar">
+        <span class="coin-ava"></span>
+        <div><span class="coin-name">Sunny Frog</span><br>$SUNNY · bonding curve</div>
+        <div class="mc">Market cap<b>$41,870</b></div>
+      </div>
+      <div class="chart">
+        <svg viewBox="0 0 520 210" aria-hidden="true">
+          <g stroke="var(--line)" stroke-width="1">
+            <line x1="0" y1="50" x2="520" y2="50"/><line x1="0" y1="100" x2="520" y2="100"/><line x1="0" y1="150" x2="520" y2="150"/>
+          </g>
+          <line x1="0" y1="44" x2="520" y2="44" stroke="var(--gain)" stroke-width="1.5" stroke-dasharray="5 5"/>
+          <text x="512" y="38" text-anchor="end" fill="var(--gain)" font-family="IBM Plex Mono, monospace" font-size="11">Target +50 %</text>
+          <line x1="0" y1="176" x2="520" y2="176" stroke="var(--loss)" stroke-width="1.5" stroke-dasharray="5 5"/>
+          <text x="512" y="194" text-anchor="end" fill="var(--loss)" font-family="IBM Plex Mono, monospace" font-size="11">Stop −25 %</text>
+          <polyline class="price" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"
+            points="0,192 30,186 55,189 80,174 105,178 130,160 150,166 172,140 195,146 214,132 236,138 258,118 280,124 300,102 322,110 344,88 366,96 386,80 408,90 430,74 452,82 476,66 500,72 520,62"/>
+          <g>
+            <circle cx="172" cy="140" r="7" fill="var(--gain)"/>
+            <text x="172" y="144" text-anchor="middle" fill="#0b110f" font-family="Archivo, sans-serif" font-size="10" font-weight="700">B</text>
+            <line x1="172" y1="148" x2="172" y2="205" stroke="var(--gain)" stroke-width="1" stroke-dasharray="2 3"/>
+          </g>
+          <g>
+            <circle cx="430" cy="74" r="7" fill="var(--loss)"/>
+            <text x="430" y="78" text-anchor="middle" fill="#0b110f" font-family="Archivo, sans-serif" font-size="10" font-weight="700">S</text>
+          </g>
+        </svg>
+      </div>
+      <div class="curve">
+        <div class="curve-row"><span>Bonding curve progress</span><span class="num">63 %</span></div>
+        <div class="bar"><i></i></div>
+      </div>
+      <div class="pp">
+        <div class="pp-head"><span class="tag">PAPER</span> Pump Paper <span class="bal">9.497 SOL · 1,000 USDC</span></div>
+        <div class="pp-buys"><span>0.1</span><span>0.25</span><span class="on">0.5</span><span>1 SOL</span></div>
+        <div class="pp-pos">
+          <span>Position $SUNNY</span><span class="r gain">+34.2 %</span>
+          <small>17.37 M tokens · cost 0.503 SOL</small><small class="r">+0.172 SOL</small>
+        </div>
+        <div class="pp-sells"><span>25 %</span><span>50 %</span><span>All</span></div>
+        <p class="toast">Buy filled after 1.0 s · <b>slippage 0.8 %</b></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="look">
+    <div class="head">
+      <p class="eyebrow">What it looks like</p>
+      <h2>The real panel, not a mock-up.</h2>
+      <p class="lede">These images are drawn by the code of Pump Paper <!-- version -->1.4.0<!-- /version --> itself, with sample data instead of your account.</p>
+      <p class="lang-note">The extension's interface is in German for now. An English interface is on the roadmap.</p>
+    </div>
+    <div class="shots">
+      <figure class="shot tall">
+        <img src="../assets/shots/panel.png" width="314" height="618" alt="Pump Paper panel on a coin page: market cap $9,053, buy buttons in SOL, open position at +0.119 SOL, sell buttons, target, stop and time limit" loading="lazy">
+        <figcaption><b>Panel on the coin page.</b> Market cap, fee and price source at the top, then buying, your position and the rules for selling automatically.</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="../assets/shots/fenster-konto.png" width="380" height="364" alt="Account window: free SOL and USDC, total value, result and two open positions" loading="lazy">
+        <figcaption><b>Account.</b> Balances, total value and every open position, with a sell button.</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="../assets/shots/fenster-verlauf.png" width="380" height="600" alt="History window: hit rate, result, fees and a list of trades including a failed buy" loading="lazy">
+        <figcaption><b>History.</b> Every trade with its reason, including the buy that failed on slippage.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="block" id="math">
+    <div class="head">
+      <p class="eyebrow">How it works</p>
+      <h2>A paper profit should have been a real profit.</h2>
+      <p class="lede">Most paper traders use the price on the screen. Pump Paper uses the price your trade would really have gotten.</p>
+    </div>
+    <div class="calc">
+      <div class="rules">
+        <div class="rule"><span class="k">Price</span><p><b>Straight from the blockchain.</b> Pump Paper reads the reserves of the bonding curve or the PumpSwap pool and calculates your amount from them. After migration it switches to the pool on its own.</p></div>
+        <div class="rule"><span class="k">Fee</span><p><b>Per coin, by market cap.</b> Protocol, creator and pool fees come from pump.fun's fee config, not from a fixed number.</p></div>
+        <div class="rule"><span class="k">1 s</span><p><b>Delayed execution.</b> Your trade fills after one second, at the price that holds then. Click late into a pump and you feel it on paper too.</p></div>
+        <div class="rule"><span class="k">10 %</span><p><b>Slippage limit like pump.fun.</b> If the price runs further away in that time, the trade fails and still costs the priority fee. Target, stop and time sells have no limit and land below the mark in a crash.</p></div>
+        <div class="rule"><span class="k">0.00204</span><p><b>Account rent on the first buy.</b> Just like a real token account, the first buy of a coin costs rent in SOL once.</p></div>
+      </div>
+      <form class="receipt calc-tool" id="rechner" aria-label="Calculator for a buy on the bonding curve">
+        <header><div><b>Calculator: buy on the curve</b>Default settings, try it</div><div class="right">priced like<br>Pump Paper 1.4</div></header>
+        <div class="inputs">
+          <label for="r-amt">Amount (SOL)<input id="r-amt" type="number" min="0.01" max="50" step="0.01" value="0.5" inputmode="decimal"></label>
+          <label for="r-front">Others buy before you (SOL)<input id="r-front" type="number" min="0" max="80" step="0.1" value="1" inputmode="decimal"></label>
+          <label for="r-slip">Slippage (%)<input id="r-slip" type="number" min="0" max="100" step="1" value="10" inputmode="numeric"></label>
+          <label for="r-usd">SOL price ($, assumed)<input id="r-usd" type="number" min="1" step="1" value="180" inputmode="numeric"></label>
+          <label for="r-prog" class="wide-in">Curve progress <output id="r-prog-out" for="r-prog">20 %</output><input id="r-prog" type="range" min="0" max="95" step="1" value="20"></label>
+        </div>
+        <div class="ln"><span>Market cap at click</span><span id="o-mc">–</span></div>
+        <div class="ln"><span>Fee 1.25 % (0.95 + 0.30)</span><span id="o-fee">–</span></div>
+        <div class="ln"><span>Priority fee</span><span>0.00100 SOL</span></div>
+        <div class="ln"><span>Account rent (first buy)</span><span>0.00204 SOL</span></div>
+        <div class="ln"><span>Expected at click</span><span id="o-want">–</span></div>
+        <div class="ln"><span>Actually after 1 s</span><span id="o-got">–</span></div>
+        <div class="ln sum"><span>Result</span><span id="o-state" class="state-pill">–</span></div>
+        <div class="ln sum"><span>Taken from account</span><span id="o-total">–</span></div>
+        <p class="note" id="o-note">In the second before execution, others buy ahead of you. If your amount then falls short of the expected one by more than your slippage, the buy fails like on pump.fun and only costs the priority fee.</p>
+      </form>
+    </div>
+  </section>
+
+  <section class="block" id="features">
+    <div class="head">
+      <p class="eyebrow">Features</p>
+      <h2>Everything on the page you are already on.</h2>
+    </div>
+    <div class="features">
+      <div class="feat">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 14h18"/></svg></span>
+        <h3>Panel on the coin page</h3>
+        <p>Sits below pump.fun's trade box. Buy buttons in SOL or USDC, sell 25 %, 50 % or everything.</p>
+      </div>
+      <div class="feat">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 18l5-5 4 4 7-8"/></svg></span>
+        <h3>Markers in the chart</h3>
+        <p>Your buys and sells show up as markers in the pump.fun chart, target and stop as lines.</p>
+      </div>
+      <div class="feat">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span>
+        <h3>Target, stop and time</h3>
+        <p>A profit target, a stop and a time limit per position. Pump Paper sells automatically, even in the background.</p>
+      </div>
+      <div class="feat">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v18M5 8h10a3 3 0 010 6H8"/></svg></span>
+        <h3>SOL and USDC</h3>
+        <p>Coins traded against USDC are paid from your USDC balance. You set your starting capital yourself.</p>
+      </div>
+      <div class="feat">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg></span>
+        <h3>History and CSV</h3>
+        <p>Every trade with fee, result and market cap. Failed trades are included. Export to CSV for your own analysis.</p>
+      </div>
+      <div class="feat">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg></span>
+        <h3>Stays with you</h3>
+        <p>No account, no wallet, no server. Everything lives in your browser's storage. If one Solana endpoint fails, Pump Paper switches to a second one.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="install">
+    <div class="head">
+      <p class="eyebrow">Install</p>
+      <h2>In Chrome in two minutes.</h2>
+      <p class="lede">Pump Paper is not in the Chrome Web Store yet. Until then you load it as an unpacked extension.</p>
+    </div>
+    <div class="install">
+      <ol class="steps">
+        <li><h3>Download and unzip</h3><p>Download the zip on the right and unzip it. Put the folder somewhere permanent, for example in Documents. Chrome loads the extension from that folder.</p></li>
+        <li><h3>Open extensions</h3><p>Type <code>chrome://extensions</code> into the address bar and turn on Developer mode at the top right.</p></li>
+        <li><h3>Load unpacked</h3><p>Click “Load unpacked” and pick the Pump Paper folder. Pin it from the puzzle icon so your account is one click away.</p></li>
+        <li><h3>Open pump.fun</h3><p>Open any coin. The panel with the yellow PAPER tag appears below the trade box. Done.</p></li>
+      </ol>
+      <div class="dl">
+        <div class="ver"><b><!-- version -->1.4.0<!-- /version --></b><span>current version · Chrome, Brave, Edge</span></div>
+        <ul>
+          <li>Trades fill after an adjustable delay at the price that holds then</li>
+          <li>Slippage limit: failed trades cost the priority fee</li>
+          <li>Account rent on the first buy of a coin</li>
+          <li>Second Solana endpoint as a fallback</li>
+        </ul>
+        <a class="more" href="../changelog.html" hreflang="de">All changes (German)</a>
+        <a class="btn gold" href="https://github.com/CloudJWSH/ForUs/releases/latest/download/Pump-Paper.zip">Download zip</a>
+        <p class="soon">To update, replace the folder and click reload under <code>chrome://extensions</code>. Your account is kept.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="roadmap">
+    <div class="head">
+      <p class="eyebrow">Roadmap</p>
+      <h2>Getting the math right comes before new buttons.</h2>
+    </div>
+    <div class="road">
+      <div class="phase done"><span class="st">Done</span><h3>Runs without errors</h3><p>SOL curve, USDC curve and pool, fallback access to the blockchain.</p></div>
+      <div class="phase now"><span class="st">Now</span><h3>Prices like real</h3><p>Delay, slippage, account rent. Checked against real trades.</p></div>
+      <div class="phase"><span class="st">Nov</span><h3>Stats</h3><p>Equity curve, hit rate, holding time, notes and tags per trade.</p></div>
+      <div class="phase"><span class="st">Nov</span><h3>Faster to use</h3><p>Buy straight from the coin lists, keyboard shortcuts, amounts in dollars.</p></div>
+      <div class="phase"><span class="st">Later</span><h3>Chrome Web Store</h3><p>One-click install and a short intro on first start.</p></div>
+    </div>
+  </section>
+
+  <section class="block" id="faq">
+    <div class="head">
+      <p class="eyebrow">FAQ</p>
+      <h2>Short answers.</h2>
+    </div>
+    <div class="faq">
+      <div>
+        <details open><summary>Do I need a wallet?</summary><p>No. Pump Paper connects to no wallet and cannot send real transactions. It only reads prices from the blockchain.</p></details>
+        <details><summary>What does it cost?</summary><p>Nothing. You trade with play money and set your starting capital in the options (default 10 SOL and 1,000 USDC).</p></details>
+        <details><summary>How close is it to real trades?</summary><p>Price, fee, delay, slippage, priority fee and account rent are included. Other buyers landing in the same block ahead of you are not modeled. On very hot coins real fills are often a little worse still.</p></details>
+      </div>
+      <div>
+        <details><summary>Where is my data?</summary><p>Only in your browser. There is no account and no server. You can save your history as CSV at any time.</p></details>
+        <details><summary>Does it work after migration?</summary><p>Yes. As soon as a coin leaves the curve, Pump Paper keeps going with the PumpSwap pool, including open positions.</p></details>
+        <details><summary>Is this financial advice?</summary><p>No. Pump Paper is a practice tool. Memecoins are extremely risky, and a paper profit is no guarantee of real profits.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#f2b33d"/><path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Pump Paper
+    </a>
+    <p>Paper trading with play money. No real money, no financial advice. Pump Paper is an independent project and not affiliated with pump.fun.</p>
+    <nav class="foot-nav" aria-label="More pages"><a href="guide.html">Guide</a><a href="glossary.html">Glossary</a><a href="../changelog.html">Changes (German)</a><a href="privacy.html">Privacy</a><a href="https://github.com/CloudJWSH/ForUs">Source code</a></nav>
+  </footer>
+</div>
+<script src="../assets/rechner.js"></script>
+</body>
+</html>

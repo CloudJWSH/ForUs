@@ -5,7 +5,8 @@ Statische Produktseite für die Chrome-Erweiterung Pump Paper (Papertrading auf 
 | Datei | Inhalt |
 | --- | --- |
 | `index.html` | Startseite mit Rechner. Navigation, Version und Neuerungen zwischen `<!-- … -->`-Markern trägt `tools/build.py` ein. |
-| `src/*.html` | Inhalt der Unterseiten (Anleitung, Datenschutz, 404). Daraus baut `tools/build.py` die fertigen Seiten. |
+| `src/*.html` | Inhalt der Unterseiten (Anleitung, Lexikon, Datenschutz, 404). Daraus baut `tools/build.py` die fertigen Seiten. |
+| `en/index.html`, `src/en/*.html` | Englische Fassung (Startseite, Guide, Glossary, Privacy, 404). Sprachumschalter EN/DE im Kopf. |
 | `changelog.html` | Wird aus `extension/CHANGELOG.md` gebaut. |
 | `assets/site.css`, `assets/rechner.js` | Gemeinsames Aussehen, Rechner auf der Startseite. |
 | `assets/og.png` | Vorschaubild beim Teilen, Vorlage `tools/og.html`. |
