@@ -1,4 +1,5 @@
-# Baut die Unterseiten der Website neu, wenn sich ihre Quellen ändern (website/src, website/tools, coin.json, site.json).
+# Baut die Unterseiten der Website neu, wenn sich ihre Quellen ändern (website/src, website/tools, coin.json, site.json, assets),
+# prüft Links, Geheimnisse und Bildgrößen und lässt den Rauchtest im Browser laufen.
 # Neue Versionen der Erweiterung baut pump-paper-release.yml.
 name: Website bauen
 
@@ -9,6 +10,9 @@ on:
       - "website/tools/**"
       - "website/coin.json"
       - "website/site.json"
+      - "website/assets/**"
+      - "website/index.html"
+      - "website/en/index.html"
   workflow_dispatch:
 
 permissions:
@@ -24,8 +28,15 @@ jobs:
         run: |
           python3 -m pip install --quiet pillow
           python3 website/tools/build.py
-      - name: Links und Barrierefreiheit prüfen
+      - name: Links, Barrierefreiheit und Geheimnisse prüfen
         run: python3 website/tools/check.py
+      - name: Rauchtest im Browser
+        run: |
+          cd "$RUNNER_TEMP"
+          npm init -y >/dev/null
+          npm install --silent --no-audit --no-fund playwright@1.48.2
+          npx playwright install --with-deps chromium
+          NODE_PATH="$RUNNER_TEMP/node_modules" node "$GITHUB_WORKSPACE/website/tools/smoke.js"
       - name: Ergebnis einchecken
         run: |
           if [ -n "$(git status --porcelain website)" ]; then

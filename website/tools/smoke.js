@@ -1,0 +1,64 @@
+// Rauchtest im Browser: Rechner, Demo, Konto und Coin-freie Seiten laufen ohne Fehler und ohne seitliches Scrollen.
+// Aufruf: node website/tools/smoke.js  (braucht das npm-Paket playwright; CHROMIUM=/pfad nimmt einen vorhandenen Browser)
+const path = require("path");
+const {chromium} = require("playwright");
+const SITE = path.resolve(__dirname, "..");
+const url = p => "file://" + path.join(SITE, p);
+const fails = [];
+const ok = (cond, msg) => { if (!cond) fails.push(msg); };
+
+(async () => {
+  const browser = await chromium.launch(process.env.CHROMIUM ? {executablePath: process.env.CHROMIUM} : {});
+  async function open(p, width = 1280) {
+    const page = await browser.newPage({viewport: {width, height: 900}});
+    const errs = [];
+    page.on("pageerror", e => errs.push(e.message));
+    await page.route(/^https?:\/\//, r => r.abort());  // offline: Schriften und APIs dürfen fehlen
+    await page.goto(url(p));
+    return {page, errs};
+  }
+
+  for (const p of ["index.html", "en/index.html"]) {
+    const {page, errs} = await open(p);
+    // Rechner: andere Summe ergibt anderes Ergebnis
+    const before = await page.textContent("#o-got");
+    await page.fill("#r-amt", "2.5");
+    await page.dispatchEvent("#r-amt", "input");
+    await page.waitForTimeout(100);
+    ok(before !== await page.textContent("#o-got"), `${p}: Rechner reagiert nicht`);
+    ok(/\d/.test(await page.textContent("#o-be")), `${p}: Break-even fehlt`);
+    // Demo: Kaufen ändert den Kontostand
+    await page.locator("#demo").scrollIntoViewIfNeeded();
+    await page.waitForTimeout(300);
+    const bal = await page.textContent("[data-bal]");
+    await page.click("[data-buy='0.5']");
+    await page.waitForTimeout(1500);  // die Demo wartet wie echt eine Sekunde auf die Bestätigung
+    ok(bal !== await page.textContent("[data-bal]"), `${p}: Demo-Kauf ändert nichts`);
+    ok(!errs.length, `${p}: Fehler ${errs.join(" | ")}`);
+    await page.close();
+  }
+
+  for (const p of ["konto.html", "en/account.html"]) {
+    const {page, errs} = await open(p);
+    await page.waitForTimeout(2600);  // ohne Erweiterung kommen nach 2 s die Beispieldaten
+    ok((await page.locator("[data-body] tr, [data-body] .k-tile, [data-body] li").count()) > 3, `${p}: Beispielkonto fehlt`);
+    ok(!errs.length, `${p}: Fehler ${errs.join(" | ")}`);
+    await page.close();
+  }
+
+  const pages = ["index.html", "anleitung.html", "lexikon.html", "ueben.html", "konto.html", "changelog.html", "datenschutz.html", "404.html",
+                 "en/index.html", "en/guide.html", "en/glossary.html", "en/practice.html", "en/account.html", "en/changelog.html", "en/privacy.html", "en/404.html"];
+  for (const p of pages) {
+    const {page, errs} = await open(p, 390);
+    await page.waitForTimeout(150);
+    const over = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
+    ok(over <= 0, `${p}: ${over}px seitlich zu breit auf dem Handy`);
+    ok(!errs.length, `${p}: Fehler ${errs.join(" | ")}`);
+    await page.close();
+  }
+
+  await browser.close();
+  fails.forEach(f => console.log(f));
+  console.log(`Rauchtest: ${fails.length ? fails.length + " Fehler" : "alles in Ordnung"}`);
+  process.exit(fails.length ? 1 : 0);
+})();
