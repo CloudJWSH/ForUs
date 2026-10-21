@@ -5,6 +5,7 @@ Quellen:
   website/src/en/*.html     dasselbe auf Englisch, Ergebnis landet in website/en/
   extension/manifest.json   aktuelle Version
   extension/CHANGELOG.md    Änderungen je Version (## <Version> · <Datum>, darunter Zeilen mit "- ")
+  extension/CHANGELOG.en.md dasselbe auf Englisch für en/changelog.html
 
 Ergebnis:
   website/<name>.html, website/en/<name>.html   Unterseiten mit gemeinsamem Kopf und Fuß
@@ -31,7 +32,7 @@ PAGES = [
     {"de": "anleitung", "en": "guide"},
     {"de": "lexikon", "en": "glossary"},
     {"de": "datenschutz", "en": "privacy"},
-    {"de": "changelog", "en": None},
+    {"de": "changelog", "en": "changelog"},
     {"de": "404", "en": "404"},
 ]
 
@@ -49,10 +50,10 @@ LANGS = {
     "en": {
         "dir": SITE / "en", "up": "../", "other": "de", "other_dir": "../", "switch": "DE", "switch_label": "Deutsch",
         "nav": [("index.html#math", "How it works", "index"), ("guide.html", "Guide", "guide"),
-                ("glossary.html", "Glossary", "glossary"), ("../changelog.html", "Changes", "changelog"),
+                ("glossary.html", "Glossary", "glossary"), ("changelog.html", "Changes", "changelog"),
                 ("index.html#faq", "FAQ", "index")],
         "get": "Get it", "install": "#install", "nav_label": "Site", "foot_label": "More pages",
-        "foot": [("guide.html", "Guide"), ("glossary.html", "Glossary"), ("../changelog.html", "Changes (German)"),
+        "foot": [("guide.html", "Guide"), ("glossary.html", "Glossary"), ("changelog.html", "Changes"),
                  ("privacy.html", "Privacy"), (SOURCE, "Source code")],
         "note": "Paper trading with play money. No real money, no financial advice. Pump Paper is an independent project and not affiliated with pump.fun.",
     },
@@ -138,8 +139,8 @@ def page(lang, name, title, description, body):
 """
 
 
-def changelog():
-    text = (EXT / "CHANGELOG.md").read_text(encoding="utf-8")
+def changelog(name="CHANGELOG.md"):
+    text = (EXT / name).read_text(encoding="utf-8")
     versions = []
     for block in re.split(r"^## ", text, flags=re.M)[1:]:
         head, *lines = block.splitlines()
@@ -183,31 +184,44 @@ def main():
     for lang in LANGS:
         build_sources(lang, version)
 
-    entries = []
-    for i, (ver, date, items) in enumerate(versions):
-        tag = '<span class="st">Neu</span>' if i == 0 else ""
-        when = f'<span class="when">{html.escape(date)}</span>' if date else ""
-        entries.append(f"""    <article class="release" id="v{html.escape(ver)}">
+    texts = {
+        "de": ("CHANGELOG.md", "Neu", "Änderungen", "Was sich in Pump Paper geändert hat.",
+               "Jede neue Version landet automatisch hier und als Zip im Download. Aktuell ist {v}.",
+               "Zip {v} herunterladen", "Pump Paper Änderungen", "Alle Versionen von Pump Paper, aktuell {v}."),
+        "en": ("CHANGELOG.en.md", "New", "Changes", "What changed in Pump Paper.",
+               "Every new version shows up here and as a zip download automatically. Current version: {v}.",
+               "Download zip {v}", "Pump Paper Changes", "Every version of Pump Paper, currently {v}."),
+    }
+    for lang, (file, new, eyebrow, h1, lede, btn, title, desc) in texts.items():
+        if not (EXT / file).exists():
+            continue
+        entries = []
+        for i, (ver, date, items) in enumerate(changelog(file)):
+            tag = f'<span class="st">{new}</span>' if i == 0 else ""
+            when = f'<span class="when">{html.escape(date)}</span>' if date else ""
+            entries.append(f"""    <article class="release" id="v{html.escape(ver)}">
       <div class="release-head"><h2>{html.escape(ver)}</h2>{tag}{when}</div>
       <ul>
 {items_html(items, 8)}
       </ul>
     </article>""")
-    body = f"""  <main class="sub">
+        v = html.escape(version)
+        body = f"""  <main class="sub">
     <div class="head">
-      <p class="eyebrow">Änderungen</p>
-      <h1>Was sich in Pump Paper geändert hat.</h1>
-      <p class="lede">Jede neue Version landet automatisch hier und als Zip im Download. Aktuell ist {html.escape(version)}.</p>
-      <div class="cta"><a class="btn gold" href="{DOWNLOAD}">Zip {html.escape(version)} herunterladen</a></div>
+      <p class="eyebrow">{eyebrow}</p>
+      <h1>{h1}</h1>
+      <p class="lede">{lede.format(v=v)}</p>
+      <div class="cta"><a class="btn gold" href="{DOWNLOAD}">{btn.format(v=v)}</a></div>
     </div>
 {chr(10).join(entries)}
   </main>"""
-    (SITE / "changelog.html").write_text(
-        page("de", "changelog", "Pump Paper Änderungen", f"Alle Versionen von Pump Paper, aktuell {version}.", body),
-        encoding="utf-8")
+        (LANGS[lang]["dir"] / "changelog.html").write_text(
+            page(lang, "changelog", title, desc.format(v=version), body), encoding="utf-8")
 
-    latest = versions[0][2][:4] if versions else []
     for lang in LANGS:
+        file = texts[lang][0] if (EXT / texts[lang][0]).exists() else "CHANGELOG.md"
+        own = changelog(file)
+        latest = own[0][2][:4] if own else []
         path = LANGS[lang]["dir"] / "index.html"
         if not path.exists():
             continue

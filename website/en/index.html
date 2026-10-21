@@ -28,7 +28,7 @@
       <a href="#math">How it works</a>
       <a href="guide.html">Guide</a>
       <a href="glossary.html">Glossary</a>
-      <a href="../changelog.html">Changes</a>
+      <a href="changelog.html">Changes</a>
       <a href="#faq">FAQ</a>
       <a class="lang" href="../index.html" hreflang="de" lang="de" aria-label="Deutsch">DE</a>
     </nav>
@@ -206,13 +206,13 @@
       </ol>
       <div class="dl">
         <div class="ver"><b><!-- version -->1.4.0<!-- /version --></b><span>current version · Chrome, Brave, Edge</span></div>
-        <ul>
-          <li>Trades fill after an adjustable delay at the price that holds then</li>
-          <li>Slippage limit: failed trades cost the priority fee</li>
-          <li>Account rent on the first buy of a coin</li>
-          <li>Second Solana endpoint as a fallback</li>
-        </ul>
-        <a class="more" href="../changelog.html" hreflang="de">All changes (German)</a>
+        <ul><!-- latest -->
+          <li>Trades fill after an adjustable delay (default 1 s) at the price that holds then. The fixed 2 % buffer is gone.</li>
+          <li>Slippage limit like pump.fun (default 10 %). If the price at execution is too far off, the trade fails and only costs the priority fee.</li>
+          <li>Target, stop and time sells have no slippage limit and land worse than the mark in a crash.</li>
+          <li>Account rent of 0.00204 SOL on the first buy of a coin.</li>
+          <!-- /latest --></ul>
+        <a class="more" href="changelog.html">All changes</a>
         <a class="btn gold" href="https://github.com/CloudJWSH/ForUs/releases/latest/download/Pump-Paper.zip">Download zip</a>
         <p class="soon">To update, replace the folder and click reload under <code>chrome://extensions</code>. Your account is kept.</p>
       </div>
@@ -258,7 +258,7 @@
       Pump Paper
     </a>
     <p>Paper trading with play money. No real money, no financial advice. Pump Paper is an independent project and not affiliated with pump.fun.</p>
-    <nav class="foot-nav" aria-label="More pages"><a href="guide.html">Guide</a><a href="glossary.html">Glossary</a><a href="../changelog.html">Changes (German)</a><a href="privacy.html">Privacy</a><a href="https://github.com/CloudJWSH/ForUs">Source code</a></nav>
+    <nav class="foot-nav" aria-label="More pages"><a href="guide.html">Guide</a><a href="glossary.html">Glossary</a><a href="changelog.html">Changes</a><a href="privacy.html">Privacy</a><a href="https://github.com/CloudJWSH/ForUs">Source code</a></nav>
   </footer>
 </div>
 <script src="../assets/rechner.js"></script>
