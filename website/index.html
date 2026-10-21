@@ -220,6 +220,27 @@
     </div>
   </section>
 
+  <section class="block" id="vergleich">
+    <div class="head">
+      <p class="eyebrow">Vergleich</p>
+      <h2>Andere schätzen. Pump Paper rechnet nach.</h2>
+      <p class="lede">Viele Papertrading-Tools nehmen den angezeigten Kurs und ziehen eine Pauschale ab. Auf pump.fun liegt der Unterschied zwischen geschätzt und echt oft bei mehreren Prozent je Trade.</p>
+    </div>
+    <div class="table-wrap cmp">
+      <table>
+        <thead><tr><th></th><th>Pump Paper</th><th>Häufig bei anderen</th></tr></thead>
+        <tbody>
+          <tr><td>Kurs</td><td>Live aus den Reserven der Kurve oder des Pools</td><td>Abgefragt alle paar Sekunden, von einer API</td></tr>
+          <tr><td>Deine Menge</td><td>Auf der Kurve gerechnet, mit Kurswirkung deines Trades</td><td>Betrag geteilt durch Kurs</td></tr>
+          <tr><td>Gebühr</td><td>Je Coin aus der Gebühren-Konfiguration von pump.fun</td><td>Feste Pauschale oder keine</td></tr>
+          <tr><td>Ausführung</td><td>Nach 1 s zum dann gültigen Kurs, mit Slippage-Grenze</td><td>Sofort zum angezeigten Kurs</td></tr>
+          <tr><td>Kleine Kosten</td><td>Priority Fee je Trade, Konto-Miete beim ersten Kauf</td><td>Meist weggelassen</td></tr>
+          <tr><td>Deine Daten</td><td>Nur in deinem Browser</td><td>Oft ein Konto beim Anbieter</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <section class="block" id="installieren">
     <div class="head">
       <p class="eyebrow">Installieren</p>
@@ -254,10 +275,10 @@
       <h2>Richtig rechnen geht vor neuen Knöpfen.</h2>
     </div>
     <div class="road">
-      <div class="phase done"><span class="st">Fertig</span><h3>Läuft fehlerfrei</h3><p>SOL-Kurve, USDC-Kurve und Pool, Ausweich-Zugang zur Blockchain.</p></div>
-      <div class="phase now"><span class="st">Jetzt</span><h3>Rechnet wie echt</h3><p>Verzögerung, Slippage, Konto-Miete. Abgleich mit echten Trades.</p></div>
-      <div class="phase"><span class="st">Nov</span><h3>Auswertung</h3><p>Kontokurve, Trefferquote, Haltedauer, Notizen und Schlagworte je Trade.</p></div>
-      <div class="phase"><span class="st">Nov</span><h3>Schneller bedienen</h3><p>Kaufen direkt von den Coin-Listen, Tastenkürzel, Beträge in Dollar.</p></div>
+      <div class="phase done"><span class="st">Fertig</span><h3>Rechnet wie echt</h3><p>Bonding-Kurve und Pool, Gebühr je Coin, Verzögerung, Slippage, Konto-Miete.</p></div>
+      <div class="phase now"><span class="st">Bald im Download</span><h3>Konto und Analyse</h3><p>Ergebniskurve, PnL-Kalender, Trefferquote je Verkaufsgrund, Tipps und Erfolge.</p></div>
+      <div class="phase now"><span class="st">Bald im Download</span><h3>Radar</h3><p>Frühe Coins von pump.fun und DexScreener mit Score, Bot-Hinweisen und Schnellkauf. Abschaltbar.</p></div>
+      <div class="phase now"><span class="st">Bald im Download</span><h3>Mehr Seiten</h3><p>Papier-Trades auch auf GMGN, DexScreener, Axiom, Photon, BullX und Padre.</p></div>
       <div class="phase"><span class="st">Später</span><h3>Chrome Web Store</h3><p>Installation mit einem Klick und kurze Einführung beim ersten Start.</p></div>
     </div>
   </section>
@@ -282,14 +303,21 @@
     </div>
   </section>
 
+  <section class="final-cta">
+    <h2>Erst auf Papier, dann vielleicht echt.</h2>
+    <p>Pump Paper ist kostenlos, braucht kein Wallet und sieht keinen Cent von dir.</p>
+    <div class="cta"><a class="btn gold" href="#installieren">Pump Paper holen</a><a class="btn" href="anleitung.html">Anleitung lesen</a></div>
+  </section>
+  <!-- footer -->
   <footer>
     <a class="brand" href="index.html">
       <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#f2b33d"/><path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Pump Paper
     </a>
     <p>Papertrading mit Spielgeld. Kein echtes Geld, keine Anlageberatung. Pump Paper ist ein unabhängiges Projekt und gehört nicht zu pump.fun.</p>
-    <nav class="foot-nav" aria-label="Weitere Seiten"><a href="anleitung.html">Anleitung</a><a href="lexikon.html">Lexikon</a><a href="ueben.html">Üben</a><a href="changelog.html">Änderungen</a><a href="datenschutz.html">Datenschutz</a><a href="https://github.com/CloudJWSH/ForUs">Quellcode</a></nav>
+    <nav class="foot-nav" aria-label="Weitere Seiten"><a href="anleitung.html">Anleitung</a><a href="lexikon.html">Lexikon</a><a href="ueben.html">Üben</a><a href="konto.html">Konto</a><a href="changelog.html">Änderungen</a><a href="datenschutz.html">Datenschutz</a><a href="https://github.com/CloudJWSH/ForUs">Quellcode</a></nav>
   </footer>
+  <!-- /footer -->
 </div>
 <script src="assets/rechner.js"></script>
 <script src="assets/demo.js"></script>

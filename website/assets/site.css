@@ -408,3 +408,23 @@ html { scroll-padding-top: 84px; }
   @keyframes fade { to { opacity: 1; } }
 }
 .menu summary::after { content: none !important; display: none !important; }
+
+/* Vergleich und Schluss */
+.cmp table { font-size: 15px; }
+.cmp th:nth-child(2), .cmp td:nth-child(2) { color: var(--ink); background: color-mix(in srgb, var(--gold) 7%, transparent); }
+.cmp th:nth-child(2) { color: var(--gold-ink); }
+.table-wrap.cmp td:nth-child(2) { font-family: var(--body); white-space: normal; }
+.cmp td:first-child { width: 18%; }
+@media (max-width: 600px) {
+  .cmp td:nth-child(2)::before { content: "Pump Paper · "; font-weight: 600; color: var(--gold-ink); }
+  .cmp td:nth-child(2) { background: none; }
+}
+.final-cta { margin-block: 24px 72px; padding: clamp(32px, 6vw, 64px); border-radius: 22px; border: 1px solid var(--line); text-align: center; display: grid; gap: 14px; justify-items: center;
+  background: radial-gradient(80% 120% at 50% 0%, color-mix(in srgb, var(--gold) 16%, transparent), transparent 70%), var(--panel); }
+.final-cta h2 { font-size: clamp(30px, 5vw, 52px); font-weight: 800; letter-spacing: -0.04em; }
+.final-cta p { margin: 0; color: var(--muted); font-size: 17px; max-width: 46ch; }
+.final-cta .cta { justify-content: center; margin-top: 8px; }
+.feat { transition: background .2s; }
+.feat:hover { background: color-mix(in srgb, var(--gold) 4%, transparent); }
+.phase .st { white-space: nowrap; }
+@media (max-width: 600px) { .cmp td:first-child { width: auto; } }

@@ -330,6 +330,7 @@ def main():
         index = replace_marker(index, "version", version)
         index = replace_marker(index, "latest", "\n" + items_html(latest, 10) + "\n          ", required=False)
         index = replace_marker(index, "nav", "\n    " + nav(lang, "index", home=True) + "\n    ")
+        index = replace_marker(index, "footer", "\n  " + footer(lang) + "\n  ")
         section, badge = coin_html(lang, coin)
         index = replace_marker(index, "coin", ("\n" + section) if section else "", required=False)
         index = replace_marker(index, "coin-badge", badge, required=False)
