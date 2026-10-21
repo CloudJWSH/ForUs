@@ -265,3 +265,5 @@ main.sub h1 { font-size: clamp(36px, 5.6vw, 60px); line-height: 1; font-weight: 
 .top nav a.lang { font: 500 12.5px var(--mono); letter-spacing: .04em; color: var(--ink); border: 1px solid var(--line); border-radius: 6px; padding: 3px 7px; }
 .top nav a.lang:hover { border-color: var(--muted); }
 .lang-note { font-size: 13.5px; color: var(--muted); }
+.steps.practice { max-width: 760px; }
+.steps.practice a { color: var(--gold-ink); }
