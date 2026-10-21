@@ -1,6 +1,9 @@
 # Baut bei jeder neuen Version von Pump Paper (extension/manifest.json) die Zip,
 # stellt sie als neuestes Release bereit und trägt die Version auf der Website ein.
 # Der Download-Link der Website zeigt immer auf releases/latest/download/Pump-Paper.zip.
+# Der Code in der Zip ist verschleiert (javascript-obfuscator), damit er nicht einfach lesbar ist.
+# Ist die Repo-Variable DOWNLOAD_REPO (z. B. CloudJWSH/pump-paper) und das Secret DOWNLOAD_REPO_TOKEN gesetzt,
+# landet das Release zusätzlich dort. So kann dieses Repo privat sein und der Download trotzdem öffentlich.
 name: Pump Paper Release
 
 on:
@@ -27,6 +30,17 @@ jobs:
         run: |
           mkdir -p dist/"Pump Paper"
           cp -r extension/. dist/"Pump Paper"/
+          rm -f dist/"Pump Paper"/README.md
+          # Jede Datei mit eigenem Präfix verschleiern: die Skripte teilen sich globale Namen (DEFAULTS, buyFill, …),
+          # die bleiben gleich, nur die inneren Namen und Texte werden unlesbar.
+          npm install --no-save --prefix "$RUNNER_TEMP/obf" javascript-obfuscator@4.1.1
+          for f in dist/"Pump Paper"/*.js; do
+            n=$(basename "$f" .js)
+            "$RUNNER_TEMP/obf/node_modules/.bin/javascript-obfuscator" "$f" --output "$f" --compact true \
+              --string-array true --string-array-encoding base64 --rename-globals false --self-defending false \
+              --identifier-names-generator hexadecimal --identifiers-prefix "pp_${n}_"
+            node --check "$f"
+          done
           cd dist
           zip -rq Pump-Paper.zip "Pump Paper" -x "*.DS_Store"
           cp Pump-Paper.zip "Pump-Paper-${{ steps.v.outputs.version }}.zip"
@@ -56,6 +70,22 @@ jobs:
             gh release create "$TAG" dist/Pump-Paper.zip "dist/Pump-Paper-${{ steps.v.outputs.version }}.zip" \
               --title "Pump Paper ${{ steps.v.outputs.version }}" --target "$GITHUB_SHA" --latest \
               --notes-file dist/notes.md
+          fi
+
+      - name: Release im öffentlichen Download-Repo
+        if: ${{ vars.DOWNLOAD_REPO != '' }}
+        env:
+          GH_TOKEN: ${{ secrets.DOWNLOAD_REPO_TOKEN }}
+          REPO: ${{ vars.DOWNLOAD_REPO }}
+          TAG: v${{ steps.v.outputs.version }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then echo "::warning::DOWNLOAD_REPO_TOKEN fehlt, kein Release in $REPO"; exit 0; fi
+          if gh release view "$TAG" -R "$REPO" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/Pump-Paper.zip "dist/Pump-Paper-${{ steps.v.outputs.version }}.zip" -R "$REPO" --clobber
+            gh release edit "$TAG" -R "$REPO" --latest --notes-file dist/notes.md
+          else
+            gh release create "$TAG" dist/Pump-Paper.zip "dist/Pump-Paper-${{ steps.v.outputs.version }}.zip" -R "$REPO" \
+              --title "Pump Paper ${{ steps.v.outputs.version }}" --latest --notes-file dist/notes.md
           fi
 
       - name: Bilder der Erweiterung neu zeichnen

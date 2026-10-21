@@ -91,10 +91,19 @@ def site_config():
     path = SITE / "site.json"
     cfg = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
     base = cfg.get("base_url", "").strip()
-    return {"base_url": base.rstrip("/") + "/" if base else ""}
+    repo = cfg.get("download_repo", "CloudJWSH/ForUs").strip()
+    if not re.fullmatch(r"[\w.-]+/[\w.-]+", repo):
+        raise SystemExit(f"site.json: download_repo {repo!r} ist kein owner/repo")
+    return {"base_url": base.rstrip("/") + "/" if base else "", "download_repo": repo, "source_public": cfg.get("source_public", True) is not False}
 
 
 CONFIG = site_config()
+# Download und Release-Feed kommen aus dem öffentlichen Download-Repo, der Quellcode-Link nur, wenn das Code-Repo öffentlich ist.
+DOWNLOAD = f"https://github.com/{CONFIG['download_repo']}/releases/latest/download/Pump-Paper.zip"
+RELEASES = f"https://github.com/{CONFIG['download_repo']}/releases"
+if not CONFIG["source_public"]:
+    for _L in LANGS.values():
+        _L["foot"] = [x for x in _L["foot"] if x[0] != SOURCE]
 COIN = {}  # coin.json, wird in main() gesetzt
 
 
@@ -246,7 +255,7 @@ COIN_TEXT = {
         "preview": "Vorschau: Der Abschnitt ist ausgeschaltet, bis der Coin live ist. Adressen sind Platzhalter.",
         "curve": "Bonding-Kurve", "curveNote": "geschätzt aus dem Bestand der Kurve", "supply": "Umlauf", "age": "Seit Launch",
         "fakeH": "Nur diese Mint ist echt.",
-        "fake": "Auf pump.fun kann jeder einen Coin mit gleichem Namen und Bild starten. Echt ist nur die Mint-Adresse oben, die auch im Quellcode dieser Seite auf GitHub steht. Adressen aus Kommentaren, Chats oder Direktnachrichten sind Fälschungen. Wir schreiben niemanden zuerst an und fragen nie nach Wallet oder Seed.",
+        "fake": "Auf pump.fun kann jeder einen Coin mit gleichem Namen und Bild starten. Echt ist nur die Mint-Adresse oben, die auch im Quelltext dieser Seite steht. Adressen aus Kommentaren, Chats oder Direktnachrichten sind Fälschungen. Wir schreiben niemanden zuerst an und fragen nie nach Wallet oder Seed.",
         "checkH": "Prüfen statt glauben",
         "check": ["Mint-Adresse kopieren und auf pump.fun oder Solscan einfügen, nicht nach dem Namen suchen.",
                   "Auf Solscan die Dev-Wallet öffnen: Bestand und jeder Verkauf sind öffentlich.",
@@ -267,7 +276,7 @@ COIN_TEXT = {
         "preview": "Preview: this section stays off until the coin is live. Addresses are placeholders.",
         "curve": "Bonding curve", "curveNote": "estimated from the curve's balance", "supply": "Supply", "age": "Since launch",
         "fakeH": "Only this mint is real.",
-        "fake": "Anyone can launch a coin with the same name and picture on pump.fun. Only the mint address above is real, and it is also in this page's source on GitHub. Addresses from comments, chats or direct messages are fakes. We never message anyone first and never ask for a wallet or seed phrase.",
+        "fake": "Anyone can launch a coin with the same name and picture on pump.fun. Only the mint address above is real, and it is also in this page's source. Addresses from comments, chats or direct messages are fakes. We never message anyone first and never ask for a wallet or seed phrase.",
         "checkH": "Check, don't trust",
         "check": ["Copy the mint address and paste it into pump.fun or Solscan instead of searching by name.",
                   "Open the dev wallet on Solscan: its balance and every sale are public.",
@@ -539,7 +548,7 @@ def main():
       <p class="eyebrow">{eyebrow}</p>
       <h1>{h1}</h1>
       <p class="lede">{lede.format(v=v)}</p>
-      <div class="cta"><a class="btn gold" href="{DOWNLOAD}">{btn.format(v=v)}</a><a class="btn" href="{SOURCE}/releases.atom">{feed}</a></div>
+      <div class="cta"><a class="btn gold" href="{DOWNLOAD}">{btn.format(v=v)}</a><a class="btn" href="{RELEASES}.atom">{feed}</a></div>
     </div>
 {chr(10).join(entries)}
   </main>"""
@@ -565,6 +574,9 @@ def main():
         section, badge = coin_html(lang, coin)
         index = replace_marker(index, "coin", ("\n" + section) if section else "", required=False)
         index = replace_marker(index, "coin-badge", badge, required=False)
+        index = re.sub(r"https://github\.com/[\w.-]+/[\w.-]+/releases/latest/download/Pump-Paper\.zip", DOWNLOAD, index)
+        link = '<span aria-hidden="true">·</span><a href="' + SOURCE + '">' + ("Open source on GitHub" if lang == "en" else "Offener Quellcode auf GitHub") + "</a>"
+        index = replace_marker(index, "source", link if CONFIG["source_public"] else "", required=False)
         path.write_text(index, encoding="utf-8")
         coin_page(lang, coin)
     finish(version)

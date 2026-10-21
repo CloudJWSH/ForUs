@@ -1,4 +1,7 @@
 {
   "_hinweis": "Adresse der fertigen Website, z. B. https://cloudjwsh.github.io/ForUs/website/. Solange leer, entstehen keine canonical-Links und keine sitemap.xml.",
-  "base_url": ""
+  "base_url": "",
+  "_download": "download_repo: öffentliches Repo mit den Releases (Download-Knopf). source_public: false, sobald das Code-Repo privat ist; dann verschwinden die Quellcode-Links.",
+  "download_repo": "CloudJWSH/ForUs",
+  "source_public": true
 }
