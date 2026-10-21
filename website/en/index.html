@@ -116,6 +116,30 @@
     </div>
   </section>
 
+  <section class="block" id="try">
+    <div class="head">
+      <p class="eyebrow">Try it</p>
+      <h2>A coin to practice on, right here.</h2>
+      <p class="lede">A simulated coin on a bonding curve, other traders move the price. You trade with 10 play SOL under Pump Paper's rules: execution after 1 s, 10 % slippage, target +60 %, stop −20 %.</p>
+    </div>
+    <div class="demo" id="demo">
+      <div class="demo-chart">
+        <div class="demo-top"><b>$PRACTICE</b><span class="muted">demo coin, not real</span><span class="mc">Market cap<b data-mc>–</b></span></div>
+        <canvas aria-label="Price of the demo coin with your buys (B) and sells (S)"></canvas>
+        <div class="demo-top"><span class="muted">Curve</span><span class="demo-bar"><i data-bar></i></span><b data-prog>–</b></div>
+      </div>
+      <div class="demo-panel">
+        <div class="pp-head"><span class="tag">PAPER</span>Pump Paper<span class="bal" data-bal>–</span></div>
+        <div class="demo-buys"><button type="button" data-buy="0.1">0.1</button><button type="button" data-buy="0.25">0.25</button><button type="button" data-buy="0.5">0.5</button><button type="button" data-buy="1">1</button></div>
+        <div class="demo-pos" data-pos aria-live="polite"></div>
+        <div class="demo-sells"><button type="button" data-sell="0.25">25 %</button><button type="button" data-sell="0.5">50 %</button><button type="button" data-sell="1">All</button></div>
+        <p class="demo-note" data-note aria-live="polite"></p>
+        <ul class="demo-log" data-log></ul>
+        <button type="button" class="demo-reset" data-reset>Start over</button>
+      </div>
+    </div>
+  </section>
+
   <section class="block" id="math">
     <div class="head">
       <p class="eyebrow">How it works</p>
@@ -262,5 +286,6 @@
   </footer>
 </div>
 <script src="../assets/rechner.js"></script>
+<script src="../assets/demo.js"></script>
 </body>
 </html>

@@ -119,6 +119,30 @@
     </div>
   </section>
 
+  <section class="block" id="ausprobieren">
+    <div class="head">
+      <p class="eyebrow">Ausprobieren</p>
+      <h2>Ein Coin zum Üben, direkt hier.</h2>
+      <p class="lede">Ein simulierter Coin auf einer Bonding-Kurve, andere Händler bewegen den Kurs. Du handelst mit 10 Spiel-SOL nach den Regeln von Pump Paper: Ausführung nach 1 s, Slippage 10 %, Ziel +60 %, Stop −20 %.</p>
+    </div>
+    <div class="demo" id="demo">
+      <div class="demo-chart">
+        <div class="demo-top"><b>$ÜBEN</b><span class="muted">Demo-Coin, nicht echt</span><span class="mc">Marktwert<b data-mc>–</b></span></div>
+        <canvas aria-label="Kursverlauf des Demo-Coins mit deinen Käufen (K) und Verkäufen (V)"></canvas>
+        <div class="demo-top"><span class="muted">Kurve</span><span class="demo-bar"><i data-bar></i></span><b data-prog>–</b></div>
+      </div>
+      <div class="demo-panel">
+        <div class="pp-head"><span class="tag">PAPER</span>Pump Paper<span class="bal" data-bal>–</span></div>
+        <div class="demo-buys"><button type="button" data-buy="0.1">0,1</button><button type="button" data-buy="0.25">0,25</button><button type="button" data-buy="0.5">0,5</button><button type="button" data-buy="1">1</button></div>
+        <div class="demo-pos" data-pos aria-live="polite"></div>
+        <div class="demo-sells"><button type="button" data-sell="0.25">25 %</button><button type="button" data-sell="0.5">50 %</button><button type="button" data-sell="1">Alles</button></div>
+        <p class="demo-note" data-note aria-live="polite"></p>
+        <ul class="demo-log" data-log></ul>
+        <button type="button" class="demo-reset" data-reset>Neu starten</button>
+      </div>
+    </div>
+  </section>
+
   <section class="block" id="rechnung">
     <div class="head">
       <p class="eyebrow">So rechnet es</p>
@@ -265,6 +289,7 @@
   </footer>
 </div>
 <script src="assets/rechner.js"></script>
+<script src="assets/demo.js"></script>
 <!-- /body -->
 </body>
 </html>
