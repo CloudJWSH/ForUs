@@ -349,6 +349,20 @@ main.sub:has(.konto) { max-width: 1040px; }
 }
 .konto [data-body] { display: grid; gap: 40px; }
 .konto .k-sample { margin: 0 0 -28px; }
+.k-f { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); }
+.k-f input, .k-f select { font: 13px var(--body); color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; min-width: 0; }
+.k-bars { width: 100%; height: 140px; display: block; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
+.k-bars .zero { stroke: var(--line); stroke-width: 1; }
+.k-bars .gain { fill: var(--gain); } .k-bars .loss { fill: var(--loss); }
+.k-tolab { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 12px; }
+.k-tolab small { color: var(--muted); font-size: 13px; }
+.k-stats .ex { color: var(--muted); font-size: 12px; line-height: 1.35; }
+.k-stats .has-ex { cursor: help; }
+.k-note.warn { color: var(--ink); border-left: 3px solid var(--gold); padding: 8px 12px; background: var(--gold-soft); border-radius: 0 8px 8px 0; }
+.konto.drop { outline: 2px dashed var(--gold); outline-offset: 8px; border-radius: 14px; }
+.k-sort { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: inherit; }
+.k-table th[aria-sort="ascending"]::after { content: " ▲"; font-size: 10px; } .k-table th[aria-sort="descending"]::after { content: " ▼"; font-size: 10px; }
+@media print { .k-toolbar, .k-tolab, [data-more], .k-status button { display: none !important; } .k-trades tbody tr { display: table-row !important; } }
 
 /* Coin-Abschnitt (erst sichtbar, wenn coin.json live ist) */
 .coin-badge { justify-self: start; display: inline-flex; align-items: center; gap: 8px; font: 500 13px var(--mono); color: var(--ink); text-decoration: none; padding: 6px 12px 6px 10px; border: 1px solid var(--gold); border-radius: 999px; background: var(--gold-soft); }
