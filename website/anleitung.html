@@ -25,6 +25,7 @@
     <nav aria-label="Seite">
       <a href="index.html#rechnung">So rechnet es</a>
       <a href="anleitung.html" aria-current="page">Anleitung</a>
+      <a href="lexikon.html">Lexikon</a>
       <a href="changelog.html">Änderungen</a>
       <a href="index.html#fragen">Fragen</a>
     </nav>
@@ -69,6 +70,21 @@
       <h2 id="regeln">Ziel, Stop und Zeit</h2>
       <p>Jede neue Position bekommt die Standardregeln aus den Optionen: Ziel +60 %, Stop −20 %, Zeitlimit 10 Minuten. Im Panel änderst du sie für diese eine Position. Beim Stop reicht eine positive Zahl, Pump Paper macht daraus einen Verlust. Leer oder 0 schaltet die Regel ab.</p>
       <p>Unter den Feldern steht, bei welchem Marktwert Ziel und Stop auslösen. Pump Paper prüft die Regeln laufend, solange die Coinseite offen ist, und sonst alle 30 Sekunden im Hintergrund. Ausgelöste Verkäufe laufen ohne Slippage-Grenze. Im schnellen Absturz landet ein Stop deshalb unter der Marke, wie bei einem echten Stop.</p>
+
+      <form class="receipt calc-tool" id="stop-rechner" aria-label="Stop-Rechner">
+        <header><div><b>Stop-Rechner: Verkauf im Absturz</b>Beispiel, wie Pump Paper rechnet</div><div class="right">Gebühr 1,25 %<br>Verzögerung 1 s</div></header>
+        <div class="inputs">
+          <label for="st-amt">Einsatz (SOL)<input id="st-amt" type="number" min="0.01" step="0.01" value="0.5" inputmode="decimal"></label>
+          <label for="st-sl">Stop (%)<input id="st-sl" type="number" min="1" max="95" step="1" value="20" inputmode="numeric"></label>
+          <label for="st-rate" class="wide-in">Absturz pro Sekunde <output id="st-rate-out" for="st-rate">3 %</output><input id="st-rate" type="range" min="0" max="15" step="0.5" value="3"></label>
+        </div>
+        <div class="stop-cols">
+          <div><span class="k">Coinseite offen</span><b id="st-open">–</b><small id="st-open-sol">–</small><small>Prüfung bei jedem Live-Kurs, höchstens 1 s Abstand</small></div>
+          <div><span class="k">Im Hintergrund</span><b id="st-bg">–</b><small id="st-bg-sol">–</small><small>Prüfung alle 30 s, im Mittel 15 s Wartezeit</small></div>
+        </div>
+        <p class="note" id="st-note">–</p>
+      </form>
+      <script src="assets/stop.js"></script>
 
       <h2 id="chart">Marker im Chart</h2>
       <p>Im pump.fun-Chart erscheinen deine Käufe und Verkäufe als Marker. Einstieg, Ziel und Stop der offenen Position zeichnet Pump Paper als waagrechte Linien ein: grau, grün und rot.</p>
@@ -116,7 +132,7 @@
       Pump Paper
     </a>
     <p>Papertrading mit Spielgeld. Kein echtes Geld, keine Anlageberatung. Pump Paper ist ein unabhängiges Projekt und gehört nicht zu pump.fun.</p>
-    <nav class="foot-nav" aria-label="Weitere Seiten"><a href="anleitung.html">Anleitung</a><a href="changelog.html">Änderungen</a><a href="datenschutz.html">Datenschutz</a><a href="https://github.com/CloudJWSH/ForUs">Quellcode</a></nav>
+    <nav class="foot-nav" aria-label="Weitere Seiten"><a href="anleitung.html">Anleitung</a><a href="lexikon.html">Lexikon</a><a href="changelog.html">Änderungen</a><a href="datenschutz.html">Datenschutz</a><a href="https://github.com/CloudJWSH/ForUs">Quellcode</a></nav>
   </footer>
 </div>
 </body>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pump Paper Lexikon</title>
+<meta name="description" content="Die Begriffe von pump.fun und Pump Paper kurz erklärt: Bonding-Kurve, Migration, Marktwert, Gebühr, Priority Fee, Slippage, Konto-Miete.">
+<meta property="og:title" content="Pump Paper Lexikon">
+<meta property="og:description" content="Die Begriffe von pump.fun und Pump Paper kurz erklärt: Bonding-Kurve, Migration, Marktwert, Gebühr, Priority Fee, Slippage, Konto-Miete.">
+<meta property="og:image" content="assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="icons/48.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#f2b33d"/><path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Pump Paper
+    </a>
+    <nav aria-label="Seite">
+      <a href="index.html#rechnung">So rechnet es</a>
+      <a href="anleitung.html">Anleitung</a>
+      <a href="lexikon.html" aria-current="page">Lexikon</a>
+      <a href="changelog.html">Änderungen</a>
+      <a href="index.html#fragen">Fragen</a>
+    </nav>
+    <a class="btn gold small" href="index.html#installieren">Holen</a>
+  </header>
+  <main class="sub">
+    <div class="head">
+      <p class="eyebrow">Lexikon</p>
+      <h1>Die Wörter rund um pump.fun.</h1>
+      <p class="lede">Was im Panel steht und wie pump.fun rechnet, kurz erklärt. Die Zahlen sind die Startwerte einer neuen pump.fun-Kurve.</p>
+      <nav class="toc" aria-label="Begriffe">
+        <a href="#kurve">Bonding-Kurve</a><a href="#fortschritt">Fortschritt</a><a href="#migration">Migration</a><a href="#pool">PumpSwap-Pool</a><a href="#mc">Marktwert</a><a href="#quote">SOL- und USDC-Coins</a><a href="#gebuehr">Gebühr</a><a href="#priority">Priority Fee</a><a href="#slippage">Slippage</a><a href="#verzoegerung">Verzögerung</a><a href="#miete">Konto-Miete</a><a href="#rpc">Solana-Zugang</a><a href="#regeln">Ziel, Stop, Zeit</a><a href="#papier">Papertrading</a>
+      </nav>
+    </div>
+    <dl class="glossary">
+      <div id="kurve"><dt>Bonding-Kurve</dt><dd>Die Preisformel, mit der jeder neue pump.fun-Coin startet. Statt eines Orderbuchs gibt es zwei Vorräte: SOL und Token. Ihr Produkt bleibt gleich. Kaufst du, wandert SOL hinein und Token heraus, der Preis steigt. Am Start rechnet die Kurve mit <span class="num">30 SOL</span> zu <span class="num">1,073 Mrd.</span> Token. Pump Paper liest diese Vorräte direkt von der Blockchain.</dd></div>
+      <div id="fortschritt"><dt>Fortschritt der Kurve</dt><dd>Wie viel der rund <span class="num">793 Mio.</span> Token, die über die Kurve verkauft werden, schon weg sind. Je weiter die Kurve, desto teurer jeder weitere Token.</dd></div>
+      <div id="migration"><dt>Migration</dt><dd>Ist die Kurve voll, wechselt der Coin von der Kurve in einen Pool. Viele nennen das auch Graduation. Pump Paper erkennt den Wechsel und rechnet ab dann mit dem Pool, auch für Positionen, die du noch offen hast.</dd></div>
+      <div id="pool"><dt>PumpSwap-Pool</dt><dd>Der Handelsplatz von pump.fun nach der Migration. Auch hier gilt die Formel mit zwei Vorräten, nur mit echten statt gedachten Reserven und einer eigenen Gebühr.</dd></div>
+      <div id="mc"><dt>Marktwert (MC)</dt><dd>Preis eines Tokens mal eine Milliarde, die feste Menge jedes pump.fun-Coins. Das Panel zeigt ihn in Dollar und in SOL. Ziel und Stop rechnet Pump Paper ebenfalls in Marktwert um, damit du sie mit dem Chart vergleichen kannst.</dd></div>
+      <div id="quote"><dt>SOL- und USDC-Coins</dt><dd>Die meisten Coins werden gegen SOL gehandelt, manche gegen USDC. Pump Paper erkennt die Währung je Coin. USDC-Coins zahlst du aus deinem USDC-Guthaben, alle anderen aus SOL.</dd></div>
+      <div id="gebuehr"><dt>Gebühr</dt><dd>Bei jedem Trade behält pump.fun einen Anteil ein. Auf der Kurve sind das Protokoll- und Creator-Gebühr, im Pool kommt ein Anteil für den Pool dazu. Die Höhe hängt vom Marktwert ab. Pump Paper liest sie aus der Gebühren-Konfiguration von pump.fun. Fehlt die, nimmt es <span class="num">1,25 %</span> auf der Kurve (<span class="num">0,95 + 0,30</span>).</dd></div>
+      <div id="priority"><dt>Priority Fee</dt><dd>Ein Aufpreis an das Solana-Netz, damit deine Transaktion schneller in einen Block kommt. Sie wird auch fällig, wenn der Trade scheitert. In Pump Paper stellst du sie in den Optionen ein, Standard <span class="num">0,001 SOL</span>.</dd></div>
+      <div id="slippage"><dt>Slippage</dt><dd>Wie weit der Preis bei der Ausführung schlechter sein darf als beim Klick. Ist die Abweichung größer, bricht pump.fun den Trade ab, und Pump Paper macht es genauso. Ausprobieren kannst du das im <a href="index.html#rechnung">Rechner</a>.</dd></div>
+      <div id="verzoegerung"><dt>Verzögerung</dt><dd>Zwischen deinem Klick und dem Block, in dem der Trade landet, vergeht Zeit. Bei heißen Coins kaufen in der Zeit andere vor dir. Pump Paper führt deshalb erst nach einer einstellbaren Zeit aus, Standard <span class="num">1 s</span>, zum Kurs, der dann gilt.</dd></div>
+      <div id="miete"><dt>Konto-Miete</dt><dd>Um einen Token zu halten, braucht dein Wallet ein eigenes Token-Konto. Dafür hinterlegt Solana beim ersten Kauf rund <span class="num">0,00204 SOL</span>. Pump Paper zieht diesen Betrag beim ersten Kauf eines Coins ab.</dd></div>
+      <div id="rpc"><dt>Solana-Zugang (RPC)</dt><dd>Der Server, über den Pump Paper Kurse und Gebühren von der Blockchain liest. Der öffentliche Zugang reicht für den Anfang. Ein eigener, etwa von Helius, ist schneller. Antwortet einer nicht, nimmt Pump Paper einen zweiten.</dd></div>
+      <div id="regeln"><dt>Ziel, Stop, Zeit</dt><dd>Regeln für den automatischen Verkauf: bei einem Gewinn, bei einem Verlust oder nach einer Zeit. Ein Stop verkauft ohne Slippage-Grenze und landet im Absturz unter der Marke. Wie weit, zeigt der <a href="anleitung.html#stop-rechner">Stop-Rechner</a>.</dd></div>
+      <div id="papier"><dt>Papertrading</dt><dd>Traden mit Spielgeld unter echten Bedingungen. Taugt nur etwas, wenn es so rechnet wie echt. Sonst übt man mit Gewinnen, die es nie gegeben hätte.</dd></div>
+    </dl>
+  </main>
+  <footer>
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#f2b33d"/><path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Pump Paper
+    </a>
+    <p>Papertrading mit Spielgeld. Kein echtes Geld, keine Anlageberatung. Pump Paper ist ein unabhängiges Projekt und gehört nicht zu pump.fun.</p>
+    <nav class="foot-nav" aria-label="Weitere Seiten"><a href="anleitung.html">Anleitung</a><a href="lexikon.html">Lexikon</a><a href="changelog.html">Änderungen</a><a href="datenschutz.html">Datenschutz</a><a href="https://github.com/CloudJWSH/ForUs">Quellcode</a></nav>
+  </footer>
+</div>
+</body>
+</html>

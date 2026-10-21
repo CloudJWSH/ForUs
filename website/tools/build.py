@@ -25,6 +25,7 @@ DOWNLOAD = "https://github.com/CloudJWSH/ForUs/releases/latest/download/Pump-Pap
 NAV = [
     ("index.html#rechnung", "So rechnet es", None),
     ("anleitung.html", "Anleitung", "anleitung"),
+    ("lexikon.html", "Lexikon", "lexikon"),
     ("changelog.html", "Änderungen", "changelog"),
     ("index.html#fragen", "Fragen", None),
 ]
@@ -61,7 +62,7 @@ FOOTER = f"""<footer>
       Pump Paper
     </a>
     <p>Papertrading mit Spielgeld. Kein echtes Geld, keine Anlageberatung. Pump Paper ist ein unabhängiges Projekt und gehört nicht zu pump.fun.</p>
-    <nav class="foot-nav" aria-label="Weitere Seiten"><a href="anleitung.html">Anleitung</a><a href="changelog.html">Änderungen</a><a href="datenschutz.html">Datenschutz</a><a href="https://github.com/CloudJWSH/ForUs">Quellcode</a></nav>
+    <nav class="foot-nav" aria-label="Weitere Seiten"><a href="anleitung.html">Anleitung</a><a href="lexikon.html">Lexikon</a><a href="changelog.html">Änderungen</a><a href="datenschutz.html">Datenschutz</a><a href="https://github.com/CloudJWSH/ForUs">Quellcode</a></nav>
   </footer>"""
 
 

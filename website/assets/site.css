@@ -243,3 +243,20 @@ main.sub h1 { font-size: clamp(36px, 5.6vw, 60px); line-height: 1; font-weight: 
 .shot figcaption b { color: var(--ink); font-weight: 600; }
 @media (max-width: 900px) { .shots { grid-template-columns: repeat(2, minmax(0, 1fr)); } .shot.tall { grid-row: span 2; } }
 @media (max-width: 560px) { .shots { grid-template-columns: 1fr; } .shot.tall { grid-row: auto; } .shot img { justify-self: center; } }
+
+/* Stop-Rechner und Lexikon */
+.prose > .receipt { max-width: 560px; }
+.stop-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.stop-cols > div { display: grid; gap: 2px; padding: 12px; border-radius: 10px; background: var(--bg); border: 1px solid var(--line); min-width: 0; }
+.stop-cols .k { font: 500 12px var(--body); color: var(--muted); }
+.stop-cols b { font: 500 26px var(--mono); color: var(--loss); }
+.stop-cols small { font: 12px var(--body); color: var(--muted); }
+.stop-cols small:nth-of-type(1) { font-family: var(--mono); color: var(--ink); }
+@media (max-width: 420px) { .stop-cols { grid-template-columns: 1fr; } }
+.glossary { margin: 0; display: grid; gap: 0; }
+.glossary > div { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 6px 24px; padding: 20px 0; border-top: 1px solid var(--line); scroll-margin-top: 24px; }
+.glossary dt { font: 700 18px var(--display); letter-spacing: -0.01em; }
+.glossary dd { margin: 0; color: var(--muted); max-width: 64ch; }
+.glossary a { color: var(--gold-ink); }
+.glossary > div:target { background: var(--gold-soft); margin-inline: -12px; padding-inline: 12px; border-radius: 8px; }
+@media (max-width: 640px) { .glossary > div { grid-template-columns: 1fr; } }

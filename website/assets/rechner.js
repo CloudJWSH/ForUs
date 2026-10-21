@@ -7,7 +7,7 @@
   const K = V_SOL * V_TOK, FEE = 0.0125, PRIORITY = 0.001, RENT = 0.00204;
   const $ = id => document.getElementById(id);
   const num = (id, d) => { const v = Number(String($(id).value).replace(",", ".")); return isFinite(v) && v >= 0 ? v : d; };
-  const f = (x, d) => x.toLocaleString("de-DE", {minimumFractionDigits: d, maximumFractionDigits: d});
+  const f = (x, d) => x.toLocaleString("de-DE", {minimumFractionDigits: d, maximumFractionDigits: d}).replace(/^-/, "−");
   const tok = x => x >= 1e6 ? f(x / 1e6, 2) + " Mio. Token" : f(x, 0) + " Token";
   const usdFmt = x => x >= 1e6 ? f(x / 1e6, 2) + " Mio. $" : f(x, 0) + " $";
 
