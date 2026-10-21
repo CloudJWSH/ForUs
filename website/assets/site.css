@@ -571,3 +571,9 @@ main.sub.lab-page > *, .lab > * { min-width: 0; }
   .lab-result .k-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 460px) { .lab .pair { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); } }
+.strat-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; counter-reset: st; }
+.strat-steps li { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 20px; display: grid; gap: 6px; counter-increment: st; align-content: start; }
+.strat-steps li::before { content: counter(st); font: 600 13px var(--mono); color: var(--gold-ink); }
+.strat-steps b { font: 700 19px var(--display); letter-spacing: -0.01em; }
+.strat-steps span { color: var(--muted); font-size: 15px; }
+@media (max-width: 760px) { .strat-steps { grid-template-columns: 1fr; } }

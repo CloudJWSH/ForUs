@@ -17,7 +17,7 @@
 
   // Sprachwechsel auf der Startseite: an denselben Abschnitt der anderen Sprache springen.
   const pairs = [["ansehen", "look"], ["ausprobieren", "try"], ["rechnung", "math"], ["funktionen", "features"], ["vergleich", "compare"],
-    ["installieren", "install"], ["fahrplan", "roadmap"], ["coin", "coin"], ["fragen", "faq"]];
+    ["installieren", "install"], ["fahrplan", "roadmap"], ["strategie", "strategy"], ["coin", "coin"], ["fragen", "faq"]];
   document.querySelectorAll("a.lang").forEach(a => a.addEventListener("click", () => {
     const here = nearest() || location.hash.slice(1);
     const pair = pairs.find(p => p.includes(here));
