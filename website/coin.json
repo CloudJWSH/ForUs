@@ -1,0 +1,16 @@
+{
+  "_hinweis": "Coin-Abschnitt der Website. Erst beim Launch auf pump.fun live auf true setzen und mint sowie dev_wallet eintragen. Beides sind öffentliche Adressen, niemals private Schlüssel hier eintragen.",
+  "live": false,
+  "name": "Pump Paper",
+  "symbol": "PAPER",
+  "mint": "",
+  "dev_wallet": "",
+  "creator_fee": {
+    "de": "Die Creator-Gebühr jedes Trades geht an die Dev-Wallet oben. Wofür sie verwendet wird, steht hier, sobald es feststeht.",
+    "en": "The creator fee of every trade goes to the dev wallet above. What it is used for will be stated here once it is decided."
+  },
+  "facts": {
+    "de": ["Die Erweiterung bleibt kostenlos und funktioniert ohne den Coin.", "Der Coin ist kein Anteil an Pump Paper und gibt keine Rechte, keine Auszahlungen und keine Rendite.", "Unser Trading-Bot kauft den Coin nie."],
+    "en": ["The extension stays free and works without the coin.", "The coin is no share in Pump Paper and gives no rights, no payouts and no returns.", "Our trading bot never buys the coin."]
+  }
+}

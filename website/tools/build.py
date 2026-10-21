@@ -13,11 +13,17 @@ Ergebnis:
   website/index.html, website/en/index.html     Navigation, Version und Neuerungen zwischen den Markern
 
 Platzhalter im Inhalt: {{version}}, {{download}}.
-Aufruf: python3 website/tools/build.py (läuft auch in den Workflows).
+
+Coin: website/coin.json steuert den Abschnitt über den Pump-Paper-Coin auf pump.fun (Marker <!-- coin --> und
+<!-- coin-badge --> auf der Startseite). Solange "live" false ist, bleibt er leer. --coin-preview zeigt ihn zum
+Ansehen trotzdem, mit Platzhaltern; danach normal bauen, damit nichts davon eingecheckt wird.
+
+Aufruf: python3 website/tools/build.py [--coin-preview] (läuft auch in den Workflows).
 """
 import html
 import json
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -141,6 +147,93 @@ def page(lang, name, title, description, body):
 """
 
 
+COIN_TEXT = {
+    "de": {
+        "badge": "${sym} ist live auf pump.fun", "eyebrow": "Der Coin", "h2": "${sym} auf pump.fun.",
+        "lede": "Pump Paper gibt es auch als Coin auf pump.fun. Hier stehen alle Adressen und Zahlen zum Nachprüfen, live aus der Blockchain.",
+        "mint": "Mint-Adresse", "copy": "Kopieren", "copied": "Kopiert", "dev": "Dev-Wallet", "fee": "Creator-Gebühr",
+        "mc": "Marktwert", "where": "Handel", "devShare": "Anteil Dev-Wallet", "top": "Größte 10 Konten",
+        "topNote": "einschließlich Bonding-Kurve oder Pool", "loading": "lädt …",
+        "notH": "Was der Coin nicht ist",
+        "risk": "<b>Risiko.</b> Ein Memecoin ohne Wertversprechen. Der Kurs kann jederzeit fallen, ein Totalverlust ist möglich. Das hier ist keine Anlageberatung und keine Aufforderung zum Kauf.",
+        "preview": "Vorschau: Der Abschnitt ist ausgeschaltet, bis der Coin live ist. Adressen sind Platzhalter.",
+    },
+    "en": {
+        "badge": "${sym} is live on pump.fun", "eyebrow": "The coin", "h2": "${sym} on pump.fun.",
+        "lede": "Pump Paper also exists as a coin on pump.fun. Every address and number is here to check, live from the blockchain.",
+        "mint": "Mint address", "copy": "Copy", "copied": "Copied", "dev": "Dev wallet", "fee": "Creator fee",
+        "mc": "Market cap", "where": "Trading on", "devShare": "Dev wallet share", "top": "Largest 10 accounts",
+        "topNote": "including bonding curve or pool", "loading": "loading …",
+        "notH": "What the coin is not",
+        "risk": "<b>Risk.</b> A memecoin with no promise of value. The price can drop at any time, a total loss is possible. This is not financial advice and not an invitation to buy.",
+        "preview": "Preview: this section stays off until the coin is live. Addresses are placeholders.",
+    },
+}
+PLACEHOLDER = "PAPERxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxpump"
+
+
+def coin_config(preview):
+    path = SITE / "coin.json"
+    cfg = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {"live": False}
+    if preview and not cfg.get("live"):
+        cfg = {**cfg, "live": True, "preview": True,
+               "mint": cfg.get("mint") or PLACEHOLDER, "dev_wallet": cfg.get("dev_wallet") or "DEVxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}
+    if cfg.get("live") and not cfg.get("preview"):
+        for key in ("mint", "dev_wallet"):
+            if not re.fullmatch(r"[1-9A-HJ-NP-Za-km-z]{32,44}", cfg.get(key, "")):
+                raise SystemExit(f"coin.json: {key} ist keine gültige Solana-Adresse")
+    return cfg
+
+
+def coin_html(lang, cfg):
+    """Abschnitt und Hinweis oben im Hero, leer solange der Coin nicht live ist."""
+    if not cfg.get("live"):
+        return "", ""
+    T = COIN_TEXT[lang]
+    sym = html.escape(cfg.get("symbol", "PAPER"))
+    mint, dev = html.escape(cfg["mint"]), html.escape(cfg["dev_wallet"])
+    up = LANGS[lang]["up"]
+    anchor = "coin"
+    badge = f'<a class="coin-badge" href="#{anchor}"><span class="dot"></span>{T["badge"].replace("${sym}", "$" + sym)}</a>'
+    facts = "".join(f"<li>{html.escape(x)}</li>" for x in cfg.get("facts", {}).get(lang, []))
+    fee = html.escape(cfg.get("creator_fee", {}).get(lang, ""))
+    links = (f'<a class="btn gold small" href="https://pump.fun/coin/{mint}" rel="noopener">pump.fun</a>'
+             f'<a class="btn small" href="https://solscan.io/token/{mint}" rel="noopener">Solscan</a>'
+             f'<a class="btn small" href="https://dexscreener.com/solana/{mint}" rel="noopener">DexScreener</a>')
+    note = f'\n    <p class="coin-preview">{T["preview"]}</p>' if cfg.get("preview") else ""
+    stat = lambda key, label, sub="": (f'<div><span class="k">{label}</span><b data-{key}>{T["loading"]}</b>'
+                                       + (f"<small>{sub}</small>" if sub else "") + "</div>")
+    section = f"""  <section class="block coin-sec" id="{anchor}">{note}
+    <div class="head">
+      <p class="eyebrow">{T["eyebrow"]}</p>
+      <h2>{T["h2"].replace("${sym}", "$" + sym)}</h2>
+      <p class="lede">{T["lede"]}</p>
+    </div>
+    <div class="coin-grid" id="coin-live" data-mint="{mint}" data-dev="{dev}" data-symbol="{sym}">
+      <div class="coin-card">
+        <div class="coin-id"><img src="{up}icons/128.png" width="56" height="56" alt=""><div><b>{html.escape(cfg.get("name", "Pump Paper"))}</b><span>${sym}</span></div></div>
+        <div class="addr"><span class="k">{T["mint"]}</span><code>{mint}</code><button type="button" class="k-link" data-copy="{mint}" data-done="{T["copied"]}">{T["copy"]}</button></div>
+        <div class="addr"><span class="k">{T["dev"]}</span><code><a href="https://solscan.io/account/{dev}" rel="noopener">{dev}</a></code></div>
+        <div class="addr"><span class="k">{T["fee"]}</span><p>{fee}</p></div>
+        <div class="cta">{links}</div>
+      </div>
+      <div class="coin-side">
+        <div class="coin-stats">
+          {stat("mc", T["mc"])}
+          {stat("where", T["where"])}
+          {stat("dev-share", T["devShare"])}
+          {stat("top", T["top"], T["topNote"])}
+        </div>
+        <div class="coin-not"><h3>{T["notH"]}</h3><ul>{facts}</ul></div>
+        <p class="coin-risk">{T["risk"]}</p>
+      </div>
+    </div>
+  </section>
+  <script src="{up}assets/coin.js"></script>
+  """
+    return section, badge
+
+
 def changelog(name="CHANGELOG.md"):
     text = (EXT / name).read_text(encoding="utf-8")
     versions = []
@@ -180,6 +273,7 @@ def build_sources(lang, version):
 
 
 def main():
+    coin = coin_config("--coin-preview" in sys.argv)
     version = json.loads((EXT / "manifest.json").read_text(encoding="utf-8"))["version"]
     versions = changelog()
 
@@ -231,6 +325,9 @@ def main():
         index = replace_marker(index, "version", version)
         index = replace_marker(index, "latest", "\n" + items_html(latest, 10) + "\n          ", required=False)
         index = replace_marker(index, "nav", "\n    " + nav(lang, "index", home=True) + "\n    ")
+        section, badge = coin_html(lang, coin)
+        index = replace_marker(index, "coin", ("\n" + section) if section else "", required=False)
+        index = replace_marker(index, "coin-badge", badge, required=False)
         path.write_text(index, encoding="utf-8")
     print(f"Website gebaut: Version {version}, {len(versions)} Versionen im Änderungsprotokoll")
 
