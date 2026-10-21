@@ -133,7 +133,7 @@
     <div class="head">
       <p class="eyebrow">Ausprobieren</p>
       <h2>Ein Coin zum Üben, direkt hier.</h2>
-      <p class="lede">Ein simulierter Coin auf einer Bonding-Kurve, andere Händler bewegen den Kurs. Du handelst mit 10 Spiel-SOL nach den Regeln von Pump Paper: Ausführung nach 1 s, Slippage 10 %, Ziel +60 %, Stop −20 %.</p>
+      <p class="lede">Ein simulierter Coin auf einer Bonding-Kurve, andere Händler bewegen den Kurs. Du handelst mit 10 Spiel-SOL nach den Regeln von Pump Paper: Ausführung nach 1 s, Slippage 10 %, Ziel +60 %, Stop −20 %. Oder du nimmst die Regeln deiner Strategie aus dem <a href="strategie.html">Labor</a>, gekauft wird nur auf deinen Klick.</p>
     </div>
     <noscript><p class="lede">Die Demo braucht JavaScript.</p></noscript>
     <div class="demo" id="demo">
@@ -141,6 +141,7 @@
         <div class="demo-top"><b>$ÜBEN</b><span class="muted">Demo-Coin, nicht echt</span><span class="mc">Marktwert<b data-mc>–</b></span></div>
         <canvas aria-label="Kursverlauf des Demo-Coins mit deinen Käufen (K) und Verkäufen (V)"></canvas>
         <div class="demo-top"><span class="muted">Kurve</span><span class="demo-bar"><i data-bar></i></span><b data-prog>–</b></div>
+        <div class="demo-zoom" role="group" aria-label="Zoom im Chart"><button type="button" data-zoom="60">15 s</button><button type="button" data-zoom="120">30 s</button><button type="button" data-zoom="240">60 s</button></div>
       </div>
       <div class="demo-panel">
         <div class="pp-head"><span class="tag">PAPER</span>Pump Paper<span class="bal" data-bal>–</span></div>
@@ -148,11 +149,16 @@
         <div class="demo-pos" data-pos aria-live="polite"></div>
         <div class="demo-sells"><button type="button" data-sell="0.25">25 %</button><button type="button" data-sell="0.5">50 %</button><button type="button" data-sell="1">Alles</button></div>
         <p class="demo-note" data-note aria-live="polite"></p>
-        <ul class="demo-log" data-log></ul>
+        <table class="demo-table" data-log hidden><caption class="sr">Deine Demo-Trades</caption><thead><tr><th scope="col">Trade</th><th scope="col">Betrag</th><th scope="col">Ergebnis</th></tr></thead><tbody></tbody></table>
         <p class="demo-stats" data-stats aria-live="polite"></p>
-        <div class="demo-ctl"><button type="button" data-pause aria-pressed="false">Pause</button><button type="button" data-speed aria-pressed="false">2×</button></div>
+        <div class="demo-opts">
+          <label>Regeln<select data-rules></select></label>
+          <label>Markt<select data-scen><option value="normal">ruhig</option><option value="hype">Hype</option><option value="crash">Absturz</option></select></label>
+          <label>Startwert<input data-seed type="number" min="1" max="999999" step="1" inputmode="numeric"></label>
+        </div>
+        <div class="demo-ctl"><button type="button" data-pause aria-pressed="false">Pause</button><button type="button" data-speed aria-pressed="false">2×</button><button type="button" data-sound aria-pressed="false">Ton</button></div>
         <small class="demo-keys">Tasten: 1–4 kaufen, Q W E verkaufen</small>
-        <button type="button" class="demo-reset" data-reset>Neu starten</button>
+        <div class="demo-foot"><button type="button" class="demo-reset" data-copy-result>Ergebnis kopieren</button><button type="button" class="demo-reset" data-reset>Neu starten</button></div>
       </div>
     </div>
   </section>
@@ -193,27 +199,34 @@
         <div class="rule"><span class="k">10 %</span><p><b>Slippage-Grenze wie bei pump.fun.</b> Läuft der Kurs in der Zeit weiter weg, scheitert der Trade und kostet trotzdem die Priority Fee. Ziel-, Stop- und Zeitverkäufe laufen ohne Grenze und landen im Absturz unter der Marke.</p></div>
         <div class="rule"><span class="k">0,00204</span><p><b>Konto-Miete beim ersten Kauf.</b> Wie bei einem echten Token-Konto kostet der erste Kauf eines Coins einmal Miete in SOL.</p></div>
       </div>
-      <form class="receipt calc-tool" id="rechner" aria-label="Rechner für einen Kauf auf der Bonding-Kurve">
-        <header><div><b>Rechner: Kauf auf der Kurve</b>Standardwerte, zum Ausprobieren</div><div class="right">gerechnet wie<br>Pump Paper 1.4</div></header>
+      <form class="receipt calc-tool" id="rechner" aria-label="Rechner für einen Trade auf der Bonding-Kurve oder im Pool">
+        <header><div><b>Rechner: Trade auf pump.fun</b>Standardwerte, zum Ausprobieren</div><div class="right">gerechnet wie<br>Pump Paper 1.4</div></header>
         <div class="inputs">
-          <label for="r-amt">Einsatz (SOL)<input id="r-amt" type="number" min="0.01" max="50" step="0.01" value="0.5" inputmode="decimal"></label>
-          <label for="r-front">Andere kaufen vor dir (SOL)<input id="r-front" type="number" min="0" max="80" step="0.1" value="1" inputmode="decimal"></label>
+          <label for="r-mode">Trade<select id="r-mode"><option value="buy">Kauf</option><option value="sell">Verkauf</option></select></label>
+          <label for="r-market">Wo<select id="r-market"><option value="curve">Bonding-Kurve</option><option value="pool">Pool nach Migration</option></select></label>
+          <label for="r-pay">Coin handelt gegen<select id="r-pay"><option value="SOL">SOL</option><option value="USDC">USDC</option></select></label>
+          <label for="r-split">Aufgeteilt in Käufe<input id="r-split" type="number" min="1" max="10" step="1" value="1" inputmode="numeric"></label>
+          <label for="r-amt"><span data-l="amt">Einsatz (SOL)</span><input id="r-amt" type="number" min="0.01" max="50" step="0.01" value="0.5" inputmode="decimal"></label>
+          <label for="r-front"><span data-l="front">Andere kaufen vor dir (SOL)</span><input id="r-front" type="number" min="0" max="80" step="0.1" value="1" inputmode="decimal"></label>
           <label for="r-slip">Slippage (%)<input id="r-slip" type="number" min="0" max="100" step="1" value="10" inputmode="numeric"></label>
-          <label for="r-usd">SOL-Kurs ($, Annahme)<input id="r-usd" type="number" min="1" step="1" value="180" inputmode="numeric"></label>
-          <label for="r-prog" class="wide-in">Fortschritt der Kurve <output id="r-prog-out" for="r-prog">20 %</output><input id="r-prog" type="range" min="0" max="95" step="1" value="20"></label>
-          <div class="presets" role="group" aria-label="Schnellwahl Fortschritt"><button type="button" data-set-prog="3">Frühstart</button><button type="button" data-set-prog="50">Mitte</button><button type="button" data-set-prog="90">Kurz vor Migration</button></div>
+          <label for="r-usd">SOL-Kurs ($, Annahme)<input id="r-usd" type="number" min="1" max="10000" step="1" value="180" inputmode="numeric"></label>
+          <label for="r-prog" class="wide-in" data-curve>Fortschritt der Kurve <output id="r-prog-out" for="r-prog">20 %</output><input id="r-prog" type="range" min="0" max="95" step="1" value="20"></label>
+          <div class="presets" role="group" aria-label="Schnellwahl Fortschritt" data-curve><button type="button" data-set-prog="3">Frühstart</button><button type="button" data-set-prog="50">Mitte</button><button type="button" data-set-prog="90">Kurz vor Migration</button></div>
+          <label for="r-pool" class="wide-in" data-pool hidden>SOL im Pool <output id="r-pool-out" for="r-pool">85 SOL</output><input id="r-pool" type="range" min="20" max="1000" step="5" value="85"></label>
         </div>
         <div class="ln"><span>Marktwert beim Klick</span><span id="o-mc">–</span></div>
-        <div class="ln"><span>Gebühr 1,25 % (0,95 + 0,30)</span><span id="o-fee">–</span></div>
-        <div class="ln"><span>Priority Fee</span><span>0,00100 SOL</span></div>
-        <div class="ln"><span>Konto-Miete (erster Kauf)</span><span>0,00204 SOL</span></div>
-        <div class="ln"><span>Erwartet beim Klick</span><span id="o-want">–</span></div>
+        <div class="ln"><span id="o-fee-l">Gebühr</span><span id="o-fee">–</span></div>
+        <div class="ln"><span>Priority Fee</span><span id="o-prio">0,00100 SOL</span></div>
+        <div class="ln" data-buyrow><span>Konto-Miete (erster Kauf)</span><span>0,00204 SOL</span></div>
+        <div class="ln"><span data-l="want">Erwartet beim Klick</span><span id="o-want">–</span></div>
         <div class="ln"><span>Nach 1 s tatsächlich</span><span id="o-got">–</span></div>
-        <div class="ln"><span>Kurswirkung deines Kaufs</span><span id="o-impact">–</span></div>
-        <div class="ln"><span>Break-even: Kurs muss steigen um</span><span id="o-be">–</span></div>
+        <div class="ln" data-splitrow hidden><span>Stattdessen aufgeteilt</span><span id="o-split">–</span></div>
+        <div class="ln"><span data-l="impact">Kurswirkung deines Kaufs</span><span id="o-impact">–</span></div>
+        <div class="ln" data-buyrow><span>Break-even: Kurs muss steigen um</span><span id="o-be">–</span></div>
         <div class="ln sum"><span>Ergebnis</span><span id="o-state" class="state-pill">–</span></div>
-        <div class="ln sum"><span>Vom Konto ab</span><span id="o-total">–</span></div>
-        <p class="note" id="o-note">In der Sekunde bis zur Ausführung kaufen andere vor dir. Liegt deine Menge dann mehr als die Slippage unter der erwarteten, scheitert der Kauf wie bei pump.fun und kostet nur die Priority Fee.</p>
+        <div class="ln sum"><span data-l="total">Vom Konto ab</span><span id="o-total">–</span></div>
+        <p class="note" id="o-note" aria-live="polite">In der Sekunde bis zur Ausführung kaufen andere vor dir. Liegt deine Menge dann mehr als die Slippage unter der erwarteten, scheitert der Kauf wie bei pump.fun und kostet nur die Priority Fee.</p>
+        <p class="calc-actions"><button type="button" class="k-link" data-copy-sentence>Als Satz kopieren</button><button type="reset" class="k-link">Werte zurücksetzen</button></p>
       </form>
     </div>
   </section>
@@ -420,6 +433,7 @@
   <!-- /footer -->
 </div>
 <script src="assets/share.js?v=1.4.0"></script>
+<script src="assets/kurve.js?v=1.4.0"></script>
 <script src="assets/rechner.js?v=1.4.0"></script>
 <script src="assets/demo.js?v=1.4.0"></script>
 <!-- /body -->

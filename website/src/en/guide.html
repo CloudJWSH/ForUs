@@ -43,15 +43,19 @@
       <form class="receipt calc-tool" id="stop-rechner" aria-label="Stop calculator">
         <header><div><b>Stop calculator: selling into a crash</b>Example of how Pump Paper prices it</div><div class="right">fee 1.25 %<br>delay 1 s</div></header>
         <div class="inputs">
-          <label for="st-amt">Amount (SOL)<input id="st-amt" type="number" min="0.01" step="0.01" value="0.5" inputmode="decimal"></label>
+          <label for="st-amt">Amount (SOL)<input id="st-amt" type="number" min="0.01" max="50" step="0.01" value="0.5" inputmode="decimal"></label>
           <label for="st-sl">Stop (%)<input id="st-sl" type="number" min="1" max="95" step="1" value="20" inputmode="numeric"></label>
+          <label for="st-scen" class="wide-in">Scenario<select id="st-scen"><option value="fall">Steady crash</option><option value="pull">Liquidity pull (one big sell)</option></select></label>
+          <label for="st-gap" class="wide-in" data-gap hidden>Drop from the big sell <output id="st-gap-out" for="st-gap">50 %</output><input id="st-gap" type="range" min="5" max="95" step="5" value="50"></label>
           <label for="st-rate" class="wide-in">Crash per second <output id="st-rate-out" for="st-rate">3 %</output><input id="st-rate" type="range" min="0" max="15" step="0.5" value="3"></label>
         </div>
         <div class="stop-cols">
           <div><span class="k">Coin page open</span><b id="st-open">–</b><small id="st-open-sol">–</small><small>Checked on every live price, at most 1 s apart</small></div>
           <div><span class="k">In the background</span><b id="st-bg">–</b><small id="st-bg-sol">–</small><small>Checked every 30 s, 15 s wait on average</small></div>
         </div>
-        <p class="note" id="st-note">–</p>
+        <svg class="stop-chart" id="st-chart" viewBox="0 0 320 120" role="img" aria-label="Price after the stop level is hit"></svg>
+        <p class="stop-legend"><span class="sw stop"></span>Stop level <span class="sw open"></span>sale, page open <span class="sw bg"></span>sale, background</p>
+        <p class="note" id="st-note" aria-live="polite">–</p>
       </form>
       <script src="../assets/share.js"></script>
       <script src="../assets/stop.js"></script>

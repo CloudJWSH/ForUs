@@ -4,12 +4,13 @@
   const EN = document.documentElement.lang === "en";
   const params = new URLSearchParams(location.search);
   document.querySelectorAll("form.calc-tool[id]").forEach(form => {
-    const inputs = [...form.querySelectorAll("input[id]")];
-    const defaults = new Map(inputs.map(i => [i.id, i.defaultValue]));
+    const inputs = [...form.querySelectorAll("input[id], select[id]")];
+    const defaults = new Map(inputs.map(i => [i.id, i.tagName === "SELECT" ? (i.querySelector("option[selected]") || i.options[0]).value : i.defaultValue]));
     let used = false;
     for (const i of inputs) {
       const v = params.get(i.id);
-      if (v !== null && v !== "" && isFinite(Number(v))) { i.value = v; used = true; }
+      const fits = i.tagName === "SELECT" ? [...i.options].some(o => o.value === v) : v !== "" && isFinite(Number(v));
+      if (v !== null && fits) { i.value = v; used = true; }
     }
     if (used) requestAnimationFrame(() => form.scrollIntoView({block: "start"}));
 
@@ -19,9 +20,11 @@
       const s = q.toString();
       return location.href.split(/[?#]/)[0] + (s ? "?" + s : "") + "#" + form.id;
     };
-    form.addEventListener("input", () => {
+    const keep = () => {
       try { history.replaceState(null, "", link()); } catch (e) { /* file:// oder Vorschau */ }
-    });
+    };
+    form.addEventListener("input", keep);
+    form.addEventListener("change", keep);
 
     const btn = document.createElement("button");
     btn.type = "button";

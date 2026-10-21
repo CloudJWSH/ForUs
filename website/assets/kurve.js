@@ -14,17 +14,30 @@
   const mcSol = c => price(c) * SUPPLY;
   const progress = c => (V_TOK - c.vTok) / REAL_TOK;
 
-  // Kauf: Gebühr geht vom Einsatz ab, der Rest in die konstante Produktformel.
-  function buy(c, sol, fee = FEE) {
-    const net = sol * (1 - fee);
-    const left = Math.max(0, c.vTok - (V_TOK - REAL_TOK));
+  // Kauf wie in Pump Paper (price.js buyFill): vom Einsatz geht die Gebühr ab (Einsatz / (1 + Gebühr)), der Rest in die Formel.
+  // Auf der Kurve gibt es höchstens die verkäuflichen Token, im Pool (pool = true) gilt nur die Formel.
+  function buy(c, sol, fee = FEE, pool = false) {
+    const net = sol / (1 + fee);
+    const left = pool ? Infinity : Math.max(0, c.vTok - (V_TOK - REAL_TOK));
     const out = Math.min(c.vTok * net / (c.vSol + net), left);
-    return {tokens: out, next: {vSol: c.vSol + net, vTok: c.vTok - out}};
+    return {tokens: out, fee: sol - net, next: {vSol: c.vSol + net, vTok: c.vTok - out}};
   }
   // Verkauf: Brutto aus der Formel, Gebühr geht vom Erlös ab.
   function sell(c, tokens, fee = FEE) {
     const gross = c.vSol * tokens / (c.vTok + tokens);
     return {sol: gross * (1 - fee), fee: gross * fee, next: {vSol: c.vSol - gross, vTok: c.vTok + tokens}};
+  }
+
+  // PumpSwap-Pool nach der Migration: echte SOL der vollen Kurve gegen die restlichen Token, Standardgebühr 0,25 %.
+  // pool(sol) gibt den Pool bei dieser SOL-Menge, der Preis passt am Start genau zum Ende der Kurve.
+  const POOL_SOL = K / (V_TOK - REAL_TOK) - V_SOL, POOL_TOK = SUPPLY - REAL_TOK, POOL_FEE = 0.0025;
+  const pool = (sol = POOL_SOL) => ({vSol: sol, vTok: POOL_SOL * POOL_TOK / sol});
+
+  // Break-even: Preis, bei dem der Verkauf von tokens nach Gebühr need SOL bringt, bei konstantem Produkt k.
+  function breakEven(c, tokens, need, fee = FEE) {
+    const k = c.vSol * c.vTok, gross = need / (1 - fee);
+    const vTok = (-tokens + Math.sqrt(tokens * tokens + 4 * k * tokens / gross)) / 2;
+    return {vSol: k / vTok, vTok};
   }
 
   // Zufall mit Startwert: gleicher Startwert, gleiche Coins.
@@ -85,6 +98,6 @@
   }
   const state = vTok => ({vSol: K / vTok, vTok});
 
-  return {V_SOL, V_TOK, REAL_TOK, SUPPLY, K, FEE, PRIORITY, RENT, SCENARIOS,
-          fresh, atProgress, price, mcSol, progress, buy, sell, rng, coin, state};
+  return {V_SOL, V_TOK, REAL_TOK, SUPPLY, K, FEE, PRIORITY, RENT, SCENARIOS, POOL_SOL, POOL_TOK, POOL_FEE,
+          fresh, atProgress, price, mcSol, progress, buy, sell, pool, breakEven, rng, coin, state};
 });

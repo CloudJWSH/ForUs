@@ -1,166 +1,203 @@
-// Demo auf der Startseite: ein simulierter Coin auf einer pump.fun-Bonding-Kurve.
+// Demo auf der Startseite: ein simulierter Coin auf einer pump.fun-Bonding-Kurve (Rechenkern kurve.js).
 // Andere Händler bewegen den Kurs zufällig, du handelst mit Spielgeld nach den Regeln von Pump Paper:
 // Ausführung nach 1 s zum dann gültigen Kurs, Slippage-Grenze 10 %, Priority Fee, Konto-Miete,
-// Ziel +60 % und Stop −20 % ohne Slippage-Grenze. Nichts davon ist ein echter Coin.
+// Ziel und Stop ohne Slippage-Grenze. Die Regeln sind Standard oder deine Strategie aus dem Labor.
+// Gekauft wird nur auf Klick. Nichts davon ist ein echter Coin.
 (function () {
   const root = document.getElementById("demo");
-  if (!root) return;
+  const P = window.PPKurve;
+  if (!root || !P) return;
   const EN = document.documentElement.lang === "en";
   const T = EN ? {
-    loc: "en-US", mio: " M", buy: "Buy", sold: "Sold", failed: "Failed", wait: "Executing in 1 s …",
-    noPos: "No position. Buy with one of the buttons.", pos: "Position", cost: "cost", value: "value now",
-    target: "Target", stop: "Stop", hand: "manual", migrated: "The curve is full: the coin migrated. The demo starts a new coin.",
+    loc: "en-US", mio: " M", buy: "Buy", sold: "Sell", failed: "Failed", wait: "Executing in 1 s …",
+    noPos: "No position. Buy with one of the buttons.", cost: "cost", value: "value now",
+    target: "target", stop: "stop", time: "time", trail: "trailing", hand: "manual", migrated: "The curve is full: the coin migrated. The demo starts a new coin.",
     slip: d => `price moved ${d} %, more than your 10 % slippage`, rent: "incl. account rent", nosol: "Not enough SOL",
-    log: "Trades", pause: "Pause", go: "Resume", stats: (n, h, p) => `${n} sells · ${h} hit · ${p} SOL`,
+    pause: "Pause", go: "Resume", stats: (n, h, p) => `${n} ${n === 1 ? "sell" : "sells"} · ${h} hit · ${p} SOL`,
+    std: "Default: target +60 %, stop −20 %", lab: "My lab strategy", noLab: "My lab strategy (none saved yet)",
+    rules: r => [r.tp != null && `target +${r.tp} %`, r.sl != null && `stop −${r.sl} %`, r.trail != null && `trailing ${r.trail} %`, r.time != null && `time ${r.time} min`].filter(Boolean).join(" · ") || "no rules",
+    share: (n, h, p, w) => `Pump Paper demo: ${n} ${n === 1 ? "sell" : "sells"}, ${h} hit, ${p} SOL, balance ${w} SOL of play money. Simulated coin, no real money.`,
+    copied: "Copied", lineT: "Target", lineS: "Stop", side: {B: "Buy", S: "Sell", F: "Failed"},
   } : {
     loc: "de-DE", mio: " Mio.", buy: "Kauf", sold: "Verkauf", failed: "Gescheitert", wait: "Ausführung in 1 s …",
-    noPos: "Keine Position. Kauf mit einem der Knöpfe.", pos: "Position", cost: "Einsatz", value: "Wert jetzt",
-    target: "Ziel", stop: "Stop", hand: "von Hand", migrated: "Die Kurve ist voll, der Coin ist migriert. Die Demo startet einen neuen Coin.",
+    noPos: "Keine Position. Kauf mit einem der Knöpfe.", cost: "Einsatz", value: "Wert jetzt",
+    target: "Ziel", stop: "Stop", time: "Zeit", trail: "Nachziehen", hand: "von Hand", migrated: "Die Kurve ist voll, der Coin ist migriert. Die Demo startet einen neuen Coin.",
     slip: d => `Kurs um ${d} % bewegt, mehr als deine Slippage von 10 %`, rent: "mit Konto-Miete", nosol: "Nicht genug SOL",
-    log: "Trades", pause: "Pause", go: "Weiter", stats: (n, h, p) => `${n} Verkäufe · ${h} Treffer · ${p} SOL`,
+    pause: "Pause", go: "Weiter", stats: (n, h, p) => `${n} ${n === 1 ? "Verkauf" : "Verkäufe"} · ${h} Treffer · ${p} SOL`,
+    std: "Standard: Ziel +60 %, Stop −20 %", lab: "Meine Labor-Strategie", noLab: "Meine Labor-Strategie (noch keine gespeichert)",
+    rules: r => [r.tp != null && `Ziel +${r.tp} %`, r.sl != null && `Stop −${r.sl} %`, r.trail != null && `Nachziehen ${r.trail} %`, r.time != null && `Zeit ${r.time} Min.`].filter(Boolean).join(" · ") || "keine Regeln",
+    share: (n, h, p, w) => `Pump-Paper-Demo: ${n} ${n === 1 ? "Verkauf" : "Verkäufe"}, ${h} Treffer, ${p} SOL, Kontostand ${w} SOL Spielgeld. Simulierter Coin, kein echtes Geld.`,
+    copied: "Kopiert", lineT: "Ziel", lineS: "Stop", side: {B: "Kauf", S: "Verkauf", F: "Gescheitert"},
   };
-  const V_SOL = 30, V_TOK = 1073e6, REAL_TOK = 793.1e6, K = V_SOL * V_TOK;
-  const FEE = 0.0125, PRIORITY = 0.001, RENT = 0.00204, SLIP = 0.10, DELAY = 1000, TP = 0.6, SL = -0.2;
-  const TICK = 250, KEEP = 240, SOL_USD = 180;
+  const SLIP = 0.10, DELAY = 1000, TICK = 250, KEEP = 240, SOL_USD = 180, KEY = "pp-demo";
+  const STD = {tp: 60, sl: 20, trail: null, time: null, partial: null};
+  // Marktlage: Anteil der Phasen mit Kaufdruck und mit Verkaufsdruck.
+  const SCEN = {normal: [0.4, 0.7], hype: [0.6, 0.8], crash: [0.2, 0.75]};
   const $ = s => root.querySelector(s);
   const f = (x, d) => x.toLocaleString(T.loc, {minimumFractionDigits: d, maximumFractionDigits: d}).replace(/^-/, "−");
   const sign = (x, d) => (x > 0 ? "+" : "") + f(x, d);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"})[c]);
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* privat */ } },
+  };
 
-  let curve, hist, marks, wallet, pos, pending, log, regime, regimeLeft, rented, note;
-  // Bilanz der Sitzung, bleibt beim Wechsel auf einen neuen Coin erhalten.
-  let stats = {n: 0, wins: 0, pnl: 0};
+  // Regeln aus dem Labor (zuletzt bearbeitete Strategie), sonst Standard.
+  function labRules() {
+    const s = store.get("pp-lab-current", null);
+    if (!s || !s.exit) return null;
+    const x = s.exit;
+    return {tp: x.targetPct ?? null, sl: x.stopPct ?? null, trail: x.trailingPct ?? null, time: x.timeMin ?? null, partial: x.partial?.sellPct ?? null, name: s.name};
+  }
 
-  function reset(keepWallet) {
-    const sold = REAL_TOK * (0.12 + Math.random() * 0.1);
-    curve = {vTok: V_TOK - sold, vSol: K / (V_TOK - sold)};
-    hist = [];
-    marks = [];
-    pos = null;
-    pending = null;
-    rented = false;
-    regime = 0.4;
-    regimeLeft = 0;
-    if (!keepWallet) { wallet = 10; log = []; stats = {n: 0, wins: 0, pnl: 0}; }
+  // Kontostand, Bilanz und Verlauf bleiben im Browser, der Coin selbst startet neu.
+  const saved = store.get(KEY, null);
+  let wallet = saved?.wallet ?? 10, stats = saved?.stats ?? {n: 0, wins: 0, pnl: 0}, log = saved?.log ?? [];
+  let opts = {rules: saved?.rules === "lab" && labRules() ? "lab" : "std", scen: SCEN[saved?.scen] ? saved.scen : "normal", sound: !!saved?.sound,
+    seed: saved?.seed || Math.floor(Math.random() * 99999) + 1, zoom: saved?.zoom || KEEP};
+  const persist = () => store.set(KEY, {wallet, stats, log: log.slice(0, 30), ...opts});
+  const rules = () => (opts.rules === "lab" && labRules()) || STD;
+
+  let rand, curve, hist, marks, pos, pending, regime, regimeLeft, rented, note, ticks;
+
+  function reset(newSeed) {
+    if (newSeed) opts.seed = Math.floor(Math.random() * 99999) + 1;
+    rand = P.rng(opts.seed);
+    curve = P.atProgress(0.12 + rand() * 0.1);
+    hist = []; marks = []; pos = null; pending = null; rented = false; regime = 0.4; regimeLeft = 0; ticks = 0;
     for (let i = 0; i < KEEP; i++) step(true);
+    persist();
   }
 
-  const price = () => curve.vSol / curve.vTok;
-  const mcSol = () => price() * 1e9;
-  const progress = () => (V_TOK - curve.vTok) / REAL_TOK;
-
-  function buyOn(c, sol) {
-    const net = sol * (1 - FEE);
-    const out = c.vTok * net / (c.vSol + net);
-    return {tokens: out, next: {vSol: c.vSol + net, vTok: c.vTok - out}};
-  }
-  function sellOn(c, tok) {
-    const gross = c.vSol * tok / (c.vTok + tok);
-    return {sol: gross * (1 - FEE), next: {vSol: c.vSol - gross, vTok: c.vTok + tok}};
-  }
+  const price = () => P.price(curve);
+  const progress = () => P.progress(curve);
 
   // Andere Händler: Phasen mit Kaufdruck, Verkaufsdruck oder Seitwärts, dazu Rauschen.
   function step(quiet) {
     if (regimeLeft-- <= 0) {
-      const r = Math.random();
-      regime = r < 0.4 ? 0.5 + Math.random() * 0.8 : r < 0.7 ? -(0.4 + Math.random() * 0.9) : 0;
-      regimeLeft = 20 + Math.floor(Math.random() * 60);
+      const r = rand(), [up, down] = SCEN[opts.scen];
+      regime = r < up ? 0.5 + rand() * 0.8 : r < down ? -(0.4 + rand() * 0.9) : 0;
+      regimeLeft = 20 + Math.floor(rand() * 60);
     }
-    const flow = regime * 0.12 + (Math.random() - 0.5) * 0.9;
-    if (flow > 0) curve = buyOn(curve, flow).next;
-    else if (curve.vTok < V_TOK) {
-      const tok = Math.min(V_TOK - curve.vTok, curve.vTok * (-flow) / curve.vSol);
-      curve = sellOn(curve, tok).next;
+    const flow = regime * 0.12 + (rand() - 0.5) * 0.9;
+    if (flow > 0) curve = P.buy(curve, flow).next;
+    else if (curve.vTok < P.V_TOK) {
+      const tok = Math.min(P.V_TOK - curve.vTok, curve.vTok * (-flow) / curve.vSol);
+      curve = P.sell(curve, tok).next;
     }
-    if (progress() < 0.03) curve = buyOn(curve, 0.8).next;
+    if (progress() < 0.03) curve = P.buy(curve, 0.8).next;
     hist.push(price());
     if (hist.length > KEEP) { hist.shift(); marks.forEach(m => m.i--); marks = marks.filter(m => m.i >= 0); }
     if (quiet) return;
+    ticks++;
     if (progress() >= 0.97) {
-      if (pos) sell(1, T.hand);
+      if (pos) sell(1, T.hand, true);
       note = T.migrated;
       reset(true);
       return;
     }
-    if (pos) {
-      const g = price() / pos.entry - 1;
-      if (g >= TP) sell(1, T.target, true);
-      else if (g <= SL) sell(1, T.stop, true);
-    }
+    if (pos && !pending) checkRules();
   }
 
-  function addLog(text, cls) {
-    log.unshift({text, cls});
-    log = log.slice(0, 4);
+  // Deine Regeln für die offene Position, wie in Pump Paper: Ziel, Stop, Nachziehen und Zeit.
+  function checkRules() {
+    const r = rules(), g = price() / pos.entry - 1;
+    pos.peak = Math.max(pos.peak, price());
+    if (r.tp != null && g >= r.tp / 100 && !pos.partDone) {
+      if (r.partial) { pos.partDone = true; sell(r.partial / 100, T.target, true); } else sell(1, T.target, true);
+    } else if (r.sl != null && g <= -r.sl / 100) sell(1, T.stop, true);
+    else if (r.trail != null && pos.peak > pos.entry && price() <= pos.peak * (1 - r.trail / 100)) sell(1, T.trail, true);
+    else if (r.time != null && (ticks - pos.t0) * TICK / 60000 >= r.time) sell(1, T.time, true);
+  }
+
+  function addLog(k, amount, result, cls) {
+    log.unshift({k, amount, result, cls});
+    log = log.slice(0, 30);
+    persist();
+  }
+
+  // Ton für Kauf und Verkauf, aus als Standard.
+  let audio;
+  function beep(up) {
+    if (!opts.sound) return;
+    try {
+      audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+      const o = audio.createOscillator(), g = audio.createGain();
+      o.frequency.value = up ? 880 : 440;
+      g.gain.setValueAtTime(0.08, audio.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.0001, audio.currentTime + 0.15);
+      o.connect(g).connect(audio.destination);
+      o.start(); o.stop(audio.currentTime + 0.16);
+    } catch (e) { /* kein Ton */ }
   }
 
   function buy(sol) {
     if (pending) return;
-    const cost = sol + PRIORITY + (rented ? 0 : RENT);
+    const cost = sol + P.PRIORITY + (rented ? 0 : P.RENT);
     if (cost > wallet + 1e-9) { note = T.nosol; draw(); return; }
-    const want = buyOn(curve, sol).tokens;
+    const want = P.buy(curve, sol).tokens;
     note = T.wait;
-    pending = {kind: "buy", sol, want};
+    pending = {kind: "buy"};
     setTimeout(() => {
-      const fill = buyOn(curve, sol);
+      const fill = P.buy(curve, sol);
       pending = null;
       note = "";
       if (fill.tokens < want * (1 - SLIP)) {
-        wallet -= PRIORITY;
-        addLog(`${T.failed}: ${T.slip(f((1 - fill.tokens / want) * 100, 1))} · −${f(PRIORITY, 3)} SOL`, "loss");
+        wallet -= P.PRIORITY;
+        addLog("F", `${f(sol, 2)} SOL`, `${T.slip(f((1 - fill.tokens / want) * 100, 1))} · −${f(P.PRIORITY, 3)}`, "loss");
         draw();
         return;
       }
       curve = fill.next;
-      const rent = rented ? 0 : RENT;
+      const rent = rented ? 0 : P.RENT;
       rented = true;
-      wallet -= sol + PRIORITY + rent;
-      const entryPrice = sol / fill.tokens;
+      wallet -= sol + P.PRIORITY + rent;
       if (pos) {
         pos.entry = (pos.entry * pos.tokens + price() * fill.tokens) / (pos.tokens + fill.tokens);
         pos.tokens += fill.tokens;
         pos.cost += sol;
       } else {
-        pos = {tokens: fill.tokens, cost: sol, entry: price()};
+        pos = {tokens: fill.tokens, cost: sol, entry: price(), peak: price(), t0: ticks, partDone: false};
       }
       marks.push({i: hist.length - 1, k: "B"});
-      addLog(`${T.buy} ${f(sol, 2)} SOL → ${f(fill.tokens / 1e6, 2)}${T.mio} · ${f(entryPrice * 1e9, 1)} SOL MC${rent ? " · " + T.rent : ""}`, "");
+      addLog("B", `${f(sol, 2)} SOL`, `${f(fill.tokens / 1e6, 2)}${T.mio} · ${f(sol / fill.tokens * 1e9, 1)} MC${rent ? " · " + T.rent : ""}`, "");
+      beep(true);
       draw();
     }, DELAY);
     draw();
   }
 
-  // Verkäufe von Hand mit Slippage-Grenze, Ziel und Stop ohne (wie in Pump Paper).
+  // Verkäufe von Hand mit Slippage-Grenze, Regeln (auto) ohne, wie in Pump Paper.
   function sell(share, reason, auto) {
-    if (!pos || (pending && !auto)) return;
+    if (!pos || pending) return;
     const tok = pos.tokens * share;
-    const want = sellOn(curve, tok).sol;
-    const run = () => {
-      if (!pos) return;
-      const t = Math.min(tok, pos.tokens);
-      const fill = sellOn(curve, t);
+    const want = P.sell(curve, tok).sol;
+    pending = {kind: "sell"};
+    if (!auto) note = T.wait;
+    setTimeout(() => {
       pending = null;
       note = "";
+      if (!pos) return draw();
+      const t = Math.min(tok, pos.tokens);
+      const fill = P.sell(curve, t);
       if (!auto && fill.sol < want * (1 - SLIP)) {
-        wallet -= PRIORITY;
-        addLog(`${T.failed}: ${T.slip(f((1 - fill.sol / want) * 100, 1))} · −${f(PRIORITY, 3)} SOL`, "loss");
+        wallet -= P.PRIORITY;
+        addLog("F", `${f(share * 100, 0)} %`, `${T.slip(f((1 - fill.sol / want) * 100, 1))} · −${f(P.PRIORITY, 3)}`, "loss");
         draw();
         return;
       }
       curve = fill.next;
       const part = t / pos.tokens, cost = pos.cost * part, pnl = fill.sol - cost;
-      wallet += fill.sol - PRIORITY;
-      stats.n++; stats.pnl += pnl - PRIORITY; if (pnl > 0) stats.wins++;
+      wallet += fill.sol - P.PRIORITY;
+      stats.n++; stats.pnl += pnl - P.PRIORITY; if (pnl > 0) stats.wins++;
       pos.tokens -= t;
       pos.cost -= cost;
       if (pos.tokens < 1) pos = null;
       marks.push({i: hist.length - 1, k: "S"});
-      addLog(`${T.sold} (${reason}) ${f(fill.sol, 3)} SOL · ${sign(pnl, 3)} SOL`, pnl >= 0 ? "gain" : "loss");
+      addLog("S", `${f(fill.sol, 3)} SOL`, `${reason} · ${sign(pnl, 3)} SOL`, pnl >= 0 ? "gain" : "loss");
+      beep(false);
       draw();
-    };
-    if (auto) { pending = {kind: "sell"}; setTimeout(run, DELAY); return; }
-    note = T.wait;
-    pending = {kind: "sell"};
-    setTimeout(run, DELAY);
+    }, DELAY);
     draw();
   }
 
@@ -173,34 +210,47 @@
     if (canvas.width !== Math.round(w * dpr)) { canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr); }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, w, h);
-    let lo = Math.min(...hist), hi = Math.max(...hist);
+    const n = Math.min(opts.zoom, hist.length), off = hist.length - n;
+    const view = hist.slice(off);
+    let lo = Math.min(...view), hi = Math.max(...view);
     const lines = [];
-    if (pos) { lines.push([pos.entry * (1 + TP), color("--gain")], [pos.entry * (1 + SL), color("--loss")], [pos.entry, color("--muted")]); }
+    if (pos) {
+      const r = rules();
+      if (r.tp != null && !pos.partDone) lines.push([pos.entry * (1 + r.tp / 100), color("--gain"), T.lineT]);
+      if (r.sl != null) lines.push([pos.entry * (1 - r.sl / 100), color("--loss"), T.lineS]);
+      lines.push([pos.entry, color("--muted"), ""]);
+    }
     lines.forEach(([p]) => { lo = Math.min(lo, p); hi = Math.max(hi, p); });
     const pad = (hi - lo) * 0.12 || hi * 0.05;
     lo -= pad; hi += pad;
-    const x = i => (i / (KEEP - 1)) * (w - 8) + 4;
+    const x = i => (i / Math.max(1, n - 1)) * (w - 8) + 4;
     const y = p => h - 6 - ((p - lo) / (hi - lo)) * (h - 12);
     ctx.strokeStyle = color("--line"); ctx.lineWidth = 1;
     for (let g = 1; g < 4; g++) { ctx.beginPath(); ctx.moveTo(0, (h / 4) * g); ctx.lineTo(w, (h / 4) * g); ctx.stroke(); }
-    ctx.setLineDash([5, 5]);
-    for (const [p, c] of lines) { ctx.strokeStyle = c; ctx.beginPath(); ctx.moveTo(0, y(p)); ctx.lineTo(w, y(p)); ctx.stroke(); }
-    ctx.setLineDash([]);
+    ctx.font = "600 10px Archivo, sans-serif"; ctx.textAlign = "left"; ctx.textBaseline = "bottom";
+    for (const [p, c, label] of lines) {
+      ctx.setLineDash([5, 5]); ctx.strokeStyle = c; ctx.beginPath(); ctx.moveTo(0, y(p)); ctx.lineTo(w, y(p)); ctx.stroke();
+      ctx.setLineDash([]);
+      if (label) { ctx.fillStyle = c; ctx.fillText(label, 6, y(p) - 2); }
+    }
     ctx.strokeStyle = color("--gold"); ctx.lineWidth = 2; ctx.lineJoin = "round";
     ctx.beginPath();
-    hist.forEach((p, i) => (i ? ctx.lineTo(x(i), y(p)) : ctx.moveTo(x(i), y(p))));
+    view.forEach((p, i) => (i ? ctx.lineTo(x(i), y(p)) : ctx.moveTo(x(i), y(p))));
     ctx.stroke();
     ctx.font = "700 10px Archivo, sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
     for (const m of marks) {
+      const i = m.i - off;
+      if (i < 0) continue;
       ctx.fillStyle = m.k === "B" ? color("--gain") : color("--loss");
-      ctx.beginPath(); ctx.arc(x(m.i), y(hist[m.i]), 7, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(x(i), y(hist[m.i]), 7, 0, Math.PI * 2); ctx.fill();
       ctx.fillStyle = "#0b110f";
-      ctx.fillText(EN ? m.k : (m.k === "B" ? "K" : "V"), x(m.i), y(hist[m.i]) + 0.5);
+      ctx.fillText(EN ? m.k : (m.k === "B" ? "K" : "V"), x(i), y(hist[m.i]) + 0.5);
     }
   }
 
   function draw() {
-    $("[data-mc]").textContent = `${f(mcSol(), 1)} SOL · ${f(mcSol() * SOL_USD, 0)} $`;
+    const mc = P.mcSol(curve);
+    $("[data-mc]").textContent = `${f(mc, 1)} SOL · ${f(mc * SOL_USD, 0)} $`;
     canvas.setAttribute("aria-label", `${canvas.dataset.label || (canvas.dataset.label = canvas.getAttribute("aria-label"))} · ${$("[data-mc]").textContent}`);
     $("[data-prog]").textContent = f(progress() * 100, 0) + " %";
     $("[data-bar]").style.width = Math.min(100, progress() * 100) + "%";
@@ -209,16 +259,31 @@
     root.querySelectorAll("[data-buy]").forEach(b => (b.disabled = busy));
     root.querySelectorAll("[data-sell]").forEach(b => (b.disabled = busy || !pos));
     if (pos) {
-      const value = sellOn(curve, pos.tokens).sol, pnl = value - pos.cost, g = price() / pos.entry - 1;
+      const value = P.sell(curve, pos.tokens).sol, pnl = value - pos.cost, g = price() / pos.entry - 1;
       $("[data-pos]").innerHTML = `<div class="dp-row"><b class="${pnl >= 0 ? "gain" : "loss"}">${sign(pnl, 3)} SOL</b><span class="${g >= 0 ? "gain" : "loss"}">${sign(g * 100, 1)} %</span></div>
-        <small>${T.cost} ${f(pos.cost, 3)} SOL · ${T.value} ${f(value, 3)} SOL · ${T.target} +60 % · ${T.stop} −20 %</small>`;
+        <small>${T.cost} ${f(pos.cost, 3)} SOL · ${T.value} ${f(value, 3)} SOL · ${esc(T.rules(rules()))}</small>`;
     } else {
       $("[data-pos]").innerHTML = `<small>${T.noPos}</small>`;
     }
     $("[data-note]").textContent = note || "";
     $("[data-stats]").textContent = stats.n ? T.stats(stats.n, f(stats.wins / stats.n * 100, 0) + " %", sign(stats.pnl, 3)) : "";
-    $("[data-log]").innerHTML = log.map(l => `<li class="${l.cls}">${l.text}</li>`).join("");
+    const body = $("[data-log] tbody");
+    body.innerHTML = log.slice(0, 6).map(l => `<tr class="${l.cls}"><td>${T.side[l.k]}</td><td>${esc(l.amount)}</td><td>${esc(l.result)}</td></tr>`).join("");
+    $("[data-log]").hidden = !log.length;
     chart();
+  }
+
+  // Bedienelemente: Regeln, Marktlage, Startwert, Ton, Zoom, Ergebnis teilen.
+  function controls() {
+    const lab = labRules();
+    const sel = $("[data-rules]");
+    sel.innerHTML = `<option value="std">${T.std}</option><option value="lab"${lab ? "" : " disabled"}>${esc(lab ? T.lab + (lab.name ? ": " + lab.name : "") : T.noLab)}</option>`;
+    sel.value = opts.rules;
+    $("[data-scen]").value = opts.scen;
+    $("[data-seed]").value = opts.seed;
+    const snd = $("[data-sound]");
+    snd.setAttribute("aria-pressed", opts.sound);
+    root.querySelectorAll("[data-zoom]").forEach(b => b.setAttribute("aria-pressed", Number(b.dataset.zoom) === opts.zoom));
   }
 
   root.addEventListener("click", e => {
@@ -226,10 +291,27 @@
     if (!b || b.disabled) return;
     if (b.dataset.buy) buy(Number(b.dataset.buy));
     if (b.dataset.sell) sell(Number(b.dataset.sell), T.hand);
-    if (b.dataset.reset !== undefined) { note = ""; reset(false); draw(); }
+    if (b.dataset.reset !== undefined) { note = ""; wallet = 10; stats = {n: 0, wins: 0, pnl: 0}; log = []; reset(true); controls(); draw(); }
     if (b.dataset.pause !== undefined) { paused = !paused; b.textContent = paused ? T.go : T.pause; b.setAttribute("aria-pressed", paused); paused ? stop() : visible && run(); }
     if (b.dataset.speed !== undefined) { fast = !fast; b.setAttribute("aria-pressed", fast); if (timer) { stop(); run(); } }
+    if (b.dataset.sound !== undefined) { opts.sound = !opts.sound; persist(); controls(); beep(true); }
+    if (b.dataset.zoom) { opts.zoom = Number(b.dataset.zoom); persist(); controls(); chart(); }
+    if (b.dataset.copyResult !== undefined) {
+      const text = T.share(stats.n, stats.n ? f(stats.wins / stats.n * 100, 0) + " %" : "–", sign(stats.pnl, 3), f(wallet, 3));
+      const done = () => { const old = b.textContent; b.textContent = T.copied; setTimeout(() => (b.textContent = old), 1500); };
+      if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, () => prompt("", text)); else prompt("", text);
+    }
   });
+  root.addEventListener("change", e => {
+    if (e.target.matches("[data-rules]")) { opts.rules = e.target.value; persist(); draw(); }
+    if (e.target.matches("[data-scen]")) { opts.scen = e.target.value; persist(); }
+    if (e.target.matches("[data-seed]")) {
+      const s = Math.round(Number(e.target.value));
+      if (s >= 1 && s <= 999999) { opts.seed = s; note = ""; reset(false); draw(); } else e.target.value = opts.seed;
+    }
+  });
+  // Labor in einem anderen Tab gespeichert: Auswahl auffrischen.
+  addEventListener("storage", e => { if (e.key === "pp-lab-current") { controls(); draw(); } });
 
   // Tasten, solange die Demo zu sehen ist: 1–4 kaufen, Q/W/E verkaufen 25 %, 50 %, alles.
   document.addEventListener("keydown", e => {
@@ -241,6 +323,7 @@
   });
 
   reset(false);
+  controls();
   draw();
   let timer = null, paused = false, fast = false, visible = false;
   const run = () => { if (!timer && !paused) timer = setInterval(() => { step(false); draw(); }, fast ? TICK / 2 : TICK); };

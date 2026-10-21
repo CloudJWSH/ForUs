@@ -20,6 +20,19 @@ test("Kurve gibt nie mehr Token her, als verkäuflich sind", () => {
   const b = P.buy(P.fresh(), 1e6);
   assert.ok(b.tokens <= P.REAL_TOK + 1);
 });
+test("Pool beginnt beim Preis, an dem die Kurve endet", () => {
+  const end = P.price(P.atProgress(1)), start = P.price(P.pool());
+  assert.ok(Math.abs(start / end - 1) < 0.001, `${start} vs ${end}`);
+});
+test("Gebühr wie in Pump Paper: Einsatz / (1 + Gebühr)", () => {
+  const b = P.buy(P.fresh(), 1);
+  assert.ok(Math.abs(b.fee - (1 - 1 / 1.0125)) < 1e-12);
+});
+test("Break-even bringt genau den Bedarf zurück", () => {
+  const b = P.buy(P.atProgress(0.3), 0.5), need = 0.505;
+  const be = P.breakEven(b.next, b.tokens, need);
+  assert.ok(Math.abs(P.sell(be, b.tokens).sol - need) < 1e-9);
+});
 test("Gleicher Startwert, gleiche Coins", () => {
   const a = P.coin(P.rng(5)), b = P.coin(P.rng(5));
   assert.deepStrictEqual(Array.from(a.path.slice(0, 50)), Array.from(b.path.slice(0, 50)));

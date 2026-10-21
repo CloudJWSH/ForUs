@@ -43,15 +43,19 @@
       <form class="receipt calc-tool" id="stop-rechner" aria-label="Stop-Rechner">
         <header><div><b>Stop-Rechner: Verkauf im Absturz</b>Beispiel, wie Pump Paper rechnet</div><div class="right">Gebühr 1,25 %<br>Verzögerung 1 s</div></header>
         <div class="inputs">
-          <label for="st-amt">Einsatz (SOL)<input id="st-amt" type="number" min="0.01" step="0.01" value="0.5" inputmode="decimal"></label>
+          <label for="st-amt">Einsatz (SOL)<input id="st-amt" type="number" min="0.01" max="50" step="0.01" value="0.5" inputmode="decimal"></label>
           <label for="st-sl">Stop (%)<input id="st-sl" type="number" min="1" max="95" step="1" value="20" inputmode="numeric"></label>
+          <label for="st-scen" class="wide-in">Szenario<select id="st-scen"><option value="fall">Gleichmäßiger Absturz</option><option value="pull">Liquiditätsabzug (großer Verkauf)</option></select></label>
+          <label for="st-gap" class="wide-in" data-gap hidden>Einbruch durch den großen Verkauf <output id="st-gap-out" for="st-gap">50 %</output><input id="st-gap" type="range" min="5" max="95" step="5" value="50"></label>
           <label for="st-rate" class="wide-in">Absturz pro Sekunde <output id="st-rate-out" for="st-rate">3 %</output><input id="st-rate" type="range" min="0" max="15" step="0.5" value="3"></label>
         </div>
         <div class="stop-cols">
           <div><span class="k">Coinseite offen</span><b id="st-open">–</b><small id="st-open-sol">–</small><small>Prüfung bei jedem Live-Kurs, höchstens 1 s Abstand</small></div>
           <div><span class="k">Im Hintergrund</span><b id="st-bg">–</b><small id="st-bg-sol">–</small><small>Prüfung alle 30 s, im Mittel 15 s Wartezeit</small></div>
         </div>
-        <p class="note" id="st-note">–</p>
+        <svg class="stop-chart" id="st-chart" viewBox="0 0 320 120" role="img" aria-label="Kurs nachdem die Stop-Marke erreicht ist"></svg>
+        <p class="stop-legend"><span class="sw stop"></span>Stop-Marke <span class="sw open"></span>Verkauf bei offener Seite <span class="sw bg"></span>Verkauf im Hintergrund</p>
+        <p class="note" id="st-note" aria-live="polite">–</p>
       </form>
       <script src="assets/share.js"></script>
       <script src="assets/stop.js"></script>

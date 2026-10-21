@@ -27,6 +27,14 @@ const ok = (cond, msg) => { if (!cond) fails.push(msg); };
     await page.waitForTimeout(100);
     ok(before !== await page.textContent("#o-got"), `${p}: Rechner reagiert nicht`);
     ok(/\d/.test(await page.textContent("#o-be")), `${p}: Break-even fehlt`);
+    await page.selectOption("#r-mode", "sell");
+    ok(/SOL/.test(await page.textContent("#o-got")), `${p}: Verkauf im Rechner fehlt`);
+    await page.selectOption("#r-mode", "buy");
+    await page.fill("#r-slip", "300");
+    await page.dispatchEvent("#r-slip", "input");
+    ok(!/NaN/.test(await page.textContent("#rechner")) && await page.textContent("#o-got") === "–", `${p}: falsche Eingabe ohne Meldung`);
+    await page.click("#rechner [type=reset]");
+    await page.waitForTimeout(50);
     // Demo: Kaufen ändert den Kontostand
     await page.locator("#demo").scrollIntoViewIfNeeded();
     await page.waitForTimeout(300);

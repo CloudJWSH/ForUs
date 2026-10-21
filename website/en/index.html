@@ -129,7 +129,7 @@
     <div class="head">
       <p class="eyebrow">Try it</p>
       <h2>A coin to practice on, right here.</h2>
-      <p class="lede">A simulated coin on a bonding curve, other traders move the price. You trade with 10 play SOL under Pump Paper's rules: execution after 1 s, 10 % slippage, target +60 %, stop −20 %.</p>
+      <p class="lede">A simulated coin on a bonding curve, other traders move the price. You trade with 10 play SOL under Pump Paper's rules: execution after 1 s, 10 % slippage, target +60 %, stop −20 %. Or use the rules of your strategy from the <a href="strategy.html">lab</a>, buys only happen on your click.</p>
     </div>
     <noscript><p class="lede">The demo needs JavaScript.</p></noscript>
     <div class="demo" id="demo">
@@ -137,6 +137,7 @@
         <div class="demo-top"><b>$PRACTICE</b><span class="muted">demo coin, not real</span><span class="mc">Market cap<b data-mc>–</b></span></div>
         <canvas aria-label="Price of the demo coin with your buys (B) and sells (S)"></canvas>
         <div class="demo-top"><span class="muted">Curve</span><span class="demo-bar"><i data-bar></i></span><b data-prog>–</b></div>
+        <div class="demo-zoom" role="group" aria-label="Chart zoom"><button type="button" data-zoom="60">15 s</button><button type="button" data-zoom="120">30 s</button><button type="button" data-zoom="240">60 s</button></div>
       </div>
       <div class="demo-panel">
         <div class="pp-head"><span class="tag">PAPER</span>Pump Paper<span class="bal" data-bal>–</span></div>
@@ -144,11 +145,16 @@
         <div class="demo-pos" data-pos aria-live="polite"></div>
         <div class="demo-sells"><button type="button" data-sell="0.25">25 %</button><button type="button" data-sell="0.5">50 %</button><button type="button" data-sell="1">All</button></div>
         <p class="demo-note" data-note aria-live="polite"></p>
-        <ul class="demo-log" data-log></ul>
+        <table class="demo-table" data-log hidden><caption class="sr">Your demo trades</caption><thead><tr><th scope="col">Trade</th><th scope="col">Amount</th><th scope="col">Result</th></tr></thead><tbody></tbody></table>
         <p class="demo-stats" data-stats aria-live="polite"></p>
-        <div class="demo-ctl"><button type="button" data-pause aria-pressed="false">Pause</button><button type="button" data-speed aria-pressed="false">2×</button></div>
+        <div class="demo-opts">
+          <label>Rules<select data-rules></select></label>
+          <label>Market<select data-scen><option value="normal">calm</option><option value="hype">hype</option><option value="crash">crash</option></select></label>
+          <label>Seed<input data-seed type="number" min="1" max="999999" step="1" inputmode="numeric"></label>
+        </div>
+        <div class="demo-ctl"><button type="button" data-pause aria-pressed="false">Pause</button><button type="button" data-speed aria-pressed="false">2×</button><button type="button" data-sound aria-pressed="false">Sound</button></div>
         <small class="demo-keys">Keys: 1–4 buy, Q W E sell</small>
-        <button type="button" class="demo-reset" data-reset>Start over</button>
+        <div class="demo-foot"><button type="button" class="demo-reset" data-copy-result>Copy result</button><button type="button" class="demo-reset" data-reset>Start over</button></div>
       </div>
     </div>
   </section>
@@ -190,27 +196,34 @@
         <div class="rule"><span class="k">10 %</span><p><b>Slippage limit like pump.fun.</b> If the price runs further away in that time, the trade fails and still costs the priority fee. Target, stop and time sells have no limit and land below the mark in a crash.</p></div>
         <div class="rule"><span class="k">0.00204</span><p><b>Account rent on the first buy.</b> Just like a real token account, the first buy of a coin costs rent in SOL once.</p></div>
       </div>
-      <form class="receipt calc-tool" id="rechner" aria-label="Calculator for a buy on the bonding curve">
-        <header><div><b>Calculator: buy on the curve</b>Default settings, try it</div><div class="right">priced like<br>Pump Paper 1.4</div></header>
+      <form class="receipt calc-tool" id="rechner" aria-label="Calculator for a trade on the bonding curve or in the pool">
+        <header><div><b>Calculator: trade on pump.fun</b>Default settings, try it</div><div class="right">priced like<br>Pump Paper 1.4</div></header>
         <div class="inputs">
-          <label for="r-amt">Amount (SOL)<input id="r-amt" type="number" min="0.01" max="50" step="0.01" value="0.5" inputmode="decimal"></label>
-          <label for="r-front">Others buy before you (SOL)<input id="r-front" type="number" min="0" max="80" step="0.1" value="1" inputmode="decimal"></label>
+          <label for="r-mode">Trade<select id="r-mode"><option value="buy">Buy</option><option value="sell">Sell</option></select></label>
+          <label for="r-market">Where<select id="r-market"><option value="curve">Bonding curve</option><option value="pool">Pool after migration</option></select></label>
+          <label for="r-pay">Coin trades against<select id="r-pay"><option value="SOL">SOL</option><option value="USDC">USDC</option></select></label>
+          <label for="r-split">Split into buys<input id="r-split" type="number" min="1" max="10" step="1" value="1" inputmode="numeric"></label>
+          <label for="r-amt"><span data-l="amt">Amount (SOL)</span><input id="r-amt" type="number" min="0.01" max="50" step="0.01" value="0.5" inputmode="decimal"></label>
+          <label for="r-front"><span data-l="front">Others buy before you (SOL)</span><input id="r-front" type="number" min="0" max="80" step="0.1" value="1" inputmode="decimal"></label>
           <label for="r-slip">Slippage (%)<input id="r-slip" type="number" min="0" max="100" step="1" value="10" inputmode="numeric"></label>
-          <label for="r-usd">SOL price ($, assumed)<input id="r-usd" type="number" min="1" step="1" value="180" inputmode="numeric"></label>
-          <label for="r-prog" class="wide-in">Curve progress <output id="r-prog-out" for="r-prog">20 %</output><input id="r-prog" type="range" min="0" max="95" step="1" value="20"></label>
-          <div class="presets" role="group" aria-label="Progress presets"><button type="button" data-set-prog="3">Early</button><button type="button" data-set-prog="50">Halfway</button><button type="button" data-set-prog="90">Near migration</button></div>
+          <label for="r-usd">SOL price ($, assumed)<input id="r-usd" type="number" min="1" max="10000" step="1" value="180" inputmode="numeric"></label>
+          <label for="r-prog" class="wide-in" data-curve>Curve progress <output id="r-prog-out" for="r-prog">20 %</output><input id="r-prog" type="range" min="0" max="95" step="1" value="20"></label>
+          <div class="presets" role="group" aria-label="Progress presets" data-curve><button type="button" data-set-prog="3">Early</button><button type="button" data-set-prog="50">Halfway</button><button type="button" data-set-prog="90">Near migration</button></div>
+          <label for="r-pool" class="wide-in" data-pool hidden>SOL in the pool <output id="r-pool-out" for="r-pool">85 SOL</output><input id="r-pool" type="range" min="20" max="1000" step="5" value="85"></label>
         </div>
         <div class="ln"><span>Market cap at click</span><span id="o-mc">–</span></div>
-        <div class="ln"><span>Fee 1.25 % (0.95 + 0.30)</span><span id="o-fee">–</span></div>
-        <div class="ln"><span>Priority fee</span><span>0.00100 SOL</span></div>
-        <div class="ln"><span>Account rent (first buy)</span><span>0.00204 SOL</span></div>
-        <div class="ln"><span>Expected at click</span><span id="o-want">–</span></div>
+        <div class="ln"><span id="o-fee-l">Fee</span><span id="o-fee">–</span></div>
+        <div class="ln"><span>Priority fee</span><span id="o-prio">0.00100 SOL</span></div>
+        <div class="ln" data-buyrow><span>Account rent (first buy)</span><span>0.00204 SOL</span></div>
+        <div class="ln"><span data-l="want">Expected at click</span><span id="o-want">–</span></div>
         <div class="ln"><span>Actually after 1 s</span><span id="o-got">–</span></div>
-        <div class="ln"><span>Price impact of your buy</span><span id="o-impact">–</span></div>
-        <div class="ln"><span>Break-even: price must rise</span><span id="o-be">–</span></div>
+        <div class="ln" data-splitrow hidden><span>Split into buys instead</span><span id="o-split">–</span></div>
+        <div class="ln"><span data-l="impact">Price impact of your buy</span><span id="o-impact">–</span></div>
+        <div class="ln" data-buyrow><span>Break-even: price must rise</span><span id="o-be">–</span></div>
         <div class="ln sum"><span>Result</span><span id="o-state" class="state-pill">–</span></div>
-        <div class="ln sum"><span>Taken from account</span><span id="o-total">–</span></div>
-        <p class="note" id="o-note">In the second before execution, others buy ahead of you. If your amount then falls short of the expected one by more than your slippage, the buy fails like on pump.fun and only costs the priority fee.</p>
+        <div class="ln sum"><span data-l="total">Taken from account</span><span id="o-total">–</span></div>
+        <p class="note" id="o-note" aria-live="polite">In the second before execution, others buy ahead of you. If your amount then falls short of the expected one by more than your slippage, the buy fails like on pump.fun and only costs the priority fee.</p>
+        <p class="calc-actions"><button type="button" class="k-link" data-copy-sentence>Copy as a sentence</button><button type="reset" class="k-link">Reset values</button></p>
       </form>
     </div>
   </section>
@@ -417,6 +430,7 @@
   <!-- /footer -->
 </div>
 <script src="../assets/share.js?v=1.4.0"></script>
+<script src="../assets/kurve.js?v=1.4.0"></script>
 <script src="../assets/rechner.js?v=1.4.0"></script>
 <script src="../assets/demo.js?v=1.4.0"></script>
 </body>
