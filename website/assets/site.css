@@ -428,3 +428,5 @@ html { scroll-padding-top: 84px; }
 .feat:hover { background: color-mix(in srgb, var(--gold) 4%, transparent); }
 .phase .st { white-space: nowrap; }
 @media (max-width: 600px) { .cmp td:first-child { width: auto; } }
+.share-link { justify-self: start; font-family: var(--body); font-size: 13px; }
+@media print { .top, footer, .final-cta, .menu, .share-link { display: none !important; } body { background: #fff; color: #000; } }
