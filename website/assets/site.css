@@ -45,7 +45,7 @@ p { margin: 0; }
 
 /* Kopfzeile */
 .top { display: flex; align-items: center; gap: 18px; padding-block: 18px; }
-.brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 700; font-size: 19px; text-decoration: none; letter-spacing: -0.02em; }
+.brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 700; font-size: 19px; text-decoration: none; letter-spacing: -0.02em; white-space: nowrap; }
 .brand svg { width: 30px; height: 30px; flex: none; }
 .top nav { margin-left: auto; display: flex; gap: 22px; font-size: 14.5px; }
 .top nav a { color: var(--muted); text-decoration: none; }
@@ -121,7 +121,7 @@ section.block { padding-block: 72px; border-top: 1px solid var(--line); display:
 
 /* Funktionen */
 .features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
-.feat { padding: 26px 24px 28px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); display: grid; gap: 10px; align-content: start; min-width: 0; }
+.feat { padding: 26px 24px 28px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); display: grid; gap: 10px; align-content: start; min-width: 0; transition: background .2s; }
 .feat .ico { width: 34px; height: 34px; border-radius: 8px; background: var(--gold-soft); color: var(--gold-ink); display: grid; place-items: center; }
 .feat .ico svg { width: 18px; height: 18px; }
 .feat p { color: var(--muted); font-size: 15px; }
@@ -365,13 +365,13 @@ main.sub:has(.konto) { max-width: 1040px; }
 .coin-id span { font: 500 14px var(--mono); color: var(--gold-ink); }
 .addr { display: grid; gap: 4px; min-width: 0; }
 .addr .k, .coin-stats .k { font-size: 12.5px; color: var(--muted); }
-.addr code { font: 13px var(--mono); overflow-wrap: anywhere; color: var(--ink); }
+.addr code { font: 13px var(--mono); overflow-wrap: anywhere; color: var(--ink); display: block; white-space: normal; word-break: break-all; background: none; padding: 0; border: 0; }
 .addr code a { color: inherit; }
 .addr p { margin: 0; font-size: 14.5px; color: var(--muted); }
 .addr [data-copy] { justify-self: start; font-size: 13px; }
 .coin-side { display: grid; gap: 16px; min-width: 0; }
 .coin-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
-.coin-stats > div { background: var(--panel); padding: 14px 16px; display: grid; gap: 2px; }
+.coin-stats > div { background: var(--panel); padding: 14px 16px; display: grid; gap: 2px; align-content: start; }
 .coin-stats b { font: 500 18px var(--mono); }
 .coin-stats small { color: var(--muted); font-size: 12px; }
 .coin-not h3 { font-size: 17px; margin-bottom: 8px; }
@@ -379,8 +379,6 @@ main.sub:has(.konto) { max-width: 1040px; }
 .coin-risk { margin: 0; padding: 14px 16px; border-left: 3px solid var(--loss); background: var(--panel); border-radius: 0 12px 12px 0; font-size: 14.5px; color: var(--muted); }
 .coin-risk b { color: var(--loss); }
 @media (max-width: 860px) { .coin-grid { grid-template-columns: 1fr; } }
-.addr code { display: block; white-space: normal; word-break: break-all; background: none; padding: 0; border: 0; }
-.coin-stats > div { align-content: start; }
 
 /* Kopfzeile: klebt oben, Menü fürs Handy */
 .top { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); margin-inline: -16px; padding-inline: 16px; }
@@ -424,12 +422,11 @@ html { scroll-padding-top: 84px; }
 .final-cta h2 { font-size: clamp(30px, 5vw, 52px); font-weight: 800; letter-spacing: -0.04em; }
 .final-cta p { margin: 0; color: var(--muted); font-size: 17px; max-width: 46ch; }
 .final-cta .cta { justify-content: center; margin-top: 8px; }
-.feat { transition: background .2s; }
 .feat:hover { background: color-mix(in srgb, var(--gold) 4%, transparent); }
 .phase .st { white-space: nowrap; }
 @media (max-width: 600px) { .cmp td:first-child { width: auto; } }
 .share-link { justify-self: start; font-family: var(--body); font-size: 13px; }
-@media print { .top, footer, .final-cta, .menu, .share-link { display: none !important; } body { background: #fff; color: #000; } }
+@media print { .top, footer, .final-cta, .menu, .share-link, .skip, .to-top, .toc, .search, .az, .lex-empty, [data-share], .demo { display: none !important; } body { background: #fff; color: #000; } a { color: inherit; } .release, dl > div, .calc { break-inside: avoid; } }
 
 /* Barrierefreiheit */
 .skip { position: absolute; left: 12px; top: -60px; z-index: 50; background: var(--gold); color: var(--on-gold); font-weight: 600; padding: 10px 14px; border-radius: 8px; text-decoration: none; }
@@ -447,7 +444,6 @@ summary:focus-visible, input:focus-visible, select:focus-visible, [tabindex]:foc
 .theme-btn .sun { display: none; }
 :root[data-theme="dark"] .theme-btn .sun { display: block; } :root[data-theme="dark"] .theme-btn .moon { display: none; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .theme-btn .sun { display: block; } :root:not([data-theme="light"]) .theme-btn .moon { display: none; } }
-.brand { white-space: nowrap; }
 @media (max-width: 400px) { .top { gap: 8px; } .top .brand { font-size: 16px; gap: 8px; } .top .btn.small { padding-inline: 11px; } }
 .demo-ctl { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .demo-ctl button[aria-pressed="true"] { border-color: var(--gold); color: var(--gold-ink); }
