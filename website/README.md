@@ -16,3 +16,5 @@ Nach Änderungen: `python3 website/tools/build.py`. Auf GitHub erledigen das die
 - `website-build.yml`: bei Änderungen in `website/src` oder `website/tools` Website neu bauen.
 
 Der Download-Knopf zeigt immer auf `releases/latest/download/Pump-Paper.zip`.
+
+Bilder der Erweiterung (`assets/shots/`) zeichnet `tools/shots/shots.js` mit dem echten Code aus `extension/` und Beispieldaten aus `tools/shots/mock.js`. Der Release-Workflow macht das bei jeder neuen Version selbst.

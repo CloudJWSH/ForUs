@@ -58,6 +58,13 @@ jobs:
               --notes-file dist/notes.md
           fi
 
+      - name: Bilder der Erweiterung neu zeichnen
+        continue-on-error: true
+        run: |
+          npm install --no-save --prefix /tmp/pw playwright@1.48.2
+          /tmp/pw/node_modules/.bin/playwright install --with-deps chromium
+          NODE_PATH=/tmp/pw/node_modules node website/tools/shots/shots.js
+
       - name: Website neu bauen (Version, Neuerungen, Änderungsprotokoll)
         run: |
           python3 website/tools/build.py
