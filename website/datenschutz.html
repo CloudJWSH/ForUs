@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pump Paper Datenschutz</title>
+<meta name="description" content="Welche Daten Pump Paper verarbeitet: keine Konten, kein Wallet, alles bleibt im Browser.">
+<meta property="og:title" content="Pump Paper Datenschutz">
+<meta property="og:description" content="Welche Daten Pump Paper verarbeitet: keine Konten, kein Wallet, alles bleibt im Browser.">
+<meta property="og:image" content="assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="icons/48.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#f2b33d"/><path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Pump Paper
+    </a>
+    <nav aria-label="Seite">
+      <a href="index.html#rechnung">So rechnet es</a>
+      <a href="anleitung.html">Anleitung</a>
+      <a href="changelog.html">Änderungen</a>
+      <a href="index.html#fragen">Fragen</a>
+    </nav>
+    <a class="btn gold small" href="index.html#installieren">Holen</a>
+  </header>
+  <main class="sub">
+    <div class="head">
+      <p class="eyebrow">Datenschutz</p>
+      <h1>Deine Daten bleiben in deinem Browser.</h1>
+      <p class="lede">Pump Paper hat kein Benutzerkonto, keinen eigenen Server und keine Statistik über dich. Hier steht genau, was die Erweiterung speichert und mit wem sie spricht. Stand Version 1.4.0.</p>
+    </div>
+    <div class="prose">
+      <h2>Was gespeichert wird</h2>
+      <p>Im lokalen Speicher von Chrome (<code>chrome.storage.local</code>) liegen dein Papier-Guthaben, offene Positionen, der Verlauf deiner Papier-Trades, zuletzt geladene Kurse und deine Einstellungen. Diese Daten verlassen deinen Rechner nicht. Wenn du die Erweiterung entfernst oder das Konto zurücksetzt, sind sie weg.</p>
+
+      <h2>Mit wem Pump Paper spricht</h2>
+      <ul>
+        <li><b>Solana-Zugänge</b> (Standard: api.mainnet-beta.solana.com, als Ausweich solana-rpc.publicnode.com, oder dein eigener): Pump Paper fragt dort Reserven der Bonding-Kurve oder des Pools und die Gebühren-Konfiguration ab. Gesendet wird nur die Adresse des Coins, nie etwas über dich.</li>
+        <li><b>DexScreener</b> (api.dexscreener.com): für den SOL-Kurs in Dollar und als Ersatz, wenn kein Solana-Zugang antwortet.</li>
+        <li><b>pump.fun</b>: Pump Paper liest auf der Coinseite, welcher Coin offen ist, und zeichnet das Panel und die Chart-Marker ein. Es klickt nichts auf pump.fun und sendet nichts an pump.fun.</li>
+        <li><b>Memebot-Server</b>, nur wenn du selbst eine Adresse und ein Passwort einträgst. Chrome fragt dann einmal nach der Berechtigung. Das Passwort bleibt in diesem Browser.</li>
+      </ul>
+
+      <h2>Was Pump Paper nicht tut</h2>
+      <ul>
+        <li>Es verbindet sich mit keinem Wallet und kann keine echten Transaktionen senden.</li>
+        <li>Es setzt keine Tracker, keine Werbung und keine Analyse-Werkzeuge ein.</li>
+        <li>Es liest keine anderen Webseiten als pump.fun.</li>
+      </ul>
+
+      <h2>Diese Website</h2>
+      <p>Die Website ist eine statische Seite ohne Cookies und ohne Formulare. Schriften kommen von Google Fonts, dabei sieht Google deine IP-Adresse. Der Download der Zip läuft über GitHub.</p>
+      <div class="callout"><b>Keine Anlageberatung.</b> Pump Paper ist ein Übungswerkzeug mit Spielgeld. Memecoins sind hochriskant, ein Papier-Gewinn ist keine Garantie für echte Gewinne.</div>
+    </div>
+  </main>
+  <footer>
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#f2b33d"/><path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Pump Paper
+    </a>
+    <p>Papertrading mit Spielgeld. Kein echtes Geld, keine Anlageberatung. Pump Paper ist ein unabhängiges Projekt und gehört nicht zu pump.fun.</p>
+    <nav class="foot-nav" aria-label="Weitere Seiten"><a href="anleitung.html">Anleitung</a><a href="changelog.html">Änderungen</a><a href="datenschutz.html">Datenschutz</a><a href="https://github.com/CloudJWSH/ForUs">Quellcode</a></nav>
+  </footer>
+</div>
+</body>
+</html>

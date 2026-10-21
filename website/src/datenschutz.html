@@ -1,0 +1,32 @@
+<!-- title: Pump Paper Datenschutz -->
+<!-- description: Welche Daten Pump Paper verarbeitet: keine Konten, kein Wallet, alles bleibt im Browser. -->
+  <main class="sub">
+    <div class="head">
+      <p class="eyebrow">Datenschutz</p>
+      <h1>Deine Daten bleiben in deinem Browser.</h1>
+      <p class="lede">Pump Paper hat kein Benutzerkonto, keinen eigenen Server und keine Statistik über dich. Hier steht genau, was die Erweiterung speichert und mit wem sie spricht. Stand Version {{version}}.</p>
+    </div>
+    <div class="prose">
+      <h2>Was gespeichert wird</h2>
+      <p>Im lokalen Speicher von Chrome (<code>chrome.storage.local</code>) liegen dein Papier-Guthaben, offene Positionen, der Verlauf deiner Papier-Trades, zuletzt geladene Kurse und deine Einstellungen. Diese Daten verlassen deinen Rechner nicht. Wenn du die Erweiterung entfernst oder das Konto zurücksetzt, sind sie weg.</p>
+
+      <h2>Mit wem Pump Paper spricht</h2>
+      <ul>
+        <li><b>Solana-Zugänge</b> (Standard: api.mainnet-beta.solana.com, als Ausweich solana-rpc.publicnode.com, oder dein eigener): Pump Paper fragt dort Reserven der Bonding-Kurve oder des Pools und die Gebühren-Konfiguration ab. Gesendet wird nur die Adresse des Coins, nie etwas über dich.</li>
+        <li><b>DexScreener</b> (api.dexscreener.com): für den SOL-Kurs in Dollar und als Ersatz, wenn kein Solana-Zugang antwortet.</li>
+        <li><b>pump.fun</b>: Pump Paper liest auf der Coinseite, welcher Coin offen ist, und zeichnet das Panel und die Chart-Marker ein. Es klickt nichts auf pump.fun und sendet nichts an pump.fun.</li>
+        <li><b>Memebot-Server</b>, nur wenn du selbst eine Adresse und ein Passwort einträgst. Chrome fragt dann einmal nach der Berechtigung. Das Passwort bleibt in diesem Browser.</li>
+      </ul>
+
+      <h2>Was Pump Paper nicht tut</h2>
+      <ul>
+        <li>Es verbindet sich mit keinem Wallet und kann keine echten Transaktionen senden.</li>
+        <li>Es setzt keine Tracker, keine Werbung und keine Analyse-Werkzeuge ein.</li>
+        <li>Es liest keine anderen Webseiten als pump.fun.</li>
+      </ul>
+
+      <h2>Diese Website</h2>
+      <p>Die Website ist eine statische Seite ohne Cookies und ohne Formulare. Schriften kommen von Google Fonts, dabei sieht Google deine IP-Adresse. Der Download der Zip läuft über GitHub.</p>
+      <div class="callout"><b>Keine Anlageberatung.</b> Pump Paper ist ein Übungswerkzeug mit Spielgeld. Memecoins sind hochriskant, ein Papier-Gewinn ist keine Garantie für echte Gewinne.</div>
+    </div>
+  </main>

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pump Paper Anleitung</title>
+<meta name="description" content="So bedienst du Pump Paper: Panel auf pump.fun, kaufen und verkaufen, Ziel, Stop und Zeit, Verlauf und alle Optionen.">
+<meta property="og:title" content="Pump Paper Anleitung">
+<meta property="og:description" content="So bedienst du Pump Paper: Panel auf pump.fun, kaufen und verkaufen, Ziel, Stop und Zeit, Verlauf und alle Optionen.">
+<meta property="og:image" content="assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="icons/48.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#f2b33d"/><path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Pump Paper
+    </a>
+    <nav aria-label="Seite">
+      <a href="index.html#rechnung">So rechnet es</a>
+      <a href="anleitung.html" aria-current="page">Anleitung</a>
+      <a href="changelog.html">Änderungen</a>
+      <a href="index.html#fragen">Fragen</a>
+    </nav>
+    <a class="btn gold small" href="index.html#installieren">Holen</a>
+  </header>
+  <main class="sub">
+    <div class="head">
+      <p class="eyebrow">Anleitung</p>
+      <h1>Pump Paper bedienen.</h1>
+      <p class="lede">Alles, was das Panel auf pump.fun und das Fenster in der Chrome-Leiste anzeigen, und was jede Option bewirkt. Stand Version 1.4.0.</p>
+      <nav class="toc" aria-label="Inhalt">
+        <a href="#panel">Das Panel</a><a href="#kaufen">Kaufen</a><a href="#position">Position</a><a href="#regeln">Ziel, Stop, Zeit</a><a href="#chart">Chart</a><a href="#fenster">Konto und Verlauf</a><a href="#optionen">Optionen</a><a href="#hinweise">Hinweise</a>
+      </nav>
+    </div>
+
+    <div class="prose">
+      <h2 id="panel">Das Panel</h2>
+      <p>Öffne einen Coin auf pump.fun. Unter dem Kaufbereich erscheint ein Kasten mit dem gelben Schild <b>PAPER</b>. Findet Pump Paper den Kaufbereich nicht, weil pump.fun die Seite umgebaut hat, schwebt das Panel stattdessen am Rand. Ein Klick auf die Kopfzeile klappt es klein und wieder groß.</p>
+      <p>Oben steht dein freies Guthaben in SOL und USDC. Darunter folgen:</p>
+      <ul>
+        <li><b>Marktwert</b> in Dollar und in SOL.</li>
+        <li><b>Bonding-Kurve oder PumpSwap-Pool</b> und die Währung, in der der Coin gehandelt wird.</li>
+        <li><b>Gebühr</b> in Prozent und woher sie stammt: „Fee-Config“ heißt direkt aus der Gebühren-Konfiguration von pump.fun, „Standard“ heißt Ersatzwert, „von Hand“ heißt dein fester Wert aus den Optionen.</li>
+        <li><b>Kurs aus</b> Blockchain oder DexScreener, mit „live vor x s“, solange der Kurs per Abo kommt.</li>
+        <li><b>Ausführung nach</b> und <b>Slippage</b>, also deine aktuellen Einstellungen für die Verzögerung und die Slippage-Grenze.</li>
+      </ul>
+
+      <h2 id="kaufen">Kaufen</h2>
+      <p>Tippe auf einen der vier Kaufknöpfe (Standard 0,1 / 0,25 / 0,5 / 1 SOL) oder trag einen Betrag ein und drück <b>Kaufen</b>. Coins, die gegen USDC gehandelt werden, zahlst du aus deinem USDC-Guthaben, die Knöpfe zeigen dann 10 / 25 / 50 / 100 USDC.</p>
+      <p>Der Kauf läuft wie ein echter erst nach der Verzögerung, zum Kurs, der dann gilt. Hat sich der Kurs in der Zeit stärker bewegt als deine Slippage, scheitert der Kauf. Ein gescheiterter Kauf kostet nur die Priority Fee und steht mit Grund im Verlauf. Beim ersten Kauf eines Coins kommt die Konto-Miete dazu.</p>
+
+      <h2 id="position">Deine Position</h2>
+      <p>Sobald du einen Coin hältst, zeigt das Panel groß dein Ergebnis und daneben, wie stark sich der Kurs seit dem Einstieg bewegt hat. Darunter:</p>
+      <ul>
+        <li><b>Eingesetzt</b>: was dich die Position gekostet hat.</li>
+        <li><b>Verkaufswert jetzt</b>: was ein Verkauf in diesem Moment bringen würde, nach Gebühr und Preiswirkung auf der Kurve.</li>
+        <li><b>Gas bisher</b>: Priority Fees und Konto-Miete dieser Position.</li>
+        <li><b>Einstieg bei MC</b> und <b>Offen seit</b>.</li>
+      </ul>
+      <p>Verkaufen geht mit <b>25 %</b>, <b>50 %</b> oder <b>Alles</b>.</p>
+
+      <h2 id="regeln">Ziel, Stop und Zeit</h2>
+      <p>Jede neue Position bekommt die Standardregeln aus den Optionen: Ziel +60 %, Stop −20 %, Zeitlimit 10 Minuten. Im Panel änderst du sie für diese eine Position. Beim Stop reicht eine positive Zahl, Pump Paper macht daraus einen Verlust. Leer oder 0 schaltet die Regel ab.</p>
+      <p>Unter den Feldern steht, bei welchem Marktwert Ziel und Stop auslösen. Pump Paper prüft die Regeln laufend, solange die Coinseite offen ist, und sonst alle 30 Sekunden im Hintergrund. Ausgelöste Verkäufe laufen ohne Slippage-Grenze. Im schnellen Absturz landet ein Stop deshalb unter der Marke, wie bei einem echten Stop.</p>
+
+      <h2 id="chart">Marker im Chart</h2>
+      <p>Im pump.fun-Chart erscheinen deine Käufe und Verkäufe als Marker. Einstieg, Ziel und Stop der offenen Position zeichnet Pump Paper als waagrechte Linien ein: grau, grün und rot.</p>
+
+      <h2 id="fenster">Konto und Verlauf</h2>
+      <p>Das Symbol von Pump Paper in der Chrome-Leiste öffnet ein Fenster mit drei Reitern.</p>
+      <ul>
+        <li><b>Konto</b>: freies SOL und USDC, Gesamtwert und Ergebnis in Dollar, alle offenen Positionen mit Link zur Coinseite und Verkaufen-Knopf.</li>
+        <li><b>Verlauf</b>: Anzahl Verkäufe, Trefferquote, Ergebnis und alle Gebühren samt Gas. Darunter die letzten 60 Trades, gescheiterte mit Grund. <b>Als CSV speichern</b> exportiert alles für deine eigene Auswertung.</li>
+        <li><b>Optionen</b>: alle Einstellungen unten. <b>Konto zurücksetzen</b> löscht Positionen und Verlauf und startet mit deinem Startkapital neu.</li>
+      </ul>
+
+      <h2 id="optionen">Optionen</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Option</th><th>Standard</th><th>Wirkung</th></tr></thead>
+          <tbody>
+            <tr><td>Startkapital SOL</td><td>10</td><td>Guthaben nach dem Zurücksetzen.</td></tr>
+            <tr><td>Startkapital USDC</td><td>1.000</td><td>Guthaben für Coins, die gegen USDC gehandelt werden.</td></tr>
+            <tr><td>Priority Fee je Trade</td><td>0,001 SOL</td><td>Wird bei jedem Trade fällig, auch bei gescheiterten.</td></tr>
+            <tr><td>Verzögerung</td><td>1 s</td><td>Zeit zwischen Klick und Ausführung.</td></tr>
+            <tr><td>Slippage</td><td>10 %</td><td>So weit darf deine Menge unter der erwarteten liegen, sonst scheitert der Trade.</td></tr>
+            <tr><td>Konto-Miete je neuer Coin</td><td>0,00204 SOL</td><td>Einmal beim ersten Kauf eines Coins.</td></tr>
+            <tr><td>Zusatz-Puffer</td><td>0 %</td><td>Macht jeden Kauf und Verkauf zusätzlich schlechter, wenn du vorsichtiger rechnen willst.</td></tr>
+            <tr><td>Gebühr fest</td><td>leer</td><td>Leer heißt Gebühr je Coin von der Blockchain. Eine Zahl überschreibt sie für alle Coins.</td></tr>
+            <tr><td>Zeitlimit, Ziel, Stop neu</td><td>10 min, +60 %, −20 %</td><td>Regeln für jede neue Position.</td></tr>
+            <tr><td>Kaufknöpfe SOL / USDC</td><td>0,1 0,25 0,5 1 / 10 25 50 100</td><td>Beträge der vier Kaufknöpfe.</td></tr>
+            <tr><td>Solana-RPC</td><td>öffentlicher Zugang</td><td>Woher Kurse und Gebühren kommen. Ein eigener Zugang (zum Beispiel Helius) ist schneller und zuverlässiger.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="hinweise">Hinweise im Panel</h2>
+      <p>Zwei rote Hinweise kannst du sehen:</p>
+      <p class="msg-demo">Dein Solana-Zugang antwortet nicht, Kurse kommen gerade über solana-rpc.publicnode.com.</p>
+      <p>Dein eingestellter Zugang ist gerade überlastet. Pump Paper rechnet über einen Ausweich-Zugang weiter, du musst nichts tun.</p>
+      <p class="msg-demo">Kein Solana-Zugang erreichbar, Kurs nur geschätzt von DexScreener.</p>
+      <p>Gerade ist gar kein Zugang zur Blockchain erreichbar. Der Kurs kommt dann von DexScreener und ist nur geschätzt. Mit Trades lieber kurz warten.</p>
+      <div class="callout"><b>Memebot-Hinweise.</b> Wer einen eigenen Memebot-Server betreibt, trägt dessen Adresse und Passwort in den Optionen ein. Das Panel zeigt dann den Hinweis des Bots zum Coin und übernimmt Einsatz, Ziel und Stop auf Knopfdruck. Ohne Eintrag bleibt diese Funktion aus.</div>
+    </div>
+  </main>
+  <footer>
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#f2b33d"/><path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Pump Paper
+    </a>
+    <p>Papertrading mit Spielgeld. Kein echtes Geld, keine Anlageberatung. Pump Paper ist ein unabhängiges Projekt und gehört nicht zu pump.fun.</p>
+    <nav class="foot-nav" aria-label="Weitere Seiten"><a href="anleitung.html">Anleitung</a><a href="changelog.html">Änderungen</a><a href="datenschutz.html">Datenschutz</a><a href="https://github.com/CloudJWSH/ForUs">Quellcode</a></nav>
+  </footer>
+</div>
+</body>
+</html>

@@ -31,6 +31,19 @@ jobs:
           zip -rq Pump-Paper.zip "Pump Paper" -x "*.DS_Store"
           cp Pump-Paper.zip "Pump-Paper-${{ steps.v.outputs.version }}.zip"
 
+      - name: Neuerungen der Version lesen
+        run: |
+          python3 - <<'PY' > dist/notes.md
+          import re
+          text = open("extension/CHANGELOG.md", encoding="utf-8").read()
+          blocks = re.split(r"^## ", text, flags=re.M)[1:]
+          ver = "${{ steps.v.outputs.version }}"
+          block = next((b for b in blocks if b.split("·")[0].strip() == ver), "")
+          items = [l for l in block.splitlines()[1:] if l.startswith("- ")]
+          print("\n".join(items) if items else f"Pump Paper {ver}.")
+          print("\nZip entpacken und unter chrome://extensions als entpackte Erweiterung laden.")
+          PY
+
       - name: Release anlegen oder aktualisieren
         env:
           GH_TOKEN: ${{ github.token }}
@@ -38,19 +51,20 @@ jobs:
         run: |
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release upload "$TAG" dist/Pump-Paper.zip "dist/Pump-Paper-${{ steps.v.outputs.version }}.zip" --clobber
-            gh release edit "$TAG" --latest
+            gh release edit "$TAG" --latest --notes-file dist/notes.md
           else
             gh release create "$TAG" dist/Pump-Paper.zip "dist/Pump-Paper-${{ steps.v.outputs.version }}.zip" \
               --title "Pump Paper ${{ steps.v.outputs.version }}" --target "$GITHUB_SHA" --latest \
-              --notes "Pump Paper ${{ steps.v.outputs.version }}. Zip entpacken und unter chrome://extensions als entpackte Erweiterung laden."
+              --notes-file dist/notes.md
           fi
 
-      - name: Version auf der Website eintragen
+      - name: Website neu bauen (Version, Neuerungen, Änderungsprotokoll)
         run: |
-          sed -i -E "s#<!-- version -->[^<]*<!-- /version -->#<!-- version -->${{ steps.v.outputs.version }}<!-- /version -->#" website/index.html
-          if ! git diff --quiet website/index.html; then
+          python3 website/tools/build.py
+          if [ -n "$(git status --porcelain website)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git commit -am "Website: Pump Paper ${{ steps.v.outputs.version }}"
+            git add website
+            git commit -m "Website: Pump Paper ${{ steps.v.outputs.version }}"
             git push
           fi

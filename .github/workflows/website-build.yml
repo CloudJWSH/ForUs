@@ -1,0 +1,31 @@
+# Baut die Unterseiten der Website neu, wenn sich ihre Quellen ändern (website/src, website/tools).
+# Neue Versionen der Erweiterung baut pump-paper-release.yml.
+name: Website bauen
+
+on:
+  push:
+    paths:
+      - "website/src/**"
+      - "website/tools/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bauen
+        run: python3 website/tools/build.py
+      - name: Ergebnis einchecken
+        run: |
+          if [ -n "$(git status --porcelain website)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add website
+            git commit -m "Website neu gebaut"
+            git push
+          fi
