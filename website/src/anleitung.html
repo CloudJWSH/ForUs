@@ -6,7 +6,7 @@
       <h1>Pump Paper bedienen.</h1>
       <p class="lede">Alles, was das Panel auf pump.fun und das Fenster in der Chrome-Leiste anzeigen, und was jede Option bewirkt. Stand Version {{version}}.</p>
       <nav class="toc" aria-label="Inhalt">
-        <a href="#panel">Das Panel</a><a href="#kaufen">Kaufen</a><a href="#position">Position</a><a href="#regeln">Ziel, Stop, Zeit</a><a href="#chart">Chart</a><a href="#fenster">Konto und Verlauf</a><a href="#optionen">Optionen</a><a href="#hinweise">Hinweise</a>
+        <a href="#panel">Das Panel</a><a href="#kaufen">Kaufen</a><a href="#position">Position</a><a href="#regeln">Ziel, Stop, Zeit</a><a href="#chart">Chart</a><a href="#fenster">Konto und Verlauf</a><a href="#csv">CSV</a><a href="#optionen">Optionen</a><a href="#hinweise">Hinweise</a>
       </nav>
     </div>
 
@@ -65,6 +65,27 @@
         <li><b>Verlauf</b>: Anzahl Verkäufe, Trefferquote, Ergebnis und alle Gebühren samt Gas. Darunter die letzten 60 Trades, gescheiterte mit Grund. <b>Als CSV speichern</b> exportiert alles für deine eigene Auswertung.</li>
         <li><b>Optionen</b>: alle Einstellungen unten. <b>Konto zurücksetzen</b> löscht Positionen und Verlauf und startet mit deinem Startkapital neu.</li>
       </ul>
+
+      <h2 id="csv">Die CSV-Datei</h2>
+      <p><b>Als CSV speichern</b> im Reiter Verlauf lädt eine Datei <code>pump-paper-JJJJ-MM-TT.csv</code> mit allen Trades. Trennzeichen ist das Semikolon, Zahlen stehen mit Punkt als Dezimaltrenner. In Excel oder Numbers beim Import deshalb „Punkt“ als Dezimaltrennzeichen wählen, in Google Sheets das Gebietsschema auf Englisch stellen.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Spalte</th><th>Beispiel</th><th>Inhalt</th></tr></thead>
+          <tbody>
+            <tr><td>zeit</td><td>2026-10-21T08:52:10Z</td><td>Zeitpunkt in UTC.</td></tr>
+            <tr><td>coin, mint</td><td>SUNNY</td><td>Kürzel und Adresse des Coins.</td></tr>
+            <tr><td>seite</td><td>verkauf</td><td>kauf, verkauf oder fehlgeschlagen.</td></tr>
+            <tr><td>waehrung</td><td>SOL</td><td>Womit bezahlt wurde: SOL oder USDC.</td></tr>
+            <tr><td>betrag</td><td>0.619</td><td>Beim Kauf der Einsatz, beim Verkauf der Erlös nach Gebühr.</td></tr>
+            <tr><td>tokens</td><td>12650000</td><td>Gekaufte oder verkaufte Menge.</td></tr>
+            <tr><td>gebuehr, gebuehr_prozent</td><td>0.0078 · 1.25</td><td>Gebühr an pump.fun in der Zahlwährung und in Prozent.</td></tr>
+            <tr><td>gas_sol</td><td>0.001</td><td>Beim Kauf Priority Fee, beim ersten Kauf mit Konto-Miete. Beim Verkauf Priority Fee plus der anteilige Betrag aus den Käufen.</td></tr>
+            <tr><td>ergebnis, rendite</td><td>0.119 · 0.238</td><td>Nur bei Verkäufen: Gewinn oder Verlust ohne Gas und Rendite als Anteil (0.238 = 23,8 %).</td></tr>
+            <tr><td>grund</td><td>Stop</td><td>Bei Verkäufen Ziel, Stop, Zeit oder „von Hand“, bei gescheiterten Trades der Grund.</td></tr>
+            <tr><td>marktwert_usd, sol_usd</td><td>9053 · 180</td><td>Marktwert des Coins und SOL-Kurs zum Zeitpunkt des Trades.</td></tr>
+          </tbody>
+        </table>
+      </div>
 
       <h2 id="optionen">Optionen</h2>
       <div class="table-wrap">

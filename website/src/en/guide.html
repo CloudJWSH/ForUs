@@ -7,7 +7,7 @@
       <p class="lede">Everything the panel on pump.fun and the toolbar window show, and what each option does. Version {{version}}.</p>
       <p class="lang-note">The extension's interface is in German for now. German labels are quoted next to the English terms.</p>
       <nav class="toc" aria-label="Contents">
-        <a href="#panel">The panel</a><a href="#buy">Buying</a><a href="#position">Position</a><a href="#rules">Target, stop, time</a><a href="#chart">Chart</a><a href="#window">Account and history</a><a href="#options">Options</a><a href="#notices">Notices</a>
+        <a href="#panel">The panel</a><a href="#buy">Buying</a><a href="#position">Position</a><a href="#rules">Target, stop, time</a><a href="#chart">Chart</a><a href="#window">Account and history</a><a href="#csv">CSV</a><a href="#options">Options</a><a href="#notices">Notices</a>
       </nav>
     </div>
 
@@ -65,6 +65,27 @@
         <li><b>Verlauf</b> (history): number of sells, hit rate, result and all fees including gas. Below that the last 60 trades, failed ones with their reason. <b>Als CSV speichern</b> exports everything for your own analysis.</li>
         <li><b>Optionen</b> (options): all settings below. <b>Konto zurücksetzen</b> deletes positions and history and starts over with your starting capital.</li>
       </ul>
+
+      <h2 id="csv">The CSV file</h2>
+      <p><b>Als CSV speichern</b> in the history tab downloads <code>pump-paper-YYYY-MM-DD.csv</code> with every trade. Fields are separated by semicolons, numbers use a dot as decimal separator. Column names are German.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Column</th><th>Example</th><th>Content</th></tr></thead>
+          <tbody>
+            <tr><td>zeit</td><td>2026-10-21T08:52:10Z</td><td>Time in UTC.</td></tr>
+            <tr><td>coin, mint</td><td>SUNNY</td><td>Ticker and address of the coin.</td></tr>
+            <tr><td>seite</td><td>verkauf</td><td>kauf (buy), verkauf (sell) or fehlgeschlagen (failed).</td></tr>
+            <tr><td>waehrung</td><td>SOL</td><td>Paid with SOL or USDC.</td></tr>
+            <tr><td>betrag</td><td>0.619</td><td>For buys the amount spent, for sells the proceeds after fee.</td></tr>
+            <tr><td>tokens</td><td>12650000</td><td>Amount bought or sold.</td></tr>
+            <tr><td>gebuehr, gebuehr_prozent</td><td>0.0078 · 1.25</td><td>Fee to pump.fun in the paying currency and in percent.</td></tr>
+            <tr><td>gas_sol</td><td>0.001</td><td>For buys the priority fee, plus account rent on a first buy. For sells the priority fee plus the matching share of the buys.</td></tr>
+            <tr><td>ergebnis, rendite</td><td>0.119 · 0.238</td><td>Sells only: profit or loss before gas and return as a fraction (0.238 = 23.8 %).</td></tr>
+            <tr><td>grund</td><td>Stop</td><td>For sells Ziel (target), Stop, Zeit (time) or „von Hand“ (manual), for failed trades the reason.</td></tr>
+            <tr><td>marktwert_usd, sol_usd</td><td>9053 · 180</td><td>Market cap of the coin and SOL price at the time of the trade.</td></tr>
+          </tbody>
+        </table>
+      </div>
 
       <h2 id="options">Options</h2>
       <div class="table-wrap">
