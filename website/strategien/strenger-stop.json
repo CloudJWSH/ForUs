@@ -1,0 +1,43 @@
+{
+  "format": "pump-paper-strategy",
+  "version": 1,
+  "name": "Strenger Stop",
+  "note": "Beispiel aus dem Strategie-Labor. Nur zum Testen auf Papier.",
+  "entry": {
+    "mcUsd": {
+      "min": 5000,
+      "max": 20000
+    },
+    "progress": {
+      "min": 0,
+      "max": 60
+    },
+    "ageMin": {
+      "min": 0,
+      "max": 30
+    }
+  },
+  "size": {
+    "mode": "sol",
+    "value": 0.25
+  },
+  "exit": {
+    "targetPct": 40,
+    "stopPct": 8,
+    "timeMin": 8,
+    "trailingPct": null,
+    "partial": null
+  },
+  "limits": {
+    "maxOpen": 2,
+    "pauseAfterLosses": {
+      "count": 3,
+      "minutes": 30
+    }
+  },
+  "execution": {
+    "delaySec": 1,
+    "slippagePct": 10,
+    "priorityFee": 0.001
+  }
+}

@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pump Paper Strategy Lab</title>
+<meta name="description" content="Write your own pump.fun strategy and test it on paper: entry, target, stop, time, with the real bonding curve and fees. Nothing gets bought.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pump Paper">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Pump Paper Strategy Lab">
+<meta property="og:description" content="Write your own pump.fun strategy and test it on paper: entry, target, stop, time, with the real bonding curve and fees. Nothing gets bought.">
+<meta property="og:image" content="../assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pump Paper Strategy Lab">
+<meta name="twitter:description" content="Write your own pump.fun strategy and test it on paper: entry, target, stop, time, with the real bonding curve and fees. Nothing gets bought.">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0b110f" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f3f5f2" media="(prefers-color-scheme: light)">
+<link rel="alternate" hreflang="de" href="../strategie.html">
+<link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
+<link rel="icon" href="../icons/48.png" sizes="48x48">
+<link rel="apple-touch-icon" href="../icons/180.png">
+<link rel="manifest" href="../manifest.webmanifest">
+<script>try{var t=localStorage.getItem("pp-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script src="../assets/site.js?v=1.4.0" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/site.css?v=1.4.0">
+</head>
+<body>
+<a class="skip" href="#inhalt">Skip to content</a>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#f2b33d"/><path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Pump Paper
+    </a>
+    <nav aria-label="Site">
+      <a href="index.html#math">How it works</a>
+      <a href="guide.html">Guide</a>
+      <a href="glossary.html">Glossary</a>
+      <a href="account.html">Account</a>
+      <a href="strategy.html" aria-current="page">Lab</a>
+      <a href="index.html#faq">FAQ</a>
+      <a class="lang" href="../strategie.html" hreflang="de" lang="de" aria-label="Deutsch">DE</a>
+    </nav>
+    <button type="button" class="theme-btn" data-theme-toggle><svg viewBox="0 0 20 20" aria-hidden="true"><g class="sun" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10" cy="10" r="3.5"/><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.3 4.3l1.4 1.4M14.3 14.3l1.4 1.4M4.3 15.7l1.4-1.4M14.3 5.7l1.4-1.4"/></g><path class="moon" d="M16 12.5A6.5 6.5 0 0 1 7.5 4a6.5 6.5 0 1 0 8.5 8.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></button>
+    <a class="btn gold small" href="index.html#install">Get it</a>
+    <details class="menu"><summary aria-label="Menu"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></summary><div class="menu-panel"><a href="index.html#math">How it works</a><a href="guide.html">Guide</a><a href="glossary.html">Glossary</a><a href="account.html">Account</a><a href="strategy.html" aria-current="page">Lab</a><a href="index.html#faq">FAQ</a></div></details>
+  </header>
+  <main id="inhalt" class="sub lab-page">
+    <div class="head">
+      <p class="eyebrow">Strategy lab</p>
+      <h1>Your rules, tested on paper.</h1>
+      <p class="lede">Write down your own strategy and run it against simulated pump.fun coins or against your own paper trades. The math is the same as in Pump Paper: real bonding curve, 1.25 % fee, priority fee, delay and slippage.</p>
+    </div>
+    <div class="callout"><b>Paper only.</b> The lab buys nothing and gives no signals. Pump Paper never trades on its own: you decide every buy. A good result here is a hint, not a promise for real money.</div>
+
+    <section class="lab" id="labor" aria-label="Strategy lab">
+      <div class="lab-bar">
+        <div class="lab-templates" role="group" aria-label="Templates">
+          <span class="k">Templates</span>
+          <button type="button" class="chip" data-template="frueh">Early in, quick out</button>
+          <button type="button" class="chip" data-template="migration">Only near migration</button>
+          <button type="button" class="chip" data-template="weit">Small size, wide target</button>
+          <button type="button" class="chip" data-template="streng">Tight stop</button>
+        </div>
+        <div class="lab-saved">
+          <label for="l-saved">Saved</label>
+          <select id="l-saved"><option value="">–</option></select>
+          <button type="button" class="k-link" data-act="save">Save</button>
+          <button type="button" class="k-link" data-act="delete">Delete</button>
+        </div>
+      </div>
+
+      <form class="lab-form" id="l-form" autocomplete="off">
+        <div class="lab-name"><label for="l-name">Name</label><input id="l-name" maxlength="60" value="My strategy"></div>
+        <fieldset>
+          <legend>Entry</legend>
+          <div class="pair"><label for="l-mc-min">Market cap from ($)</label><input id="l-mc-min" inputmode="decimal" value="5000"><label for="l-mc-max">to ($)</label><input id="l-mc-max" inputmode="decimal" value="20000"></div>
+          <div class="pair"><label for="l-pg-min">Curve full from (%)</label><input id="l-pg-min" inputmode="decimal" value="0"><label for="l-pg-max">to (%)</label><input id="l-pg-max" inputmode="decimal" value="60"></div>
+          <div class="pair"><label for="l-age-min">Age from (min)</label><input id="l-age-min" inputmode="decimal" value="0"><label for="l-age-max">to (min)</label><input id="l-age-max" inputmode="decimal" value="30"></div>
+        </fieldset>
+        <fieldset>
+          <legend>Size</legend>
+          <div class="pair"><label for="l-size-mode">Type</label><select id="l-size-mode"><option value="sol">fixed SOL</option><option value="percent">% of balance</option></select><label for="l-size">Value</label><input id="l-size" inputmode="decimal" value="0.25"></div>
+        </fieldset>
+        <fieldset>
+          <legend>Exit <small>empty = off</small></legend>
+          <div class="pair"><label for="l-target">Target (+%)</label><input id="l-target" inputmode="decimal" value="60"><label for="l-stop">Stop (−%)</label><input id="l-stop" inputmode="decimal" value="20"></div>
+          <div class="pair"><label for="l-time">Time limit (min)</label><input id="l-time" inputmode="decimal" value="10"><label for="l-trail">Trailing (%)</label><input id="l-trail" inputmode="decimal" value=""></div>
+          <div class="pair"><label for="l-part">Partial sell at target (%)</label><input id="l-part" inputmode="decimal" value=""></div>
+        </fieldset>
+        <fieldset>
+          <legend>Limits</legend>
+          <div class="pair"><label for="l-open">Max open</label><input id="l-open" inputmode="numeric" value="3"><label for="l-loss">Pause after losses in a row</label><input id="l-loss" inputmode="numeric" value=""></div>
+          <div class="pair"><label for="l-pause">Pause (min)</label><input id="l-pause" inputmode="decimal" value="30"></div>
+        </fieldset>
+        <fieldset>
+          <legend>Execution as in Pump Paper</legend>
+          <div class="pair"><label for="l-delay">Delay (s)</label><input id="l-delay" inputmode="decimal" value="1"><label for="l-slip">Slippage (%)</label><input id="l-slip" inputmode="decimal" value="10"></div>
+          <div class="pair"><label for="l-prio">Priority fee (SOL)</label><input id="l-prio" inputmode="decimal" value="0.001"></div>
+        </fieldset>
+        <div class="lab-name"><label for="l-note">Note</label><textarea id="l-note" rows="2" maxlength="500" placeholder="Why these rules?"></textarea></div>
+        <p class="lab-errors" data-errors aria-live="polite"></p>
+      </form>
+
+      <p class="lab-sentence" data-sentence aria-live="polite"></p>
+
+      <div class="lab-run">
+        <div class="pair">
+          <label for="l-scen">Market</label><select id="l-scen"><option value="normal">Normal</option><option value="hype">Hype</option><option value="crash">Crash</option></select>
+          <label for="l-coins">Coins</label><select id="l-coins"><option>60</option><option selected>120</option><option>250</option></select>
+          <label for="l-seed">Seed</label><input id="l-seed" inputmode="numeric" value="1">
+          <button type="button" class="k-link" data-act="reroll">New seed</button>
+        </div>
+        <div class="pair">
+          <label for="l-start">Starting balance (SOL)</label><input id="l-start" inputmode="decimal" value="10">
+          <label for="l-solusd">SOL price ($)</label><input id="l-solusd" inputmode="decimal" value="180">
+        </div>
+      </div>
+
+      <div class="lab-result" data-result aria-live="polite"></div>
+      <div class="lab-chart" data-chart></div>
+      <div class="lab-warn" data-warn></div>
+      <div class="lab-compare" data-compare></div>
+      <div class="cta lab-actions">
+        <button type="button" class="btn small" data-act="keep-b">Keep as B to compare</button>
+        <button type="button" class="btn small" data-act="clear-b" hidden>Remove comparison</button>
+      </div>
+      <div class="lab-trades" data-trades></div>
+    </section>
+
+    <section class="lab-file" id="file">
+      <h2>Save and share as a file</h2>
+      <p>Your strategy is a small JSON file in the open <code>pump-paper-strategy</code> format. Pump Paper is meant to read these files later, so the extension can show you when your rules match. You still do every buy yourself.</p>
+      <div class="cta">
+        <button type="button" class="btn gold small" data-act="export">Download file</button>
+        <button type="button" class="btn small" data-act="copy">Copy JSON</button>
+        <button type="button" class="btn small" data-act="link">Copy link</button>
+        <label class="btn small file-btn">Load file<input type="file" accept=".json,application/json" data-import hidden></label>
+      </div>
+      <label for="l-paste" class="k">Or paste JSON here</label>
+      <textarea id="l-paste" rows="4" spellcheck="false" placeholder='{"format": "pump-paper-strategy", "version": 1, …}'></textarea>
+      <div class="cta"><button type="button" class="btn small" data-act="paste">Paste and check</button></div>
+      <p class="lab-status" data-status aria-live="polite"></p>
+    </section>
+
+    <section class="lab-csv" id="own-trades">
+      <h2>Apply to your own trades</h2>
+      <p>Load the CSV from the Pump Paper history. The lab shows which of your buys the entry rule would have allowed by market cap, and how those trades did. Curve progress and age are not in the CSV, so they don't count here. The file stays in this tab.</p>
+      <div class="cta"><label class="btn small file-btn">Load CSV<input type="file" accept=".csv,text/csv" data-csv hidden></label></div>
+      <div data-csv-result aria-live="polite"></div>
+    </section>
+
+    <section class="lab-format" id="format">
+      <h2>The format</h2>
+      <p>Every number has limits, unknown fields are ignored. Wallets, keys or server addresses have no place in the format. Examples live in the repo under <a href="https://github.com/CloudJWSH/ForUs/tree/claude/project-thread-3fttcm/website/strategien">website/strategien</a>, the schema in <a href="../strategien/strategy.schema.json">strategy.schema.json</a>.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th scope="col">Field</th><th scope="col">Meaning</th><th scope="col">Limits</th></tr></thead>
+        <tbody>
+          <tr><td><code>entry.mcUsd</code></td><td>Market cap at buy in dollars, min and max</td><td>0–100 M</td></tr>
+          <tr><td><code>entry.progress</code></td><td>How full the bonding curve is, in %</td><td>0–100</td></tr>
+          <tr><td><code>entry.ageMin</code></td><td>Coin age in minutes</td><td>0–1440</td></tr>
+          <tr><td><code>size</code></td><td><code>mode</code> "sol" or "percent", plus <code>value</code></td><td>0.001–1000</td></tr>
+          <tr><td><code>exit.targetPct</code></td><td>Target in % above entry, <code>null</code> = off</td><td>1–10000</td></tr>
+          <tr><td><code>exit.stopPct</code></td><td>Stop in % below entry</td><td>1–100</td></tr>
+          <tr><td><code>exit.timeMin</code></td><td>Sell after this many minutes</td><td>1–1440</td></tr>
+          <tr><td><code>exit.trailingPct</code></td><td>Trailing stop below the high</td><td>1–100</td></tr>
+          <tr><td><code>exit.partial.sellPct</code></td><td>Share sold at the target</td><td>1–99</td></tr>
+          <tr><td><code>limits.maxOpen</code></td><td>At most this many open positions</td><td>1–50</td></tr>
+          <tr><td><code>limits.pauseAfterLosses</code></td><td><code>count</code> losses in a row, then <code>minutes</code> pause</td><td>1–50 / 1–1440</td></tr>
+          <tr><td><code>execution</code></td><td><code>delaySec</code>, <code>slippagePct</code>, <code>priorityFee</code></td><td>0–30 / 0.1–100 / 0–0.1</td></tr>
+        </tbody>
+      </table></div>
+      <p class="lang-note">Format version 1, as of Oct 21, 2026. New fields only come with a new version number.</p>
+    </section>
+
+    <div class="callout"><b>How the simulation works.</b> Every simulated coin starts on a fresh bonding curve. Dev and snipers buy in the first block and sell again soon, often the dev sells too. After that, quiet phases, hype and sell-offs take turns. It is a rough model, not a forecast: real coins can behave very differently. The same seed gives the same coins, so you can compare two strategies fairly.</div>
+  </main>
+  <script src="../assets/kurve.js?v=1.4.0"></script>
+  <script src="../assets/strategie.js?v=1.4.0"></script>
+  <script src="../assets/labor.js?v=1.4.0"></script>
+  <footer>
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#f2b33d"/><path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Pump Paper
+    </a>
+    <p>Paper trading with play money. No real money, no financial advice. Pump Paper is an independent project and not affiliated with pump.fun.</p>
+    <nav class="foot-nav" aria-label="More pages"><a href="guide.html">Guide</a><a href="glossary.html">Glossary</a><a href="practice.html">Practice</a><a href="account.html">Account</a><a href="strategy.html">Strategy lab</a><a href="changelog.html">Changes</a><a href="privacy.html">Privacy</a><a href="https://github.com/CloudJWSH/ForUs">Source code</a></nav>
+  </footer>
+</div>
+</body>
+</html>

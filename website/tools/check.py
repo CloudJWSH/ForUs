@@ -4,6 +4,7 @@ denn es ist öffentlich.
 
 Aufruf: python3 website/tools/check.py  (Exit-Code 1 bei Fehlern)
 """
+import json
 import re
 import sys
 from html.parser import HTMLParser
@@ -84,6 +85,65 @@ def images():
     return found
 
 
+def schema_errors(value, schema, root, where="$"):
+    """Kleiner JSON-Schema-Prüfer für die Teile, die strategy.schema.json nutzt."""
+    if "$ref" in schema:
+        schema = root["$defs"][schema["$ref"].split("/")[-1]]
+    errs = []
+    types = schema.get("type")
+    if types:
+        types = types if isinstance(types, list) else [types]
+        ok = {"object": dict, "string": str, "null": type(None), "array": list}
+        def fits(t):
+            if t in ("number", "integer"):
+                return isinstance(value, (int, float)) and not isinstance(value, bool) and (t == "number" or float(value).is_integer())
+            return isinstance(value, ok[t])
+        if not any(fits(t) for t in types):
+            return [f"{where}: erwartet {'/'.join(types)}"]
+    if "const" in schema and value != schema["const"]:
+        errs.append(f"{where}: muss {schema['const']!r} sein")
+    if "enum" in schema and value not in schema["enum"]:
+        errs.append(f"{where}: nicht erlaubt: {value!r}")
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        if "minimum" in schema and value < schema["minimum"]:
+            errs.append(f"{where}: kleiner als {schema['minimum']}")
+        if "maximum" in schema and value > schema["maximum"]:
+            errs.append(f"{where}: größer als {schema['maximum']}")
+    if isinstance(value, str) and len(value) > schema.get("maxLength", 10**9):
+        errs.append(f"{where}: zu lang")
+    if isinstance(value, dict):
+        props = schema.get("properties", {})
+        for key in schema.get("required", []):
+            if key not in value:
+                errs.append(f"{where}: {key} fehlt")
+        for key, v in value.items():
+            if key in props:
+                errs += schema_errors(v, props[key], root, f"{where}.{key}")
+            elif schema.get("additionalProperties") is False:
+                errs.append(f"{where}: unbekanntes Feld {key}")
+    return errs
+
+
+def strategies():
+    """Beispiel-Strategien gegen das Schema prüfen."""
+    folder = SITE / "strategien"
+    schema_path = folder / "strategy.schema.json"
+    if not schema_path.exists():
+        return []
+    schema = json.loads(schema_path.read_text(encoding="utf-8"))
+    found = []
+    for path in sorted(folder.glob("*.json")):
+        if path == schema_path:
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except ValueError as e:
+            found.append(f"strategien/{path.name}: kein gültiges JSON ({e})")
+            continue
+        found += [f"strategien/{path.name}: {e}" for e in schema_errors(data, schema, schema)]
+    return found
+
+
 def parse(path):
     p = Page()
     p.feed(path.read_text(encoding="utf-8"))
@@ -123,7 +183,7 @@ def main():
             errors.append(f"{rel}: falsche oder fehlende Sprache: {p.lang}")
         for d in sorted(p.dupes):
             errors.append(f"{rel}: ID doppelt: {d}")
-    errors += images() + secrets()
+    errors += images() + secrets() + strategies()
     for e in errors:
         print(e)
     print(f"{len(pages)} Seiten geprüft, {len(errors)} Fehler")

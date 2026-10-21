@@ -522,3 +522,52 @@ main:has(.toc.sticky) :is(h2, h3)[id], main:has(.toc.sticky) [id] { scroll-margi
 main.sub.coin-page { max-width: 1040px; }
 .coin-page .coin-sec { padding-top: 8px; border-top: 0; }
 @media (max-width: 860px) { .coin-trust { grid-template-columns: 1fr; } }
+
+/* Strategie-Labor */
+main.sub.lab-page { max-width: 1040px; }
+main.sub.lab-page > *, .lab > * { min-width: 0; }
+.lab { display: grid; gap: 20px; }
+.lab-bar { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 20px; align-items: center; }
+.lab-templates { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.lab-templates .k, .lab-file .k, .lab-csv .k, .lab-chart .k { font-size: 13px; color: var(--muted); }
+.chip { font: 500 13.5px var(--body); color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 7px 13px; cursor: pointer; }
+.chip:hover { border-color: var(--gold); }
+.lab-saved { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; font-size: 13.5px; color: var(--muted); }
+.lab input, .lab select, .lab textarea, .lab-file textarea { font: 500 14px var(--mono); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 7px; padding: 8px 10px; min-width: 0; width: 100%; }
+.lab select { font-family: var(--body); width: auto; }
+.lab input:focus, .lab select:focus, .lab textarea:focus, .lab-file textarea:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+.lab-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+.lab-form fieldset { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px 14px; margin: 0; display: grid; gap: 10px; min-width: 0; }
+.lab-form legend { font: 600 14px var(--body); padding: 0 6px; color: var(--ink); }
+.lab-form legend small { font-weight: 400; color: var(--muted); }
+.lab-name { grid-column: 1 / -1; display: grid; gap: 6px; font-size: 13px; color: var(--muted); }
+.lab .pair { display: grid; grid-template-columns: auto minmax(70px, 1fr) auto minmax(70px, 1fr); gap: 8px 10px; align-items: center; font-size: 13px; color: var(--muted); }
+.lab-run { display: grid; gap: 10px; }
+.lab-run .pair { display: flex; flex-wrap: wrap; gap: 8px 10px; }
+.lab-run .pair input { width: 110px; }
+.lab-errors { margin: 0; grid-column: 1 / -1; color: var(--loss); font-size: 14px; }
+.lab-errors:empty { display: none; }
+.lab-sentence { margin: 0; font-size: 17px; line-height: 1.5; color: var(--ink); border-left: 3px solid var(--gold); padding: 4px 0 4px 16px; max-width: 75ch; }
+.lab-result { display: grid; gap: 8px; }
+.lab-result .k-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.lab-line { margin: 0; font-size: 14px; color: var(--muted); }
+.lab-chart svg { width: 100%; height: 160px; display: block; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; }
+.lab-chart polyline { fill: none; stroke-width: 2; vector-effect: non-scaling-stroke; }
+.lab-chart polyline.gain { stroke: var(--gain); }
+.lab-chart polyline.loss { stroke: var(--loss); }
+.lab-chart .base { stroke: var(--line); stroke-dasharray: 4 4; vector-effect: non-scaling-stroke; }
+.lab-warn p { margin: 0 0 6px; font-size: 14px; color: var(--muted); }
+.lab-actions { margin: 0; }
+.lab-file, .lab-csv, .lab-format { display: grid; gap: 12px; }
+.lab-file h2, .lab-csv h2, .lab-format h2 { font-size: 26px; }
+.lab-file p, .lab-csv p, .lab-format p { margin: 0; color: var(--muted); max-width: 72ch; }
+.lab-file textarea { font-size: 13px; }
+.lab-status { font-size: 14px; color: var(--ink) !important; }
+.file-btn { cursor: pointer; }
+.file-btn:focus-within { outline: 2px solid var(--gold); outline-offset: 2px; }
+.lab-format .table-wrap td:nth-child(2) { font-family: var(--body); white-space: normal; color: var(--muted); }
+@media (max-width: 760px) {
+  .lab-form { grid-template-columns: 1fr; padding: 14px; }
+  .lab-result .k-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 460px) { .lab .pair { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); } }

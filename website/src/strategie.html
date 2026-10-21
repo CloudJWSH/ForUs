@@ -1,0 +1,135 @@
+<!-- title: Pump Paper Strategie-Labor -->
+<!-- description: Schreib deine eigene Strategie für pump.fun und teste sie auf Papier: Einstieg, Ziel, Stop, Zeit, mit echter Bonding-Kurve und Gebühren. Nichts wird gekauft. -->
+  <main class="sub lab-page">
+    <div class="head">
+      <p class="eyebrow">Strategie-Labor</p>
+      <h1>Deine Regeln, auf Papier geprüft.</h1>
+      <p class="lede">Hier schreibst du deine eigene Strategie auf und lässt sie gegen simulierte pump.fun-Coins oder gegen deine eigenen Papier-Trades laufen. Gerechnet wird wie in Pump Paper: echte Bonding-Kurve, 1,25 % Gebühr, Priority Fee, Verzögerung und Slippage.</p>
+    </div>
+    <div class="callout"><b>Nur Papier.</b> Das Labor kauft nichts und gibt keine Signale. Pump Paper handelt nie selbst: Du entscheidest jeden Kauf. Ein gutes Ergebnis hier ist ein Hinweis, kein Versprechen für echtes Geld.</div>
+
+    <section class="lab" id="labor" aria-label="Strategie-Labor">
+      <div class="lab-bar">
+        <div class="lab-templates" role="group" aria-label="Vorlagen">
+          <span class="k">Vorlagen</span>
+          <button type="button" class="chip" data-template="frueh">Früh rein, schnell raus</button>
+          <button type="button" class="chip" data-template="migration">Nur nahe Migration</button>
+          <button type="button" class="chip" data-template="weit">Kleiner Einsatz, weites Ziel</button>
+          <button type="button" class="chip" data-template="streng">Strenger Stop</button>
+        </div>
+        <div class="lab-saved">
+          <label for="l-saved">Gespeichert</label>
+          <select id="l-saved"><option value="">–</option></select>
+          <button type="button" class="k-link" data-act="save">Speichern</button>
+          <button type="button" class="k-link" data-act="delete">Löschen</button>
+        </div>
+      </div>
+
+      <form class="lab-form" id="l-form" autocomplete="off">
+        <div class="lab-name"><label for="l-name">Name</label><input id="l-name" maxlength="60" value="Meine Strategie"></div>
+        <fieldset>
+          <legend>Einstieg</legend>
+          <div class="pair"><label for="l-mc-min">Marktwert von ($)</label><input id="l-mc-min" inputmode="decimal" value="5000"><label for="l-mc-max">bis ($)</label><input id="l-mc-max" inputmode="decimal" value="20000"></div>
+          <div class="pair"><label for="l-pg-min">Kurve voll von (%)</label><input id="l-pg-min" inputmode="decimal" value="0"><label for="l-pg-max">bis (%)</label><input id="l-pg-max" inputmode="decimal" value="60"></div>
+          <div class="pair"><label for="l-age-min">Alter von (Min.)</label><input id="l-age-min" inputmode="decimal" value="0"><label for="l-age-max">bis (Min.)</label><input id="l-age-max" inputmode="decimal" value="30"></div>
+        </fieldset>
+        <fieldset>
+          <legend>Einsatz</legend>
+          <div class="pair"><label for="l-size-mode">Art</label><select id="l-size-mode"><option value="sol">fest in SOL</option><option value="percent">% vom Guthaben</option></select><label for="l-size">Wert</label><input id="l-size" inputmode="decimal" value="0.25"></div>
+        </fieldset>
+        <fieldset>
+          <legend>Ausstieg <small>leer = aus</small></legend>
+          <div class="pair"><label for="l-target">Ziel (+%)</label><input id="l-target" inputmode="decimal" value="60"><label for="l-stop">Stop (−%)</label><input id="l-stop" inputmode="decimal" value="20"></div>
+          <div class="pair"><label for="l-time">Zeitlimit (Min.)</label><input id="l-time" inputmode="decimal" value="10"><label for="l-trail">Nachziehen (%)</label><input id="l-trail" inputmode="decimal" value=""></div>
+          <div class="pair"><label for="l-part">Teilverkauf am Ziel (%)</label><input id="l-part" inputmode="decimal" value=""></div>
+        </fieldset>
+        <fieldset>
+          <legend>Grenzen</legend>
+          <div class="pair"><label for="l-open">Höchstens offen</label><input id="l-open" inputmode="numeric" value="3"><label for="l-loss">Pause nach Verlusten in Folge</label><input id="l-loss" inputmode="numeric" value=""></div>
+          <div class="pair"><label for="l-pause">Pause (Min.)</label><input id="l-pause" inputmode="decimal" value="30"></div>
+        </fieldset>
+        <fieldset>
+          <legend>Ausführung wie in Pump Paper</legend>
+          <div class="pair"><label for="l-delay">Verzögerung (s)</label><input id="l-delay" inputmode="decimal" value="1"><label for="l-slip">Slippage (%)</label><input id="l-slip" inputmode="decimal" value="10"></div>
+          <div class="pair"><label for="l-prio">Priority Fee (SOL)</label><input id="l-prio" inputmode="decimal" value="0.001"></div>
+        </fieldset>
+        <div class="lab-name"><label for="l-note">Notiz</label><textarea id="l-note" rows="2" maxlength="500" placeholder="Warum diese Regeln?"></textarea></div>
+        <p class="lab-errors" data-errors aria-live="polite"></p>
+      </form>
+
+      <p class="lab-sentence" data-sentence aria-live="polite"></p>
+
+      <div class="lab-run">
+        <div class="pair">
+          <label for="l-scen">Markt</label><select id="l-scen"><option value="normal">Normal</option><option value="hype">Hype</option><option value="crash">Absturz</option></select>
+          <label for="l-coins">Coins</label><select id="l-coins"><option>60</option><option selected>120</option><option>250</option></select>
+          <label for="l-seed">Startwert</label><input id="l-seed" inputmode="numeric" value="1">
+          <button type="button" class="k-link" data-act="reroll">Neu würfeln</button>
+        </div>
+        <div class="pair">
+          <label for="l-start">Startguthaben (SOL)</label><input id="l-start" inputmode="decimal" value="10">
+          <label for="l-solusd">SOL-Kurs ($)</label><input id="l-solusd" inputmode="decimal" value="180">
+        </div>
+      </div>
+
+      <div class="lab-result" data-result aria-live="polite"></div>
+      <div class="lab-chart" data-chart></div>
+      <div class="lab-warn" data-warn></div>
+      <div class="lab-compare" data-compare></div>
+      <div class="cta lab-actions">
+        <button type="button" class="btn small" data-act="keep-b">Als B zum Vergleich merken</button>
+        <button type="button" class="btn small" data-act="clear-b" hidden>Vergleich entfernen</button>
+      </div>
+      <div class="lab-trades" data-trades></div>
+    </section>
+
+    <section class="lab-file" id="datei">
+      <h2>Als Datei speichern und teilen</h2>
+      <p>Deine Strategie ist eine kleine JSON-Datei im offenen Format <code>pump-paper-strategy</code>. Pump Paper soll solche Dateien später einlesen können, damit dir die Erweiterung zeigt, wann deine Regeln passen. Kaufen tust du weiter selbst.</p>
+      <div class="cta">
+        <button type="button" class="btn gold small" data-act="export">Datei herunterladen</button>
+        <button type="button" class="btn small" data-act="copy">JSON kopieren</button>
+        <button type="button" class="btn small" data-act="link">Link kopieren</button>
+        <label class="btn small file-btn">Datei laden<input type="file" accept=".json,application/json" data-import hidden></label>
+      </div>
+      <label for="l-paste" class="k">Oder JSON hier einfügen</label>
+      <textarea id="l-paste" rows="4" spellcheck="false" placeholder='{"format": "pump-paper-strategy", "version": 1, …}'></textarea>
+      <div class="cta"><button type="button" class="btn small" data-act="paste">Einfügen und prüfen</button></div>
+      <p class="lab-status" data-status aria-live="polite"></p>
+    </section>
+
+    <section class="lab-csv" id="eigene-trades">
+      <h2>Auf deine eigenen Trades anwenden</h2>
+      <p>Lade die CSV aus dem Verlauf von Pump Paper. Das Labor zeigt, welche deiner Käufe die Einstiegsregel beim Marktwert erlaubt hätte und wie diese Trades abgeschnitten haben. Fortschritt und Alter stehen nicht in der CSV, die zählen hier nicht. Die Datei bleibt in diesem Tab.</p>
+      <div class="cta"><label class="btn small file-btn">CSV laden<input type="file" accept=".csv,text/csv" data-csv hidden></label></div>
+      <div data-csv-result aria-live="polite"></div>
+    </section>
+
+    <section class="lab-format" id="format">
+      <h2>Das Format</h2>
+      <p>Jede Zahl hat Grenzen, unbekannte Felder werden ignoriert. Wallets, Schlüssel oder Server-Adressen haben im Format keinen Platz. Beispiele liegen im Repo unter <a href="https://github.com/CloudJWSH/ForUs/tree/claude/project-thread-3fttcm/website/strategien">website/strategien</a>, das Schema in <a href="strategien/strategy.schema.json">strategy.schema.json</a>.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Feld</th><th>Bedeutung</th><th>Grenzen</th></tr></thead>
+        <tbody>
+          <tr><td><code>entry.mcUsd</code></td><td>Marktwert beim Kauf in Dollar, min und max</td><td>0–100 Mio.</td></tr>
+          <tr><td><code>entry.progress</code></td><td>Wie voll die Bonding-Kurve ist, in %</td><td>0–100</td></tr>
+          <tr><td><code>entry.ageMin</code></td><td>Alter des Coins in Minuten</td><td>0–1440</td></tr>
+          <tr><td><code>size</code></td><td><code>mode</code> „sol“ oder „percent“, dazu <code>value</code></td><td>0,001–1000</td></tr>
+          <tr><td><code>exit.targetPct</code></td><td>Ziel in % über dem Einstieg, <code>null</code> = aus</td><td>1–10000</td></tr>
+          <tr><td><code>exit.stopPct</code></td><td>Stop in % unter dem Einstieg</td><td>1–100</td></tr>
+          <tr><td><code>exit.timeMin</code></td><td>Verkauf nach so vielen Minuten</td><td>1–1440</td></tr>
+          <tr><td><code>exit.trailingPct</code></td><td>Nachziehender Stop unter dem Hoch</td><td>1–100</td></tr>
+          <tr><td><code>exit.partial.sellPct</code></td><td>Anteil, der am Ziel verkauft wird</td><td>1–99</td></tr>
+          <tr><td><code>limits.maxOpen</code></td><td>Höchstens so viele offene Positionen</td><td>1–50</td></tr>
+          <tr><td><code>limits.pauseAfterLosses</code></td><td><code>count</code> Verluste in Folge, dann <code>minutes</code> Pause</td><td>1–50 / 1–1440</td></tr>
+          <tr><td><code>execution</code></td><td><code>delaySec</code>, <code>slippagePct</code>, <code>priorityFee</code></td><td>0–30 / 0,1–100 / 0–0,1</td></tr>
+        </tbody>
+      </table></div>
+      <p class="lang-note">Version 1 des Formats, Stand {{date}}. Neue Felder kommen nur mit neuer Versionsnummer.</p>
+    </section>
+
+    <div class="callout"><b>Wie die Simulation rechnet.</b> Jeder simulierte Coin startet auf einer frischen Bonding-Kurve. Dev und Sniper kaufen im ersten Block und verkaufen bald wieder, oft verkauft auch der Dev. Danach wechseln ruhige Phasen, Hype und Abverkauf. Das ist ein grobes Modell, keine Vorhersage: Echte Coins können ganz anders laufen. Mit demselben Startwert kommen dieselben Coins, so kannst du zwei Strategien fair vergleichen.</div>
+  </main>
+  <script src="assets/kurve.js"></script>
+  <script src="assets/strategie.js"></script>
+  <script src="assets/labor.js"></script>

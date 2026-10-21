@@ -13,6 +13,7 @@ on:
       - "website/assets/**"
       - "website/index.html"
       - "website/en/index.html"
+      - "website/strategien/**"
   workflow_dispatch:
 
 permissions:
@@ -30,6 +31,8 @@ jobs:
           python3 website/tools/build.py
       - name: Links, Barrierefreiheit und Geheimnisse prüfen
         run: python3 website/tools/check.py
+      - name: Rechentests
+        run: node website/tools/test-rechnen.js
       - name: Rauchtest im Browser
         run: |
           cd "$RUNNER_TEMP"

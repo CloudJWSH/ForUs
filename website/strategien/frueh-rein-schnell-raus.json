@@ -1,0 +1,40 @@
+{
+  "format": "pump-paper-strategy",
+  "version": 1,
+  "name": "Früh rein, schnell raus",
+  "note": "Beispiel aus dem Strategie-Labor. Nur zum Testen auf Papier.",
+  "entry": {
+    "mcUsd": {
+      "min": 0,
+      "max": 8000
+    },
+    "progress": {
+      "min": 0,
+      "max": 15
+    },
+    "ageMin": {
+      "min": 0,
+      "max": 3
+    }
+  },
+  "size": {
+    "mode": "sol",
+    "value": 0.25
+  },
+  "exit": {
+    "targetPct": 30,
+    "stopPct": 15,
+    "timeMin": 5,
+    "trailingPct": null,
+    "partial": null
+  },
+  "limits": {
+    "maxOpen": 3,
+    "pauseAfterLosses": null
+  },
+  "execution": {
+    "delaySec": 1,
+    "slippagePct": 10,
+    "priorityFee": 0.001
+  }
+}

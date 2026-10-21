@@ -1,0 +1,42 @@
+{
+  "format": "pump-paper-strategy",
+  "version": 1,
+  "name": "Kleiner Einsatz, weites Ziel",
+  "note": "Beispiel aus dem Strategie-Labor. Nur zum Testen auf Papier.",
+  "entry": {
+    "mcUsd": {
+      "min": 5000,
+      "max": 20000
+    },
+    "progress": {
+      "min": 0,
+      "max": 60
+    },
+    "ageMin": {
+      "min": 0,
+      "max": 30
+    }
+  },
+  "size": {
+    "mode": "sol",
+    "value": 0.1
+  },
+  "exit": {
+    "targetPct": 200,
+    "stopPct": 35,
+    "timeMin": 30,
+    "trailingPct": 25,
+    "partial": {
+      "sellPct": 50
+    }
+  },
+  "limits": {
+    "maxOpen": 3,
+    "pauseAfterLosses": null
+  },
+  "execution": {
+    "delaySec": 1,
+    "slippagePct": 10,
+    "priorityFee": 0.001
+  }
+}

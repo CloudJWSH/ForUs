@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pump-paper-strategy/v1",
+  "title": "Pump Paper Strategie (Version 1)",
+  "description": "Eigene Regeln für Papertrading auf pump.fun. Nur Regeln, keine Wallets, Schlüssel oder Server-Adressen.",
+  "type": "object",
+  "required": ["format", "version", "entry", "size", "exit"],
+  "additionalProperties": false,
+  "$defs": {
+    "range": {
+      "type": "object", "required": ["min", "max"], "additionalProperties": false,
+      "properties": {"min": {"type": "number", "minimum": 0}, "max": {"type": "number", "minimum": 0}}
+    },
+    "optPct": {"type": ["number", "null"]}
+  },
+  "properties": {
+    "format": {"const": "pump-paper-strategy"},
+    "version": {"const": 1},
+    "name": {"type": "string", "maxLength": 60},
+    "note": {"type": "string", "maxLength": 500},
+    "entry": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "mcUsd": {"$ref": "#/$defs/range", "description": "Marktwert beim Kauf in Dollar, 0 bis 100000000"},
+        "progress": {"$ref": "#/$defs/range", "description": "Füllstand der Bonding-Kurve in %, 0 bis 100"},
+        "ageMin": {"$ref": "#/$defs/range", "description": "Alter des Coins in Minuten, 0 bis 1440"}
+      }
+    },
+    "size": {
+      "type": "object", "required": ["mode", "value"], "additionalProperties": false,
+      "properties": {"mode": {"enum": ["sol", "percent"]}, "value": {"type": "number", "minimum": 0.001, "maximum": 1000}}
+    },
+    "exit": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "targetPct": {"type": ["number", "null"], "minimum": 1, "maximum": 10000},
+        "stopPct": {"type": ["number", "null"], "minimum": 1, "maximum": 100},
+        "timeMin": {"type": ["number", "null"], "minimum": 1, "maximum": 1440},
+        "trailingPct": {"type": ["number", "null"], "minimum": 1, "maximum": 100},
+        "partial": {
+          "type": ["object", "null"], "additionalProperties": false,
+          "properties": {"sellPct": {"type": "number", "minimum": 1, "maximum": 99}}
+        }
+      }
+    },
+    "limits": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "maxOpen": {"type": "integer", "minimum": 1, "maximum": 50},
+        "pauseAfterLosses": {
+          "type": ["object", "null"], "additionalProperties": false,
+          "properties": {"count": {"type": "integer", "minimum": 1, "maximum": 50}, "minutes": {"type": "number", "minimum": 1, "maximum": 1440}}
+        }
+      }
+    },
+    "execution": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "delaySec": {"type": "number", "minimum": 0, "maximum": 30},
+        "slippagePct": {"type": "number", "minimum": 0.1, "maximum": 100},
+        "priorityFee": {"type": "number", "minimum": 0, "maximum": 0.1}
+      }
+    }
+  }
+}

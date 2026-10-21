@@ -46,8 +46,29 @@ const ok = (cond, msg) => { if (!cond) fails.push(msg); };
     await page.close();
   }
 
-  const pages = ["index.html", "anleitung.html", "lexikon.html", "ueben.html", "konto.html", "changelog.html", "datenschutz.html", "404.html",
-                 "en/index.html", "en/guide.html", "en/glossary.html", "en/practice.html", "en/account.html", "en/changelog.html", "en/privacy.html", "en/404.html"];
+  for (const p of ["strategie.html", "en/strategy.html"]) {
+    const {page, errs} = await open(p);
+    await page.waitForTimeout(400);
+    ok(/\d/.test(await page.textContent("[data-result]")), `${p}: Labor zeigt kein Ergebnis`);
+    const before = await page.textContent("[data-result]");
+    await page.click("[data-template=streng]");
+    await page.waitForTimeout(300);
+    ok(before !== await page.textContent("[data-result]"), `${p}: Vorlage ändert nichts`);
+    await page.fill("#l-stop", "300");
+    await page.waitForTimeout(400);
+    ok((await page.textContent("[data-errors]")).length > 0, `${p}: falscher Stop ohne Fehlermeldung`);
+    // Geteilter Link öffnet genau diese Strategie
+    const s = {format: "pump-paper-strategy", version: 1, name: "Rauchtest", entry: {mcUsd: {min: 0, max: 9000}}, size: {mode: "sol", value: 0.5}, exit: {targetPct: 30}};
+    await page.goto(url(p) + "#s=" + Buffer.from(JSON.stringify(s)).toString("base64url"));
+    await page.reload();  // nur der Anker ändert sich, die Seite muss neu laden
+    await page.waitForTimeout(400);
+    ok(await page.inputValue("#l-name") === "Rauchtest", `${p}: geteilter Link lädt die Strategie nicht`);
+    ok(!errs.length, `${p}: Fehler ${errs.join(" | ")}`);
+    await page.close();
+  }
+
+  const pages = ["index.html", "anleitung.html", "lexikon.html", "ueben.html", "konto.html", "strategie.html", "changelog.html", "datenschutz.html", "404.html",
+                 "en/index.html", "en/guide.html", "en/glossary.html", "en/practice.html", "en/account.html", "en/strategy.html", "en/changelog.html", "en/privacy.html", "en/404.html"];
   for (const p of pages) {
     const {page, errs} = await open(p, 390);
     await page.waitForTimeout(150);

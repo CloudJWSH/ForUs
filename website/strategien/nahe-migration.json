@@ -1,0 +1,40 @@
+{
+  "format": "pump-paper-strategy",
+  "version": 1,
+  "name": "Nur nahe Migration",
+  "note": "Beispiel aus dem Strategie-Labor. Nur zum Testen auf Papier.",
+  "entry": {
+    "mcUsd": {
+      "min": 30000,
+      "max": 80000
+    },
+    "progress": {
+      "min": 70,
+      "max": 95
+    },
+    "ageMin": {
+      "min": 0,
+      "max": 60
+    }
+  },
+  "size": {
+    "mode": "sol",
+    "value": 0.25
+  },
+  "exit": {
+    "targetPct": 25,
+    "stopPct": 12,
+    "timeMin": 15,
+    "trailingPct": null,
+    "partial": null
+  },
+  "limits": {
+    "maxOpen": 3,
+    "pauseAfterLosses": null
+  },
+  "execution": {
+    "delaySec": 1,
+    "slippagePct": 10,
+    "priorityFee": 0.001
+  }
+}

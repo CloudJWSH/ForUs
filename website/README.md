@@ -12,6 +12,8 @@ Statische Produktseite für die Chrome-Erweiterung Pump Paper (Papertrading auf 
 | `assets/site.css`, `assets/site.js` | Aussehen, helles/dunkles Design, Menü, Sprachumschalter, Kopieren, Bildansicht. |
 | `assets/demo.js`, `rechner.js`, `stop.js`, `share.js` | Demo-Coin, Rechner auf der Startseite und in der Anleitung, Teilen-Links. |
 | `assets/konto.js` | Konto-Seite: Beispieldaten, CSV-Auswertung, liest das Konto aus der Erweiterung (nur lesend). |
+| `assets/kurve.js`, `assets/strategie.js`, `assets/labor.js` | Strategie-Labor (`strategie.html`): gemeinsamer Rechenkern der Bonding-Kurve, Prüfung und Papier-Test eigener Strategien, Oberfläche. Es wird nichts gekauft. |
+| `strategien/` | Beispiel-Strategien im Format `pump-paper-strategy` und das Schema dazu. |
 | `assets/coin.js` | Live-Zahlen des Coins (DexScreener, Solana-RPC), nur aktiv wenn der Coin live ist. |
 | `assets/og.png`, `assets/og-coin.png` | Teilen-Bilder, Vorlagen `tools/og.html` und `tools/og-coin.html`. |
 
@@ -22,6 +24,7 @@ python3 website/tools/build.py            # Seiten bauen
 python3 website/tools/build.py --coin-preview   # Coin-Teil mit Platzhaltern ansehen, danach normal bauen!
 python3 website/tools/check.py            # Links, Anker, alt-Texte, Labels, Titel, Sprache, doppelte IDs,
                                           # Bildgrößen und das ganze Repo auf Server-Adressen und Schlüssel
+node website/tools/test-rechnen.js        # Rechentests für Kurve und Labor, ohne Browser
 node website/tools/smoke.js               # Rauchtest im Browser (npm-Paket playwright nötig)
 ```
 
