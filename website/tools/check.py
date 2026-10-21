@@ -47,6 +47,7 @@ def main():
             if re.match(r"^(https?:|mailto:|data:)", link):
                 continue
             target, _, anchor = link.partition("#")
+            target = target.split("?")[0]
             dest = (path.parent / target).resolve() if target else path
             if not dest.exists():
                 errors.append(f"{rel}: Ziel fehlt: {link}")

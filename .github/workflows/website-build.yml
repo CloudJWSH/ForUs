@@ -19,7 +19,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Bauen
-        run: python3 website/tools/build.py
+        run: |
+          python3 -m pip install --quiet pillow
+          python3 website/tools/build.py
       - name: Links und Barrierefreiheit prüfen
         run: python3 website/tools/check.py
       - name: Ergebnis einchecken

@@ -50,7 +50,7 @@ LANGS = {
         "nav": [("index.html#rechnung", "So rechnet es", "index"), ("anleitung.html", "Anleitung", "anleitung"),
                 ("lexikon.html", "Lexikon", "lexikon"), ("konto.html", "Konto", "konto"),
                 ("index.html#fragen", "Fragen", "index")],
-        "get": "Holen", "menu": "Menü", "install": "#installieren", "nav_label": "Seite", "foot_label": "Weitere Seiten",
+        "get": "Holen", "menu": "Menü", "skip": "Zum Inhalt springen", "install": "#installieren", "nav_label": "Seite", "foot_label": "Weitere Seiten",
         "foot": [("anleitung.html", "Anleitung"), ("lexikon.html", "Lexikon"), ("ueben.html", "Üben"), ("konto.html", "Konto"),
                  ("changelog.html", "Änderungen"), ("datenschutz.html", "Datenschutz"), (SOURCE, "Quellcode")],
         "note": "Papertrading mit Spielgeld. Kein echtes Geld, keine Anlageberatung. Pump Paper ist ein unabhängiges Projekt und gehört nicht zu pump.fun.",
@@ -60,7 +60,7 @@ LANGS = {
         "nav": [("index.html#math", "How it works", "index"), ("guide.html", "Guide", "guide"),
                 ("glossary.html", "Glossary", "glossary"), ("account.html", "Account", "account"),
                 ("index.html#faq", "FAQ", "index")],
-        "get": "Get it", "menu": "Menu", "install": "#install", "nav_label": "Site", "foot_label": "More pages",
+        "get": "Get it", "menu": "Menu", "skip": "Skip to content", "install": "#install", "nav_label": "Site", "foot_label": "More pages",
         "foot": [("guide.html", "Guide"), ("glossary.html", "Glossary"), ("practice.html", "Practice"), ("account.html", "Account"),
                  ("changelog.html", "Changes"), ("privacy.html", "Privacy"), (SOURCE, "Source code")],
         "note": "Paper trading with play money. No real money, no financial advice. Pump Paper is an independent project and not affiliated with pump.fun.",
@@ -70,6 +70,74 @@ LANGS = {
 LOGO = ('<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#f2b33d"/>'
         '<path d="M7 21.5l6.5-6.5 4.5 4.5L25 11" fill="none" stroke="#1a1304" stroke-width="3" '
         'stroke-linecap="round" stroke-linejoin="round"/></svg>')
+
+
+HOME = {
+    "de": ("Pump Paper", "Pump Paper: Papertrading direkt auf pump.fun. Kaufen und verkaufen mit Spielgeld, gerechnet auf der echten Bonding-Kurve oder dem Pool, in SOL und USDC. Kein Wallet, kein Risiko.",
+           "Papertrading direkt auf pump.fun: Spielgeld, echte Bonding-Kurve, echte Gebühren."),
+    "en": ("Pump Paper", "Pump Paper: paper trading right on pump.fun. Buy and sell with play money, priced on the real bonding curve or pool, in SOL and USDC. No wallet, no risk.",
+           "Paper trading right on pump.fun: play money, real bonding curve, real fees."),
+}
+LOCALE = {"de": "de_DE", "en": "en_US"}
+
+
+def site_config():
+    path = SITE / "site.json"
+    cfg = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    base = cfg.get("base_url", "").strip()
+    return {"base_url": base.rstrip("/") + "/" if base else ""}
+
+
+CONFIG = site_config()
+
+
+def page_url(lang, name):
+    return ("" if lang == "de" else "en/") + name + ".html"
+
+
+def head_meta(lang, name, title, description, og_description=None):
+    """Gemeinsamer Kopf aller Seiten: Beschreibung, Teilen-Vorschau, Icons, Farben, Sprachversion."""
+    L, up, base = LANGS[lang], LANGS[lang]["up"], CONFIG["base_url"]
+    og_d = og_description or description
+    img = (base + "assets/og.png") if base else up + "assets/og.png"
+    e = html.escape
+    lines = [
+        f'<meta name="description" content="{e(description)}">',
+        '<meta property="og:type" content="website">',
+        '<meta property="og:site_name" content="Pump Paper">',
+        f'<meta property="og:locale" content="{LOCALE[lang]}">',
+        f'<meta property="og:title" content="{e(title)}">',
+        f'<meta property="og:description" content="{e(og_d)}">',
+        f'<meta property="og:image" content="{img}">',
+        '<meta name="twitter:card" content="summary_large_image">',
+        f'<meta name="twitter:title" content="{e(title)}">',
+        f'<meta name="twitter:description" content="{e(og_d)}">',
+        '<meta name="color-scheme" content="dark light">',
+        '<meta name="theme-color" content="#0b110f" media="(prefers-color-scheme: dark)">',
+        '<meta name="theme-color" content="#f3f5f2" media="(prefers-color-scheme: light)">',
+        f'<link rel="alternate" hreflang="{L["other"]}" href="{counterpart(lang, name)}">',
+        f'<link rel="icon" href="{up}icons/icon.svg" type="image/svg+xml">',
+        f'<link rel="icon" href="{up}icons/48.png" sizes="48x48">',
+        f'<link rel="apple-touch-icon" href="{up}icons/180.png">',
+        f'<link rel="manifest" href="{up}manifest.webmanifest">',
+        '<script>try{var t=localStorage.getItem("pp-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>',
+        f'<script src="{up}assets/site.js" defer></script>',
+    ]
+    if base:
+        own = base + page_url(lang, name)
+        lines += [f'<link rel="canonical" href="{own}">', f'<meta property="og:url" content="{own}">']
+    return "\n".join(lines)
+
+
+def bust(text, version):
+    """CSS und JS mit ?v=Version, damit Browser nach einem Update nicht die alte Datei nehmen."""
+    return re.sub(r'((?:\.\./)?assets/[\w.-]+\.(?:css|js))(?:\?v=[^"]*)?"', rf'\1?v={version}"', text)
+
+
+def tables(text):
+    """Spaltenköpfe für Screenreader als solche kennzeichnen."""
+    return re.sub(r"<thead>(.*?)</thead>",
+                  lambda m: "<thead>" + m.group(1).replace("<th>", '<th scope="col">') + "</thead>", text, flags=re.S)
 
 
 def counterpart(lang, name):
@@ -95,7 +163,13 @@ def nav(lang, current, home=False):
     get = L["install"] if home else "index.html" + L["install"]
     # Auf dem Handy sind die Links ausgeblendet, dort öffnet das Menü dieselben Links (ohne JavaScript).
     menu = "".join(l for l in links if 'class="lang"' not in l)
+    theme = ('<button type="button" class="theme-btn" data-theme-toggle><svg viewBox="0 0 20 20" aria-hidden="true">'
+             '<g class="sun" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10" cy="10" r="3.5"/>'
+             '<path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.3 4.3l1.4 1.4M14.3 14.3l1.4 1.4M4.3 15.7l1.4-1.4M14.3 5.7l1.4-1.4"/></g>'
+             '<path class="moon" d="M16 12.5A6.5 6.5 0 0 1 7.5 4a6.5 6.5 0 1 0 8.5 8.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>'
+             '</svg></button>')
     return (f'<nav aria-label="{L["nav_label"]}">\n      ' + "\n      ".join(links) + "\n    </nav>\n"
+            f'    {theme}\n'
             f'    <a class="btn gold small" href="{get}">{L["get"]}</a>\n'
             f'    <details class="menu"><summary aria-label="{L["menu"]}"><svg viewBox="0 0 20 20" aria-hidden="true">'
             f'<path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></summary>'
@@ -115,6 +189,9 @@ def footer(lang):
   </footer>"""
 
 
+MAIN_ID = re.compile(r"<main(?![^>]*\bid=)")
+
+
 def page(lang, name, title, description, body):
     up = LANGS[lang]["up"]
     return f"""<!doctype html>
@@ -123,19 +200,14 @@ def page(lang, name, title, description, body):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{html.escape(title)}</title>
-<meta name="description" content="{html.escape(description)}">
-<meta property="og:title" content="{html.escape(title)}">
-<meta property="og:description" content="{html.escape(description)}">
-<meta property="og:image" content="{up}assets/og.png">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="alternate" hreflang="{LANGS[lang]["other"]}" href="{counterpart(lang, name)}">
-<link rel="icon" href="{up}icons/48.png">
+{head_meta(lang, name, title, description)}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="{up}assets/site.css">
 </head>
 <body>
+<a class="skip" href="#inhalt">{LANGS[lang]["skip"]}</a>
 <div class="wrap">
   <header class="top">
     <a class="brand" href="index.html">
@@ -144,7 +216,7 @@ def page(lang, name, title, description, body):
     </a>
     {nav(lang, name)}
   </header>
-{body.rstrip()}
+{MAIN_ID.sub('<main id="inhalt"', body.rstrip(), count=1)}
   {footer(lang)}
 </div>
 </body>
@@ -239,6 +311,69 @@ def coin_html(lang, cfg):
     return section, badge
 
 
+def structured(lang, index, version):
+    """Strukturierte Daten für Suchmaschinen: die Erweiterung und die Fragen der Startseite."""
+    strip = lambda s: re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", s))).strip()
+    faq = [{"@type": "Question", "name": strip(q), "acceptedAnswer": {"@type": "Answer", "text": strip(a)}}
+           for q, a in re.findall(r"<details[^>]*><summary>(.*?)</summary><p>(.*?)</p></details>", index, re.S)]
+    app = {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Pump Paper",
+           "applicationCategory": "FinanceApplication", "operatingSystem": "Chrome", "softwareVersion": version,
+           "inLanguage": lang, "description": HOME[lang][1], "downloadUrl": DOWNLOAD,
+           "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}
+    data = [app] + ([{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": faq}] if faq else [])
+    return "\n".join('<script type="application/ld+json">' + json.dumps(d, ensure_ascii=False).replace("</", "<\\/") + "</script>" for d in data)
+
+
+def webp():
+    """Screenshots zusätzlich als WebP (deutlich kleiner). Ohne Pillow bleibt es bei PNG."""
+    try:
+        from PIL import Image
+    except ImportError:
+        return
+    for png in (SITE / "assets" / "shots").glob("*.png"):
+        out = png.with_suffix(".webp")
+        if not out.exists() or out.stat().st_mtime < png.stat().st_mtime:
+            Image.open(png).save(out, "WEBP", quality=88, method=6)
+
+
+def pictures(text):
+    """<img> der Screenshots in <picture> mit WebP verpacken, sofern die WebP-Datei da ist; alle Bilder laden asynchron."""
+    def wrap(m):
+        tag, src = m.group(0), m.group(2)
+        if text[max(0, m.start() - 19):m.start()] == 'type="image/webp">':
+            return tag
+        webp_path = (SITE / re.sub(r"^(\.\./)+", "", src)).with_suffix(".webp")
+        if not webp_path.exists():
+            return tag
+        return f'<picture><source srcset="{src[:-4]}.webp" type="image/webp">{tag}</picture>'
+    text = re.sub(r'<img([^>]*?) src="((?:\.\./)?assets/shots/[\w-]+\.png)"[^>]*>', wrap, text)
+    return re.sub(r"<img(?![^>]*decoding=)", '<img decoding="async"', text)
+
+
+def finish(version):
+    """Nacharbeit für alle fertigen Seiten und die Dateien drumherum (robots, Sitemap, Manifest)."""
+    webp()
+    pages = []
+    for lang in LANGS:
+        for path in sorted(LANGS[lang]["dir"].glob("*.html")):
+            text = path.read_text(encoding="utf-8")
+            new = pictures(tables(bust(text, version)))
+            if new != text:
+                path.write_text(new, encoding="utf-8")
+            if path.stem != "404":
+                pages.append(page_url(lang, path.stem))
+    base = CONFIG["base_url"]
+    robots = "User-agent: *\nAllow: /\n" + (f"Sitemap: {base}sitemap.xml\n" if base else "")
+    (SITE / "robots.txt").write_text(robots, encoding="utf-8")
+    sitemap = SITE / "sitemap.xml"
+    if base:
+        urls = "".join(f"  <url><loc>{base}{p}</loc></url>\n" for p in pages)
+        sitemap.write_text('<?xml version="1.0" encoding="UTF-8"?>\n'
+                           f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n', encoding="utf-8")
+    elif sitemap.exists():
+        sitemap.unlink()
+
+
 def changelog(name="CHANGELOG.md"):
     text = (EXT / name).read_text(encoding="utf-8")
     versions = []
@@ -331,10 +466,14 @@ def main():
         index = replace_marker(index, "latest", "\n" + items_html(latest, 10) + "\n          ", required=False)
         index = replace_marker(index, "nav", "\n    " + nav(lang, "index", home=True) + "\n    ")
         index = replace_marker(index, "footer", "\n  " + footer(lang) + "\n  ")
+        title, desc, og = HOME[lang]
+        index = replace_marker(index, "meta", "\n" + head_meta(lang, "index", title, desc, og) + "\n" + structured(lang, index, version) + "\n",
+                               required=False)
         section, badge = coin_html(lang, coin)
         index = replace_marker(index, "coin", ("\n" + section) if section else "", required=False)
         index = replace_marker(index, "coin-badge", badge, required=False)
         path.write_text(index, encoding="utf-8")
+    finish(version)
     print(f"Website gebaut: Version {version}, {len(versions)} Versionen im Änderungsprotokoll")
 
 

@@ -73,6 +73,7 @@ jobs:
 
       - name: Website neu bauen (Version, Neuerungen, Änderungsprotokoll)
         run: |
+          python3 -m pip install --quiet pillow
           python3 website/tools/build.py
           python3 website/tools/check.py
           if [ -n "$(git status --porcelain website)" ]; then

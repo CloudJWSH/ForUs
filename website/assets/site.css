@@ -430,3 +430,22 @@ html { scroll-padding-top: 84px; }
 @media (max-width: 600px) { .cmp td:first-child { width: auto; } }
 .share-link { justify-self: start; font-family: var(--body); font-size: 13px; }
 @media print { .top, footer, .final-cta, .menu, .share-link { display: none !important; } body { background: #fff; color: #000; } }
+
+/* Barrierefreiheit */
+.skip { position: absolute; left: 12px; top: -60px; z-index: 50; background: var(--gold); color: var(--on-gold); font-weight: 600; padding: 10px 14px; border-radius: 8px; text-decoration: none; }
+.skip:focus { top: 12px; }
+summary:focus-visible, input:focus-visible, select:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
+@media (max-width: 600px) { .foot-nav a { padding: 6px 0; display: inline-block; } }
+@media (prefers-contrast: more) and (prefers-color-scheme: dark) { :root { --muted: #c3d1c9; --line: #3a4d43; } }
+@media (prefers-contrast: more) and (prefers-color-scheme: light) { :root { --muted: #33413a; --line: #9fb0a6; } }
+.top.scrolled { box-shadow: 0 1px 0 var(--line), 0 10px 30px -20px rgba(0,0,0,.5); }
+.to-top { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 30; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; background: var(--panel); border: 1px solid var(--line); color: var(--ink); opacity: 0; pointer-events: none; transform: translateY(8px); transition: opacity .2s, transform .2s; }
+.to-top.show { opacity: 1; pointer-events: auto; transform: none; }
+.to-top svg { width: 20px; height: 20px; }
+.theme-btn { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 8px; border: 1px solid var(--line); background: none; color: var(--ink); cursor: pointer; padding: 0; }
+.theme-btn svg { width: 18px; height: 18px; }
+.theme-btn .sun { display: none; }
+:root[data-theme="dark"] .theme-btn .sun { display: block; } :root[data-theme="dark"] .theme-btn .moon { display: none; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .theme-btn .sun { display: block; } :root:not([data-theme="light"]) .theme-btn .moon { display: none; } }
+.brand { white-space: nowrap; }
+@media (max-width: 400px) { .top { gap: 8px; } .top .brand { font-size: 16px; gap: 8px; } .top .btn.small { padding-inline: 11px; } }

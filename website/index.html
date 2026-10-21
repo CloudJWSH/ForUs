@@ -3,24 +3,42 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- meta -->
 <meta name="description" content="Pump Paper: Papertrading direkt auf pump.fun. Kaufen und verkaufen mit Spielgeld, gerechnet auf der echten Bonding-Kurve oder dem Pool, in SOL und USDC. Kein Wallet, kein Risiko.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pump Paper">
+<meta property="og:locale" content="de_DE">
 <meta property="og:title" content="Pump Paper">
 <meta property="og:description" content="Papertrading direkt auf pump.fun: Spielgeld, echte Bonding-Kurve, echte Gebühren.">
 <meta property="og:image" content="assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pump Paper">
+<meta name="twitter:description" content="Papertrading direkt auf pump.fun: Spielgeld, echte Bonding-Kurve, echte Gebühren.">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0b110f" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f3f5f2" media="(prefers-color-scheme: light)">
 <link rel="alternate" hreflang="en" href="en/index.html">
-<link rel="icon" href="icons/48.png">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/48.png" sizes="48x48">
+<link rel="apple-touch-icon" href="icons/180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<script>try{var t=localStorage.getItem("pp-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script src="assets/site.js?v=1.4.0" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Pump Paper", "applicationCategory": "FinanceApplication", "operatingSystem": "Chrome", "softwareVersion": "1.4.0", "inLanguage": "de", "description": "Pump Paper: Papertrading direkt auf pump.fun. Kaufen und verkaufen mit Spielgeld, gerechnet auf der echten Bonding-Kurve oder dem Pool, in SOL und USDC. Kein Wallet, kein Risiko.", "downloadUrl": "https://github.com/CloudJWSH/ForUs/releases/latest/download/Pump-Paper.zip", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Brauche ich ein Wallet?", "acceptedAnswer": {"@type": "Answer", "text": "Nein. Pump Paper verbindet sich mit keinem Wallet und kann keine echten Transaktionen senden. Es liest nur Kurse von der Blockchain."}}, {"@type": "Question", "name": "Was kostet Pump Paper?", "acceptedAnswer": {"@type": "Answer", "text": "Nichts. Gehandelt wird mit Spielgeld, das Startkapital stellst du in den Optionen ein (Standard 10 SOL und 1.000 USDC)."}}, {"@type": "Question", "name": "Wie nah ist das an echten Trades?", "acceptedAnswer": {"@type": "Answer", "text": "Kurs, Gebühr, Verzögerung, Slippage, Priority Fee und Konto-Miete sind eingerechnet. Nicht abgebildet sind andere Käufer, die im selben Block vor dir landen. Bei sehr heißen Coins ist echt deshalb oft noch etwas schlechter."}}, {"@type": "Question", "name": "Wo liegen meine Daten?", "acceptedAnswer": {"@type": "Answer", "text": "Nur in deinem Browser. Es gibt kein Konto und keinen Server. Den Verlauf kannst du jederzeit als CSV speichern."}}, {"@type": "Question", "name": "Funktioniert es auch nach der Migration?", "acceptedAnswer": {"@type": "Answer", "text": "Ja. Sobald ein Coin die Kurve verlässt, rechnet Pump Paper mit dem PumpSwap-Pool weiter, auch für offene Positionen."}}, {"@type": "Question", "name": "Ist das Anlageberatung?", "acceptedAnswer": {"@type": "Answer", "text": "Nein. Pump Paper ist ein Übungswerkzeug. Memecoins sind hochriskant, ein Papier-Gewinn ist keine Garantie für echte Gewinne."}}]}</script>
+<!-- /meta -->
 <!-- page -->
 <title>Pump Paper</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/site.css?v=1.4.0">
 <!-- /head -->
 </head>
 <body>
 <!-- body -->
+<a class="skip" href="#inhalt">Zum Inhalt springen</a>
 <div class="wrap">
   <header class="top">
     <a class="brand" href="index.html">
@@ -36,11 +54,13 @@
       <a href="#fragen">Fragen</a>
       <a class="lang" href="en/index.html" hreflang="en" lang="en" aria-label="English">EN</a>
     </nav>
+    <button type="button" class="theme-btn" data-theme-toggle><svg viewBox="0 0 20 20" aria-hidden="true"><g class="sun" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10" cy="10" r="3.5"/><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.3 4.3l1.4 1.4M14.3 14.3l1.4 1.4M4.3 15.7l1.4-1.4M14.3 5.7l1.4-1.4"/></g><path class="moon" d="M16 12.5A6.5 6.5 0 0 1 7.5 4a6.5 6.5 0 1 0 8.5 8.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></button>
     <a class="btn gold small" href="#installieren">Holen</a>
     <details class="menu"><summary aria-label="Menü"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></summary><div class="menu-panel"><a href="#rechnung">So rechnet es</a><a href="anleitung.html">Anleitung</a><a href="lexikon.html">Lexikon</a><a href="konto.html">Konto</a><a href="#fragen">Fragen</a></div></details>
     <!-- /nav -->
   </header>
 
+  <main id="inhalt">
   <section class="hero">
     <div class="hero-copy">
       <!-- coin-badge --><!-- /coin-badge -->
@@ -107,15 +127,15 @@
     </div>
     <div class="shots">
       <figure class="shot tall">
-        <img src="assets/shots/panel.png" width="314" height="618" alt="Pump-Paper-Panel auf einer Coinseite: Marktwert 9.053 $, Kaufknöpfe in SOL, offene Position mit +0,119 SOL, Verkaufen-Knöpfe, Ziel, Stop und Zeit" loading="lazy">
+        <picture><source srcset="assets/shots/panel.webp" type="image/webp"><picture><source srcset="assets/shots/panel.webp" type="image/webp"><img decoding="async" src="assets/shots/panel.png" width="314" height="618" alt="Pump-Paper-Panel auf einer Coinseite: Marktwert 9.053 $, Kaufknöpfe in SOL, offene Position mit +0,119 SOL, Verkaufen-Knöpfe, Ziel, Stop und Zeit" loading="lazy"></picture></picture>
         <figcaption><b>Panel auf der Coinseite.</b> Marktwert, Gebühr und Kursquelle oben, darunter Kaufen, deine Position und die Regeln für den automatischen Verkauf.</figcaption>
       </figure>
       <figure class="shot">
-        <img src="assets/shots/fenster-konto.png" width="380" height="364" alt="Fenster Konto: freies SOL und USDC, Gesamtwert, Ergebnis und zwei offene Positionen" loading="lazy">
+        <picture><source srcset="assets/shots/fenster-konto.webp" type="image/webp"><picture><source srcset="assets/shots/fenster-konto.webp" type="image/webp"><img decoding="async" src="assets/shots/fenster-konto.png" width="380" height="364" alt="Fenster Konto: freies SOL und USDC, Gesamtwert, Ergebnis und zwei offene Positionen" loading="lazy"></picture></picture>
         <figcaption><b>Konto.</b> Guthaben, Gesamtwert und alle offenen Positionen, mit Verkaufen-Knopf.</figcaption>
       </figure>
       <figure class="shot">
-        <img src="assets/shots/fenster-verlauf.png" width="380" height="600" alt="Fenster Verlauf: Trefferquote, Ergebnis, Gebühren und Liste der Trades mit einem gescheiterten Kauf" loading="lazy">
+        <picture><source srcset="assets/shots/fenster-verlauf.webp" type="image/webp"><picture><source srcset="assets/shots/fenster-verlauf.webp" type="image/webp"><img decoding="async" src="assets/shots/fenster-verlauf.png" width="380" height="600" alt="Fenster Verlauf: Trefferquote, Ergebnis, Gebühren und Liste der Trades mit einem gescheiterten Kauf" loading="lazy"></picture></picture>
         <figcaption><b>Verlauf.</b> Jeder Trade mit Grund, auch der gescheiterte Kauf wegen Slippage.</figcaption>
       </figure>
     </div>
@@ -127,6 +147,7 @@
       <h2>Ein Coin zum Üben, direkt hier.</h2>
       <p class="lede">Ein simulierter Coin auf einer Bonding-Kurve, andere Händler bewegen den Kurs. Du handelst mit 10 Spiel-SOL nach den Regeln von Pump Paper: Ausführung nach 1 s, Slippage 10 %, Ziel +60 %, Stop −20 %.</p>
     </div>
+    <noscript><p class="lede">Die Demo braucht JavaScript.</p></noscript>
     <div class="demo" id="demo">
       <div class="demo-chart">
         <div class="demo-top"><b>$ÜBEN</b><span class="muted">Demo-Coin, nicht echt</span><span class="mc">Marktwert<b data-mc>–</b></span></div>
@@ -228,7 +249,7 @@
     </div>
     <div class="table-wrap cmp">
       <table>
-        <thead><tr><th></th><th>Pump Paper</th><th>Häufig bei anderen</th></tr></thead>
+        <thead><tr><th scope="col"></th><th scope="col">Pump Paper</th><th scope="col">Häufig bei anderen</th></tr></thead>
         <tbody>
           <tr><td>Kurs</td><td>Live aus den Reserven der Kurve oder des Pools</td><td>Abgefragt alle paar Sekunden, von einer API</td></tr>
           <tr><td>Deine Menge</td><td>Auf der Kurve gerechnet, mit Kurswirkung deines Trades</td><td>Betrag geteilt durch Kurs</td></tr>
@@ -308,6 +329,7 @@
     <p>Pump Paper ist kostenlos, braucht kein Wallet und sieht keinen Cent von dir.</p>
     <div class="cta"><a class="btn gold" href="#installieren">Pump Paper holen</a><a class="btn" href="anleitung.html">Anleitung lesen</a></div>
   </section>
+  </main>
   <!-- footer -->
   <footer>
     <a class="brand" href="index.html">
@@ -319,9 +341,9 @@
   </footer>
   <!-- /footer -->
 </div>
-<script src="assets/share.js"></script>
-<script src="assets/rechner.js"></script>
-<script src="assets/demo.js"></script>
+<script src="assets/share.js?v=1.4.0"></script>
+<script src="assets/rechner.js?v=1.4.0"></script>
+<script src="assets/demo.js?v=1.4.0"></script>
 <!-- /body -->
 </body>
 </html>

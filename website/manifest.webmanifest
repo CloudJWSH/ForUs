@@ -1,0 +1,15 @@
+{
+  "name": "Pump Paper",
+  "short_name": "Pump Paper",
+  "description": "Papertrading direkt auf pump.fun mit Spielgeld.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#0b110f",
+  "theme_color": "#0b110f",
+  "icons": [
+    {"src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml"},
+    {"src": "icons/128.png", "sizes": "128x128", "type": "image/png"},
+    {"src": "icons/180.png", "sizes": "180x180", "type": "image/png"},
+    {"src": "icons/512.png", "sizes": "512x512", "type": "image/png"}
+  ]
+}

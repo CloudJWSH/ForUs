@@ -198,6 +198,7 @@
 
   function draw() {
     $("[data-mc]").textContent = `${f(mcSol(), 1)} SOL · ${f(mcSol() * SOL_USD, 0)} $`;
+    canvas.setAttribute("aria-label", `${canvas.dataset.label || (canvas.dataset.label = canvas.getAttribute("aria-label"))} · ${$("[data-mc]").textContent}`);
     $("[data-prog]").textContent = f(progress() * 100, 0) + " %";
     $("[data-bar]").style.width = Math.min(100, progress() * 100) + "%";
     $("[data-bal]").textContent = f(wallet, 3) + " SOL";
